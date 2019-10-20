@@ -45,4 +45,16 @@ class Func_model extends CI_Model {
 		return $this->db->get("tbljenis")->result_array();
 	}
 
+	public function get_all_infoharga()
+	{
+		$this->db->order_by("id_info","desc");
+		return $this->db->get("tblinfoharga")->result_array();
+	}
+
+	public function get_info_harga($id_info)
+	{
+		$this->db->where("id_info",$id_info);
+		return $this->db->get("tblinfohargadetail")->result_array();
+	}
+
 }
