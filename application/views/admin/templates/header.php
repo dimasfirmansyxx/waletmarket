@@ -6,7 +6,7 @@
   <hr class="sidebar-divider my-0">
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/">
       <i class="fas fa-fw fa-tachometer-alt"></i>
       <span>Dasbor</span>
     </a>
@@ -15,28 +15,28 @@
   <hr class="sidebar-divider">
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/infoharga">
       <i class="fas fa-fw fa-list"></i>
       <span>Update Info Harga</span>
     </a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/jenis">
       <i class="fas fa-fw fa-tag"></i>
       <span>Konfigurasi Jenis</span>
     </a>
   </li>  
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/penjualan">
       <i class="fas fa-fw fa-shopping-cart"></i>
       <span>Postingan Penjual</span>
     </a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/pembelian">
       <i class="fas fa-fw fa-shopping-cart"></i>
       <span>Postingan Pembeli</span>
     </a>
@@ -45,18 +45,34 @@
   <hr class="sidebar-divider">
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/editsitus">
       <i class="fas fa-fw fa-cogs"></i>
       <span>Konfigurasi Situs</span>
     </a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" href="index.html">
+    <a class="nav-link" href="<?= base_url() ?>admin/manajemenadmin">
       <i class="fas fa-fw fa-user"></i>
       <span>Akun Admin</span>
     </a>
   </li>    
+
+  <hr class="sidebar-divider">
+
+  <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/akun">
+      <i class="fas fa-fw fa-cogs"></i>
+      <span>Konfigurasi Akun</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/logout">
+      <i class="fas fa-fw fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </li>  
 
   <hr class="sidebar-divider">
 
@@ -74,28 +90,12 @@
 
     <!-- Nav Item - User Information -->
     <li class="nav-item dropdown no-arrow">
-      <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <span class="mr-2 d-none d-lg-inline text-gray-600 small">
           <?= $this->Admin_model->admin_info($this->session->admin_id,"nama") ?>
         </span>
-        <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+        <img class="img-profile rounded-circle" src="<?= base_url() ?>assets/img/core/user-icon.png">
       </a>
-      <!-- Dropdown - User Information -->
-      <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-          Profile
-        </a>
-        <a class="dropdown-item" href="#">
-          <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-          Settings
-        </a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-          <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-          Logout
-        </a>
-      </div>
     </li>
 
   </ul>
