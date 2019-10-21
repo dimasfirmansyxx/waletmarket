@@ -65,9 +65,13 @@ class Admin_model extends CI_Model {
 		$check = $this->Func_model->check_availability("tbljenis","id_jenis",$id_jenis);
 		if ( $check == 2 ) {
 			$this->db->where("id_jenis",$id_jenis);
-			$delete = $this->db->delete("tbljenis");
+			$delete = $this->db->delete("tblinfohargadetail");
 			if ( $delete > 0 ) {
-				return 0;
+				$this->db->where("id_jenis",$id_jenis);
+				$delete = $this->db->delete("tbljenis");
+				if ( $delete > 0 ) {
+					return 0;
+				}
 			} else {
 				return 1;
 			}
