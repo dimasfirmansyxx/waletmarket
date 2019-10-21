@@ -63,14 +63,44 @@
       $("#load_data_area").load(base_url + "admin/infoharga_data");
     }
 
+    function setButtonSaving() {
+      $(".btnSave").attr("disabled","disabled");
+      $(".btnSave").html("Sedang Menyimpan ...");
+    }
+
+    function unsetButtonSaving() {
+      $(".btnSave").removeAttr("disabled");
+      $(".btnSave").html("Save Changes");
+    }
+
     loadData();  
 
     $("#btnTambah").on("click",function(){
       $("#modaltambah").modal("show");
     });
 
-    $("frmTambah").on("submit",function(e){
+    $("#frmTambah").on("submit",function(e){
       e.preventDefault();
+      setButtonSaving();
+      $.ajax({
+        url : base_url + "admin/infoharga/tambah",
+        data : new FormData(this),
+        cache : false,
+        contentType : false,
+        processData : false,
+        type : "post",
+        dataType : "json",
+        success : function(result) {
+          if ( result == 0 ) {
+            swal("Sukses","Sukses menambah info harga","success");
+            $("#frmTambah").trigger("reset");
+            loadData();
+          } else if ( result == 1 ) {
+            swal("Gagal","Kesalahan pada server","danger");
+          }
+          unsetButtonSaving();
+        }
+      });
     });
     
   });

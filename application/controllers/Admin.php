@@ -53,15 +53,17 @@ class Admin extends CI_Controller {
 
 	public function infoharga()
 	{
-		$url = $this->segment->uri(3);
+		$url = $this->uri->segment(3);
 		$data['jenis'] = $this->Func_model->get_all_jenis();
 		if ( $url == "tambah" ) {
 			$data = [
-				"tanggal" => $this->input->post("tanggal"),
-				foreach ($data['jenis'] as $row) {
-					$row['']
-				}
+				"tanggal" => $this->input->post("tanggal",true),
 			];
+			foreach ($this->Func_model->get_all_jenis() as $jenis) {
+				$data[$jenis['id_jenis']] = $this->input->post($jenis['id_jenis'],true);
+			}
+
+			echo $this->Admin_model->tambah_info_harga($data);
 		} else {
 			$data['page_title'] = "Update Info Harga";
 			$this->load->view("admin/templates/head",$data);

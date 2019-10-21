@@ -45,6 +45,11 @@ class Func_model extends CI_Model {
 		return $this->db->get("tbljenis")->result_array();
 	}
 
+	public function get_jenis($id_jenis)
+	{
+		return $this->get_data("tbljenis","id_jenis",$id_jenis);
+	}
+
 	public function get_all_infoharga()
 	{
 		$this->db->order_by("id_info","desc");
@@ -55,6 +60,23 @@ class Func_model extends CI_Model {
 	{
 		$this->db->where("id_info",$id_info);
 		return $this->db->get("tblinfohargadetail")->result_array();
+	}
+
+	public function get_last_infoharga()
+	{
+		$this->db->order_by("id_info","desc");
+		$get = $this->db->get("tblinfoharga")->result_array()[0];
+		$result = [
+			"tanggal" => $get['tanggal']
+		];
+
+		$detail = $this->get_info_harga($get['id_info']);
+		foreach ($detail as $row) {
+			$getjenis = $this->get_jenis($row['id_jenis']);
+			$result[$getjenis['jenis']] = $row['harga'];
+		}
+
+		return $result;
 	}
 
 }

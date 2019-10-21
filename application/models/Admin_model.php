@@ -75,4 +75,30 @@ class Admin_model extends CI_Model {
 			return 3;
 		}
 	}
+
+	public function tambah_info_harga($data)
+	{
+		$tanggal = $data['tanggal'];
+		$this->db->insert("tblinfoharga",[ "tanggal" => $tanggal ]);
+
+		$this->db->order_by("id_info","desc");
+		$id_info = $this->db->get("tblinfoharga")->result_array()[0]['id_info'];
+
+		foreach ($data as $key => $value) {
+			if ( $key != "tanggal" ) {
+				$insertdata = [
+					"id_info" => $id_info,
+					"id_jenis" => $key,
+					"harga" => $value
+				];
+				$insert = $this->db->insert("tblinfohargadetail",$insertdata);
+			}
+		}
+
+		if ( $insert > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 }
