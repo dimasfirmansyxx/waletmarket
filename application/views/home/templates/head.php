@@ -17,5 +17,6 @@
     <script src="<?= base_url() ?>assets/front/js/bootstrap.min.js"></script>
     <script src="<?= base_url() ?>assets/front/js/paper-kit.js?v=2.1.0"></script>
     <script src="<?= base_url() ?>assets/front/scripts/main.js"></script>
+    <script src="<?= base_url() ?>assets/back/vendor/sweetalert/swal.js"></script>
   </head>
   <body id="top">

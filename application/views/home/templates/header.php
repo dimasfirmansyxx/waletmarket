@@ -19,7 +19,7 @@
           <?php if ( !isset($jumbo_title) ): ?>
             <div class="card">
               <h5 class="card-header"><?= date("d F Y", strtotime($infoharga['tanggal'])) ?></h5>
-              <div class="card-body">
+              <div class="card-body table-responsive">
                 <table class="table table-bordered">
                 <?php foreach ($infoharga as $key => $value): ?>
                   <?php if ( !($key == "tanggal") ): ?>
