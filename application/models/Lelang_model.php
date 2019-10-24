@@ -41,4 +41,23 @@ class Lelang_model extends CI_Model {
 		}
 	}
 
+	public function bid($data)
+	{
+		$conditioncheck = [
+			"id_user" => $data['id_user'],
+			"id_posting" => $data['id_posting']
+		];
+		$check = $this->Func_model->check_availability_multicondition("tblbid",$conditioncheck);
+		if ( $check == 3 ) {
+			$insert = $this->db->insert("tblbid",$data);
+			if ( $insert > 0 ) {
+				return 0;
+			} else {
+				return 1;
+			}
+		} else {
+			return 2;
+		}
+	}
+
 }

@@ -28,6 +28,16 @@ class Func_model extends CI_Model {
 		}
 	}
 
+	public function check_availability_multicondition($table,$condition)
+	{
+		$query = $this->db->get_where($table,$condition);
+		if ( $query->num_rows() > 0 ) {
+			return 2;
+		} else {
+			return 3;
+		}
+	}
+
 	public function get_data($table,$key,$value)
 	{
 		$this->db->where($key,$value);

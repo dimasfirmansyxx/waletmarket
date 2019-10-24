@@ -87,6 +87,15 @@ class Home extends CI_Controller {
 					echo $this->Lelang_model->buat($data);
 				}
 			}
+		} elseif ( $url == "bid" ) {
+			$data = [
+				"id_user" => $this->input->post("id_user",true),
+				"id_posting" => $this->input->post("id_posting",true),
+				"jumlah" => $this->input->post("jumlah",true),
+				"remarks" => $this->input->post("remarks",true)
+			];
+
+			echo $this->Lelang_model->bid($data);
 		}
 	}
 }

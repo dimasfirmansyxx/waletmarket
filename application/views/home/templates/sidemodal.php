@@ -50,7 +50,7 @@
 	        </div>
       </div>
       <div class="modal-footer">
-	      	<button type="button" class="btn btn-secondary mt-2 mb-2" data-dismiss="modal">Close</button>
+	      	<button type="button" class="btn btn-secondary mt-2 mb-2 btnClose" data-dismiss="modal">Close</button>
 			<button type="submit" class="btn btn-primary btnSave mt-2 mb-2 mr-2">Posting</button>
 		</form>
       </div>
@@ -90,7 +90,7 @@
 				success : function(result) {
 					if ( result == 0 ) {
 			            swal("Sukses","Sukses membuat postingan","success");
-			            $("#frmTambah").trigger("reset");
+			            $(".btnClose").click();
 			        } else if ( result == 401 ) {
 			            swal("Gagal","Gambar yang diupload harus berformat jpg, jpeg, png atau bmp","warning");
 			        } else if ( result == 402 ) {
