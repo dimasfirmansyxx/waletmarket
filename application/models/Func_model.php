@@ -79,4 +79,27 @@ class Func_model extends CI_Model {
 		return $result;
 	}
 
+	public function upload_files($key,$directory,$allow_extension)
+	{
+		if ( $_FILES[$key]['error'] == 4 ) {
+			return "";
+		} else {
+			$name = $_FILES[$key]['name'];
+			$tmp = $_FILES[$key]['tmp_name'];
+			$explodename = explode(".", $name);
+			$extension = strtolower(end($explodename));
+
+			if ( in_array($extension, $allow_extension) ) {
+				$newName = uniqid() . "." . $extension;
+				$dir = "./assets/" . $directory;
+				move_uploaded_file($tmp, $dir . $newName);
+
+				return $newName;				
+			} else {
+				return 4;
+			}
+		}
+
+	}
+
 }

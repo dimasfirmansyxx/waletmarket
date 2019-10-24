@@ -7,23 +7,24 @@
 		    	<?php if ( $this->session->user_logged ): ?>
 		    		<h3><?= $this->Home_model->user_info($this->session->user_id,"nama") ?></h3>
 		    		<h5>@<?= $this->Home_model->user_info($this->session->user_id,"username") ?></h5>
-					<div class="list-group mt-2">
-					  <a href="#" class="list-group-item list-group-item-action">
+					<div class="list-group mt-2" style="cursor: pointer;">
+					  <a class="list-group-item list-group-item-action" id="btnBuatLelang">
 					    Buat Lelang
 					  </a>
-					  <a href="#" class="list-group-item list-group-item-action">
+					  <a class="list-group-item list-group-item-action" id="btnBid">
 					  	Bid Saya
 					  </a>
-					  <a href="#" class="list-group-item list-group-item-action">
+					  <a class="list-group-item list-group-item-action" id="btnLelang">
 					  	Lelang
 					  </a>
-					  <a href="#" class="list-group-item list-group-item-action">
+					  <a class="list-group-item list-group-item-action" id="btnProfil">
 					  	Profil
 					  </a>
 					  <a href="<?= base_url() ?>home/logout" class="list-group-item list-group-item-action">
 					  	Logout
 					  </a>
 					</div>
+					<?php $this->load->view("home/templates/sidemodal.php") ?>
 				<?php else: ?>
 					<div class="list-group">
 					  <button class="list-group-item list-group-item-action" id="btnLogin">

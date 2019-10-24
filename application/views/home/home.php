@@ -5,9 +5,9 @@
       <img src="<?= base_url() ?>assets/img/core/ava-square.png" class="img-fluid">
     </div>
     <div class="col-md-10">
-      <h5>Guest</h5>
+      <h5>Judul Produk</h5>
       <h6 class="text-muted">
-        Judul Produk
+        Guest
       </h6>
       <p>Jl. Prambanan 24. 087724244242</p>
       <table class="table table-bordered">
@@ -26,6 +26,14 @@
         <tr>
           <th>Cong 60-90</th>
           <td>1 kg</td>
+        </tr>
+        <tr>
+          <th>Kadar</th>
+          <td>20 %</td>
+        </tr>
+        <tr>
+          <th>Warna</th>
+          <td>Putih Kapas</td>
         </tr>
       </table>
       <p>
