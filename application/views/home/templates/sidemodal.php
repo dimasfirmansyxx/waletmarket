@@ -51,7 +51,7 @@
       </div>
       <div class="modal-footer">
 	      	<button type="button" class="btn btn-secondary mt-2 mb-2" data-dismiss="modal">Close</button>
-			<button type="submit" class="btn btn-primary btnSave mt-2 mb-2 mr-2">Save changes</button>
+			<button type="submit" class="btn btn-primary btnSave mt-2 mb-2 mr-2">Posting</button>
 		</form>
       </div>
     </div>
@@ -78,6 +78,7 @@
 
 		$("#frmBuatLelang").on("submit",function(e){
 			e.preventDefault();
+			setButtonSaving("Memposting ...");
 			$.ajax({
 				url : base_url + "home/lelang/buat",
 				type : "post",
@@ -95,6 +96,7 @@
 			        } else if ( result == 402 ) {
 			            swal("Gagal","Video yang diupload harus berformat mp4, mkv, avi atau 3gp","warning");
 			        }
+			        unsetButtonSaving("Posting");
 				}
 			});
 		});

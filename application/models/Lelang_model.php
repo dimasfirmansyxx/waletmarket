@@ -3,7 +3,14 @@
 class Lelang_model extends CI_Model {
 	public function get_all_lelang()
 	{
-		
+		$this->db->order_by("id_posting","desc");
+		return $this->db->get("tblposting")->result_array();
+	}
+
+	public function get_all_lelang_detail($id_posting)
+	{
+		$this->db->where("id_posting",$id_posting);
+		return $this->db->get("tblpostingdetail")->result_array();
 	}
 
 	public function buat($data)

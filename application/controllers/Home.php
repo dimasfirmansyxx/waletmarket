@@ -17,6 +17,7 @@ class Home extends CI_Controller {
 	{
 		$data['page_title'] = "Beranda";
 		$data['infoharga'] = $this->Func_model->get_last_infoharga();
+		$data['posting'] = $this->Lelang_model->get_all_lelang();
 		$this->load->view("home/templates/head",$data);
 		$this->load->view("home/templates/header");
 		$this->load->view("home/templates/aside");
