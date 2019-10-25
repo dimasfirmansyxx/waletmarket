@@ -44,8 +44,12 @@
         <p>
           <?= $row['remarks'] ?>
         </p>
-        <?php if ( !($row['id_user'] == $this->session->user_id) ): ?>
-          <button class="btn btn-primary btn-sm float-right btnPlaceBid" data-id="<?= $row['id_posting'] ?>">Place Bid</button>
+        <?php if ( $this->session->user_logged ): ?>
+          <?php if ( !($row['id_user'] == $this->session->user_id) ): ?>
+            <button class="btn btn-primary btn-sm float-right btnPlaceBid" data-id="<?= $row['id_posting'] ?>">Place Bid</button>
+          <?php endif ?>
+        <?php else: ?>
+          <button class="btn btn-primary btn-sm float-right btnAlertLogin">Place Bid</button>  
         <?php endif ?>
       </div>
     </div>  
@@ -101,6 +105,10 @@
     $(".btnPlaceBid").on("click",function(){
       posting_selected = $(this).attr("data-id");
       $("#placebidmodal").modal("show");
+    });
+
+    $(".btnAlertLogin").on("click",function(){
+      swal("Login!","Lakukan login terlebih dahulu sebelum memasang bid","warning");
     });
 
     $("#frmPlaceBid").on("submit",function(e){

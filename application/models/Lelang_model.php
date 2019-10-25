@@ -51,6 +51,8 @@ class Lelang_model extends CI_Model {
 		if ( $check == 3 ) {
 			$insert = $this->db->insert("tblbid",$data);
 			if ( $insert > 0 ) {
+				$get_seller_id = $this->Func_model->get_posting($data['id_posting']);
+				
 				return 0;
 			} else {
 				return 1;
