@@ -63,8 +63,22 @@ class Func_model extends CI_Model {
 
 	public function get_data($table,$key,$value)
 	{
-		$this->db->where($key,$value);
-		return $this->db->get($table)->result_array()[0];
+		if ( $this->check_availability($table,$key,$value) == 2 ) {
+			$this->db->where($key,$value);
+			return $this->db->get($table)->result_array()[0];
+		} else {
+			return 3;
+		}
+	}
+
+	public function get_query($table,$key,$value)
+	{
+		if ( $this->check_availability($table,$key,$value) == 2 ) {
+			$this->db->where($key,$value);
+			return $this->db->get($table)->result_array();
+		} else {
+			return 3;
+		}
 	}
 
 	public function site_info($show)

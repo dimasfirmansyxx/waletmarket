@@ -7,7 +7,7 @@
         </a>
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>home">Home</a></li>
           </ul>
         </div>
       </div>
@@ -33,7 +33,7 @@
               </div>
             </div>
           <?php else: ?>
-            <h2><?= $jumbo_title  ?></h2>  
+            <h3><?= $jumbo_title  ?></h3>  
           <?php endif ?>
         </div>
       </div>
