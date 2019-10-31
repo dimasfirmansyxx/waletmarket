@@ -78,7 +78,8 @@ class Home extends CI_Controller {
 						"remarks" => $this->input->post("remarks",true),
 						"photo" => $photo,
 						"video" => $video,
-						"status" => "nonverif"
+						"status" => "nonverif",
+						"jenis" => $this->input->post("jenis",true)
 					];
 					foreach ($this->Func_model->get_all_jenis() as $jenis) {
 						$data[$jenis['id_jenis']] = $this->input->post($jenis['id_jenis'],true);
@@ -97,5 +98,21 @@ class Home extends CI_Controller {
 
 			echo $this->Lelang_model->bid($data);
 		}
+	}
+
+	public function get_my_lelang($id_user)
+	{
+		$data["page_title"] = "my_lelang";
+		$data["get_data"] = $this->Lelang_model->get_user_lelang($id_user);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/lelang_show");
+	}
+
+	public function get_bidder($id_posting)
+	{
+		$data["page_title"] = "get_bidder";
+		$data["get_data"] = $this->Lelang_model->get_bidder_lelang($id_posting);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/bid_show");
 	}
 }

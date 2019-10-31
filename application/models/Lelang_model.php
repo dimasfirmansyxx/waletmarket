@@ -13,6 +13,26 @@ class Lelang_model extends CI_Model {
 		return $this->Func_model->get_data("tblposting","id_posting",$id_posting);
 	}
 
+	public function get_user_lelang($id_user)
+	{
+		$this->db->order_by("id_posting","desc");
+		$this->db->where("id_user",$id_user);
+		return $this->db->get("tblposting")->result_array();
+	}
+
+	public function get_bidder_lelang($id_posting)
+	{
+		$this->db->order_by("id_bid","desc");
+		$this->db->where("id_posting",$id_posting);
+		return $this->db->get("tblbid")->result_array();
+	}
+
+	public function count_bidder($id_posting)
+	{
+		$this->db->where("id_posting",$id_posting);
+		return $this->db->get("tblbid")->num_rows();
+	}
+
 	public function get_all_lelang_detail($id_posting)
 	{
 		$this->db->where("id_posting",$id_posting);
@@ -32,6 +52,7 @@ class Lelang_model extends CI_Model {
 				$postingdata[$key] = $value;
 			}
 		}
+		$postingdata["status"] = "not";
 
 		$insert = $this->db->insert("tblposting",$postingdata);
 		if ( $insert > 0 ) {

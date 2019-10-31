@@ -29,6 +29,13 @@
 	        			<label>Keterangan</label>
 	        			<textarea class="form-control" name="remarks" rows="5"></textarea>
 	        		</div>
+	        		<div class="form-group">
+	        			<label>Jenis</label>
+	        			<select name="jenis" class="form-control" required>
+	        				<option value="jual">Jual</option>
+	        				<option value="beli">Beli</option>
+	        			</select>
+	        		</div>
 	        	</div>
 	        	<div class="col-md-6">
 	        		<?php $get = $this->Func_model->get_all_jenis(); ?>
@@ -57,10 +64,58 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="mylelangmodel" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Postingan Lelang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-lg-12 showLelang">
+		      	<p class="text-center">Sedang Memuat data ...</p>
+      		</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="biddermodel" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Bidder</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-lg-12 showBidder">
+		      	<p class="text-center">Sedang Memuat data ...</p>
+      		</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 	$(document).ready(function(){
 
 		var base_url = "<?= base_url() ?>";
+		var id_user = "<?= $this->session->user_id ?>";
 
 		function setButtonSaving(word) {
 	      $(".btnSave").attr("disabled","disabled");
@@ -72,8 +127,27 @@
 	      $(".btnSave").html(word);
 	    }
 
+	    function loadLelangData() {
+	    	$(".showLelang").load( base_url + "home/get_my_lelang/" + id_user );
+	    }
+
+	    function loadBidData(id_posting) {
+	    	$(".showBidder").load( base_url + "home/get_bidder/" + id_posting )
+	    }
+
 		$("#btnBuatLelang").on("click",function(){
 			$("#buatlelangmodal").modal("show");
+		});
+
+		$("#btnLelang").on("click",function(){
+			loadLelangData();
+			$("#mylelangmodel").modal("show");
+		});
+
+		$(".showLelang").on("click",".btnShowBidder",function(){
+			var id = $(this).attr("data-id");
+			loadBidData(id);
+			$("#biddermodel").modal("show");
 		});
 
 		$("#frmBuatLelang").on("submit",function(e){

@@ -12,7 +12,7 @@
         </a>
       </div>
       <div class="col-md-10">
-        <h5><?= ucwords($row['judul']) ?></h5>
+        <h5><?= strtoupper($row['jenis']) ?> : <?= ucwords($row['judul']) ?></h5>
         <h6 class="text-muted">
           <?= $user_info['nama'] ?>
         </h6>
@@ -38,7 +38,7 @@
           </tr>
           <tr>
             <th>Warna</th>
-            <td><?= $row['warna'] ?></td>
+            <td><?= ucwords($row['warna']) ?></td>
           </tr>
         </table>
         <p>
