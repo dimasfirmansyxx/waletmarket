@@ -6,11 +6,15 @@ class Bid extends CI_Controller {
 		parent::__construct();
 		$this->load->model("Lelang_model");
 		$this->load->model("Home_model");
+
+		if ( !$this->session->user_logged ) {
+			redirect( base_url() . "home" );
+		}
 	}
 
 	public function index()
 	{
-		echo "OK";
+		redirect( base_url() . "home" );
 	}
 
 	public function conversation($id_bid)
@@ -51,6 +55,12 @@ class Bid extends CI_Controller {
 
 			echo $this->Lelang_model->send_chat($data);
 		}
+	}
+
+	public function accept()
+	{
+		$id_bid = $this->input->post("id_bid",true);
+		echo $this->Lelang_model->accept_bid($id_bid);
 	}
 
 }

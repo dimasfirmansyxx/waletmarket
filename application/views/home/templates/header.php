@@ -33,7 +33,7 @@
               </div>
             </div>
           <?php else: ?>
-            <h3><?= $jumbo_title  ?></h3>  
+            <h3><?= ucwords($jumbo_title)  ?></h3>  
           <?php endif ?>
         </div>
       </div>

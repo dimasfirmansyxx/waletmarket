@@ -1,5 +1,4 @@
 <div class="col-md-8">
-
   <?php foreach ($posting as $row): ?>
     <?php 
       $user_info = $this->Home_model->user_info($row['id_user']);

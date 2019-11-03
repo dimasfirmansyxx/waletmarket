@@ -17,6 +17,9 @@
 					  <a class="list-group-item list-group-item-action" id="btnLelang">
 					  	Lelang
 					  </a>
+					  <a class="list-group-item list-group-item-action" id="btnTransaksi">
+					  	Transaksi
+					  </a>
 					  <a class="list-group-item list-group-item-action" id="btnProfil">
 					  	Profil
 					  </a>
@@ -24,6 +27,7 @@
 					  	Logout
 					  </a>
 					</div>
+					<?php $this->load->view("home/templates/notif.php") ?>
 					<?php $this->load->view("home/templates/sidemodal.php") ?>
 				<?php else: ?>
 					<div class="list-group">
@@ -52,11 +56,11 @@
 		      </div>
 		      <div class="modal-body">
 		        <form id="frmLogin">
-		        	<div class="alert alert-success AlertSuccess" role="alert">
+		        	<div class="alert alert-login alert-success AlertSuccess" role="alert">
 	                  Login Sukses. Harap Tunggu, sedang mengalihkan ...
 	                </div>
 
-	                <div class="alert alert-danger AlertFailed" role="alert">
+	                <div class="alert alert-login alert-danger AlertFailed" role="alert">
 	                  Login Gagal. <span class="failedreason"></span>
 	                </div>
 		        	<div class="form-group">
@@ -149,7 +153,7 @@
 	    }
 
 	    function alertClear() {
-	      $(".alert").css("display","none");
+	      $(".alert-login").css("display","none");
 	    }
 
 	    alertClear();
@@ -198,6 +202,7 @@
 		$("#frmLogin").on("submit",function(e){
 			e.preventDefault();
 			setButtonSaving("Sedang mengecek ...")
+			alertClear();
 			$.ajax({
 				url : base_url + "home/login",
 				type : "post",

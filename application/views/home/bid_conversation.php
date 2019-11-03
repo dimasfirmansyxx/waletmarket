@@ -2,15 +2,16 @@
 	
 	<div class="row mt-5">
 		<div class="col-md-8">
-			<h4 style="margin-top: 0;"><?= $post_data['judul'] ?></h4>
+			<h4 style="margin-top: 0;"><?= ucwords($post_data['judul']) ?></h4>
 			<p class="text-muted">
 				<?= $buyer_info['nama'] ?> <br>
 				@<?= $buyer_info['username'] ?>
 			</p>
 		</div>
 		<div class="col-md-4">
-			<button class="btn btn-success btn-sm">Accept Bid</button>
-			<button class="btn btn-danger btn-sm">Decline Bid</button> <br>
+			<?php if ($post_data['status'] == "not"): ?>
+				<button class="btn btn-success btn-sm" id="btnAcceptBid">Accept Bid</button><br>
+			<?php endif ?>
 			<h4 style="margin-top: 0;" class="text-right">
 				Rp.<?= number_format($bid_data['jumlah']) ?>,-
 			</h4>
@@ -97,7 +98,26 @@
 						loadChat();
 						$("#txtMessage").val("");
 					} else {
-						swal("Gagal!","Kesalahan pada server","warning");
+						swal("Gagal!","Kesalahan pada server","error");
+					}
+				}
+			});
+		});
+
+		$("#btnAcceptBid").on("click",function(){
+			$.ajax({
+				url : base_url + "bid/accept",
+				data : { id_bid : id_bid },
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+						swal("Sukses memilih bid!","Menunggu Pembayaran dari Buyer","success");
+						setTimeout(function(){
+							window.location = base_url + "bid/conversation/" + id_bid;
+						},1000);
+					} else if ( result == 1 ) {
+						swal("Gagal!","Kesalahan pada server","error");
 					}
 				}
 			});

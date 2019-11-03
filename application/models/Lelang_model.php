@@ -73,6 +73,34 @@ class Lelang_model extends CI_Model {
 		}
 	}
 
+	public function hapus($id_posting)
+	{
+		// hapus chat
+		$bidder = $this->get_bidder_lelang($id_posting);
+		foreach ($bidder as $row) {
+			$this->db->where("id_bid",$row['id_bid']);
+			$this->db->delete("tblconversation");
+		}
+
+		// hapus bid
+		$this->db->where("id_posting",$id_posting);
+		$this->db->delete("tblbid");
+
+		// hapus detail
+		$this->db->where("id_posting",$id_posting);
+		$this->db->delete("tblpostingdetail");
+
+		// hapus posting
+		$this->db->where("id_posting",$id_posting);
+		$delete = $this->db->delete("tblposting");
+
+		if ( $delete > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
 	public function bid($data)
 	{
 		$conditioncheck = [
@@ -102,6 +130,54 @@ class Lelang_model extends CI_Model {
 	public function send_chat($data)
 	{
 		$insert = $this->db->insert("tblconversation",$data);
+		if ( $insert > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	public function get_user_bid($id_user)
+	{
+		$this->db->where("id_user",$id_user);
+		return $this->db->get("tblbid")->result_array();
+	}
+
+	public function accept_bid($id_bid)
+	{
+		$get_bid = $this->bid_info($id_bid);
+		$get_posting = $this->get_lelang($get_bid['id_posting']);
+
+		$id_seller = $get_posting['id_user'];
+		$id_buyer = $get_bid['id_user'];
+		$id_posting = $get_posting['id_posting'];
+		$id_bid = $id_bid;
+
+		// change posting status to 'sold'
+		$this->db->set("status","sold");
+		$this->db->where("id_posting",$id_posting);
+		$this->db->update("tblposting");
+
+		// give notification for buyer to do payment
+		$data = [
+			"id_user" => $id_buyer,
+			"pesan" => "Bid anda pada postingan <a href='". base_url() ."bid/conversation/". $id_posting ."' target='_blank'>". $get_posting['judul'] ."</a>",
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$data);
+
+		// insert data to 'tbltransaksi'
+		$data = [
+			"id_seller" => $id_seller,
+			"id_buyer" => $id_buyer,
+			"id_posting" => $id_posting,
+			"id_bid" => $id_bid,
+			"status" => "waiting"
+		];
+		$insert = $this->db->insert("tbltransaksi",$data);
+		
 		if ( $insert > 0 ) {
 			return 0;
 		} else {

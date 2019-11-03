@@ -97,6 +97,9 @@ class Home extends CI_Controller {
 			];
 
 			echo $this->Lelang_model->bid($data);
+		} elseif ( $url == "hapus" ) {
+			$id_posting = $this->input->post("id_posting",true);
+			echo $this->Lelang_model->hapus($id_posting);
 		}
 	}
 
@@ -114,5 +117,13 @@ class Home extends CI_Controller {
 		$data["get_data"] = $this->Lelang_model->get_bidder_lelang($id_posting);
 		$this->load->view("home/templates/head",$data);
 		$this->load->view("home/bid_show");
+	}
+
+	public function get_my_bid($id_user)
+	{
+		$data["page_title"] = "my_bid";
+		$data["get_data"] = $this->Lelang_model->get_user_bid($id_user);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/mybid_show");
 	}
 }
