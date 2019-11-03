@@ -27,6 +27,9 @@
 					  	Logout
 					  </a>
 					</div>
+					<br>
+					<h3>Notification</h3>
+					<small>* klik untuk menghapus notifikasi</small>
 					<?php $this->load->view("home/templates/notif.php") ?>
 					<?php $this->load->view("home/templates/sidemodal.php") ?>
 				<?php else: ?>

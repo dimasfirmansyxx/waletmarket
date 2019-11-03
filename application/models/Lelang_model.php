@@ -161,7 +161,7 @@ class Lelang_model extends CI_Model {
 		// give notification for buyer to do payment
 		$data = [
 			"id_user" => $id_buyer,
-			"pesan" => "Bid anda pada postingan <a href='". base_url() ."bid/conversation/". $id_posting ."' target='_blank'>". $get_posting['judul'] ."</a>",
+			"pesan" => "Bid anda pada postingan <a href='". base_url() ."bid/conversation/". $id_bid ."' target='_blank'>". $get_posting['judul'] ."</a> dipilih sebagai pemenang",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"

@@ -10,4 +10,11 @@ class Home_model extends CI_Model {
 			return $get[$show];
 		}
 	}
+
+	public function get_notification($id_user)
+	{
+		$this->db->order_by("id_notif","desc");
+		$this->db->where("id_user",$id_user);
+		return $this->db->get("tblnotification")->result_array();
+	}
 }
