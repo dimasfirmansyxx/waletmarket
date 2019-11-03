@@ -134,6 +134,92 @@
   </div>
 </div>
 
+
+<div class="modal fade" id="transaksimodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Transaksi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-lg-12 showMyTransaksi">
+		      	<p class="text-center">Sedang Memuat data ...</p>
+      		</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="dopaymentmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Lakukan Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row">
+      		<div class="col-md-6">
+      			<p>Lakukan Pembayaran dengan rincian sebagai berikut : </p>
+      			<table class="table table-bordered">
+      				<tr>
+      					<th>Nama Bank</th>
+      					<td><?= $this->Func_model->site_info("bankname") ?></td>
+      				</tr>
+      				<tr>
+      					<th>Nomor Rekening</th>
+      					<td><?= $this->Func_model->site_info("banknumber") ?></td>
+      				</tr>
+      				<tr>
+      					<th>Atas Nama</th>
+      					<td><?= $this->Func_model->site_info("bankowner") ?></td>
+      				</tr>
+      			</table>
+      		</div>
+      		<div class="col-md-6">
+      			<form id="frmBayar">
+      				<div class="form-group">
+      					<label>Nama Bank</label>
+      					<input type="text" name="bankname" class="form-control" required autocomplete="off">
+      				</div>
+      				<div class="form-group">
+      					<label>Nomor Rekening</label>
+      					<input type="number" name="norek" class="form-control" required autocomplete="off">
+      				</div>
+      				<div class="form-group">
+      					<label>Atas Nama</label>
+      					<input type="text" name="an" class="form-control" required autocomplete="off">
+      				</div>
+      				<div class="form-group">
+      					<label>Jumlah Transfer</label>
+      					<input type="text" name="jumlah" class="form-control" required autocomplete="off">
+      				</div>
+      				<div class="form-group">
+      					<label>Bukti</label>
+      					<input type="file" name="bukti" class="form-control" required autocomplete="off">
+      				</div>
+      				<button type="submit" class="btn btn-primary btn-sm btn-block">Submit</button>
+      			</form>
+      		</div>
+      	</div>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 	$(document).ready(function(){
 
@@ -162,6 +248,10 @@
 	    	$(".showMyBid").load( base_url + "home/get_my_bid/" + id_user );
 	    }
 
+	    function loadTransaksi() {
+	    	$(".showMyTransaksi").load( base_url + "home/transaksi_show/" + id_user );
+	    }
+
 		$("#btnBuatLelang").on("click",function(){
 			$("#buatlelangmodal").modal("show");
 		});
@@ -180,6 +270,11 @@
 			var id = $(this).attr("data-id");
 			loadBidData(id);
 			$("#biddermodel").modal("show");
+		});
+
+		$("#btnTransaksi").on("click",function(){
+			loadTransaksi();
+			$("#transaksimodal").modal("show");
 		});
 
 		$(".showLelang").on("click",".btnDelete",function(){
@@ -234,6 +329,43 @@
 			        unsetButtonSaving("Posting");
 				}
 			});
+		});
+
+
+		var id_transaksi;
+		$(".showMyTransaksi").on("click",".btnDoPayment",function(){
+			id_transaksi = $(this).attr("data-id");
+			$(".btnClose").click();
+			setTimeout(function(){
+				$("#dopaymentmodal").modal("show");
+			},500);
+		});
+
+		$("#frmBayar").on("submit",function(e){
+			e.preventDefault();
+			var formdata = new FormData(this);
+			formdata.append("id_transaksi",id_transaksi);
+			formdata.append("id_user",id_user);
+			$.ajax({
+				url : base_url + "home/do_payment",
+				data : formdata,
+				cache : false,
+				processData : false,
+				contentType : false,
+				type: "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+						swal("Sukses","Pembayaran akan di verifikasi oleh Admin","success");
+					} else if ( result == 2 ) {
+						swal("Gagal","Anda sudah melakukan pembayaran","warning");
+					} else if ( result == 1 ) {
+						swal("Gagal","Kesalahan pada server","error");
+					} else if ( result == 4 ) {
+						swal("Gagal","Pastikan format gambar adalah 'jpg,jpeg,png,bmp'");
+					}
+				} 
+			});	
 		});
 	});
 </script>

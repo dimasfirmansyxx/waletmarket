@@ -10,7 +10,7 @@
 		</div>
 		<div class="col-md-4">
 			<?php if ($post_data['status'] == "not"): ?>
-				<button class="btn btn-success btn-sm" id="btnAcceptBid">Accept Bid</button><br>
+				<button class="btn btn-success float-right btn-sm" id="btnAcceptBid">Accept Bid</button><br>
 			<?php endif ?>
 			<h4 style="margin-top: 0;" class="text-right">
 				Rp.<?= number_format($bid_data['jumlah']) ?>,-

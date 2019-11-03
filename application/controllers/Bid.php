@@ -63,4 +63,5 @@ class Bid extends CI_Controller {
 		echo $this->Lelang_model->accept_bid($id_bid);
 	}
 
+	
 }

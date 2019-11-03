@@ -126,4 +126,32 @@ class Home extends CI_Controller {
 		$this->load->view("home/templates/head",$data);
 		$this->load->view("home/mybid_show");
 	}
+
+	public function transaksi_show($id_user)
+	{
+		$data["page_title"] = "transaksi_show";
+		$data["get_data"] = $this->Lelang_model->get_user_transaksi($id_user);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/transaksi_show");
+	}
+
+	public function do_payment()
+	{
+		$bukti = $this->Func_model->upload_files("bukti","img/payment/",["jpg","jpeg","png","bmp"]);
+		if ( $bukti == 4 ) {
+			echo 4;
+		} else {
+			$data = [
+				"id_transaksi" => $this->input->post("id_transaksi",true),
+				"id_user" => $this->input->post("id_user",true),
+				"bankname" => $this->input->post("bankname",true),
+				"norek" => $this->input->post("norek",true),
+				"an" => $this->input->post("an",true),
+				"jumlah" => $this->input->post("jumlah",true),
+				"bukti" => $bukti,
+				"status" => "waiting"
+			];
+			echo $this->Lelang_model->do_payment($data);
+		}
+	}
 }

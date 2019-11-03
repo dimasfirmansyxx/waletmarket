@@ -148,10 +148,19 @@ class Lelang_model extends CI_Model {
 		$get_bid = $this->bid_info($id_bid);
 		$get_posting = $this->get_lelang($get_bid['id_posting']);
 
-		$id_seller = $get_posting['id_user'];
-		$id_buyer = $get_bid['id_user'];
-		$id_posting = $get_posting['id_posting'];
-		$id_bid = $id_bid;
+		if ( $get_posting['jenis'] == "jual" ) {
+			$id_seller = $get_posting['id_user'];
+			$id_buyer = $get_bid['id_user'];
+			$id_posting = $get_posting['id_posting'];
+			$id_bid = $id_bid;
+			$pesan = "Bid anda pada postingan <a href='". base_url() ."bid/conversation/". $id_bid ."' target='_blank'>". $get_posting['judul'] ."</a> dipilih sebagai pemenang. Silahkan lakukan pembayaran melalui menu 'Transaksi' diatas";
+		} elseif ( $get_posting['jenis'] == "beli" ) {
+			$id_seller = $get_bid['id_user'];
+			$id_buyer = $get_posting['id_user'];
+			$id_posting = $get_posting['id_posting'];
+			$id_bid = $id_bid;
+			$pesan = "Lelang anda <a href='". base_url() ."bid/conversation/". $id_bid ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dipilih pemenangnya. Silahkan lakukan pembayaran melalui menu 'Transaksi' diatas";
+		}
 
 		// change posting status to 'sold'
 		$this->db->set("status","sold");
@@ -161,7 +170,7 @@ class Lelang_model extends CI_Model {
 		// give notification for buyer to do payment
 		$data = [
 			"id_user" => $id_buyer,
-			"pesan" => "Bid anda pada postingan <a href='". base_url() ."bid/conversation/". $id_bid ."' target='_blank'>". $get_posting['judul'] ."</a> dipilih sebagai pemenang",
+			"pesan" => $pesan,
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -182,6 +191,38 @@ class Lelang_model extends CI_Model {
 			return 0;
 		} else {
 			return 1;
+		}
+	}
+
+	public function get_user_transaksi($id_user)
+	{
+		$this->db->order_by("id_transaksi","desc");
+		$this->db->where("id_buyer",$id_user);	
+		return $this->db->get("tbltransaksi")->result_array();
+	}
+
+	public function do_payment($data)
+	{
+		$conditioncheck = [
+			"id_transaksi" => $data['id_transaksi'],
+			"id_user" => $data['id_user'],
+			"status" => "waiting"
+		];
+		$check = $this->Func_model->check_availability_multicondition("tblpayment",$conditioncheck);
+		if ( $check == 2 ) {
+			return 2;
+		} else {
+			$this->db->set("status","verifying");
+			$this->db->where("id_transaksi",$data['id_transaksi']);
+			$this->db->update("tbltransaksi");
+
+			$insert = $this->db->insert("tblpayment",$data);
+
+			if ( $insert > 0  ) {
+				return 0;
+			} else {
+				return 1;
+			}
 		}
 	}
 
