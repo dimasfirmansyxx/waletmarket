@@ -5,6 +5,10 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model("Admin_model");
+		$this->load->model("Payment_model");
+		$this->load->model("Home_model");
+		$this->load->model("Lelang_model");
+
 		if ( !$this->session->admin_logged ) {
 			if ( !$this->uri->segment(2) == "login" ) {
 				redirect( base_url() . "admin/login" );
@@ -120,5 +124,30 @@ class Admin extends CI_Controller {
 		$data['datas'] = $this->Func_model->get_all_jenis();
 		$this->load->view("admin/templates/head",$data);
 		$this->load->view("admin/jenis_data");
+	}
+
+	public function payment()
+	{
+		$data['page_title'] = "Konfirmasi Pembayaran";
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/templates/header");
+		$this->load->view("admin/payment");
+		$this->load->view("admin/templates/footer");
+	}
+
+	public function payment_data()
+	{
+		$data['page_title'] = "get_all_jenis";
+		$data['datas'] = $this->Payment_model->get_all_payment("waiting");
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/payment_data");
+	}
+
+	public function payment_check($status)
+	{
+		if ( $status == "accept" ) {
+			$id_payment = $this->input->post("id_payment",true);
+			echo $this->Payment_model->accept_payment($id_payment);
+		}
 	}
 }

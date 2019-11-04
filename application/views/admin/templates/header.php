@@ -29,18 +29,18 @@
   </li>  
 
   <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/payment">
+      <i class="fas fa-fw fa-money-bill-wave"></i>
+      <span>Konfirmasi Pembayaran</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/penjualan">
       <i class="fas fa-fw fa-shopping-cart"></i>
       <span>Postingan Penjual</span>
     </a>
   </li>
-
-  <li class="nav-item">
-    <a class="nav-link" href="<?= base_url() ?>admin/pembelian">
-      <i class="fas fa-fw fa-shopping-cart"></i>
-      <span>Postingan Pembeli</span>
-    </a>
-  </li>  
 
   <hr class="sidebar-divider">
 

@@ -6,6 +6,7 @@ class Home extends CI_Controller {
 		parent::__construct();
 		$this->load->model("Auth_model");
 		$this->load->model("Home_model");
+		$this->load->model("Payment_model");
 		$this->load->model("Lelang_model");
 
 		if ( $this->uri->segment(1) == null ) {
@@ -151,7 +152,7 @@ class Home extends CI_Controller {
 				"bukti" => $bukti,
 				"status" => "waiting"
 			];
-			echo $this->Lelang_model->do_payment($data);
+			echo $this->Payment_model->do_payment($data);
 		}
 	}
 }

@@ -201,29 +201,9 @@ class Lelang_model extends CI_Model {
 		return $this->db->get("tbltransaksi")->result_array();
 	}
 
-	public function do_payment($data)
+	public function get_transaksi($id_transaksi)
 	{
-		$conditioncheck = [
-			"id_transaksi" => $data['id_transaksi'],
-			"id_user" => $data['id_user'],
-			"status" => "waiting"
-		];
-		$check = $this->Func_model->check_availability_multicondition("tblpayment",$conditioncheck);
-		if ( $check == 2 ) {
-			return 2;
-		} else {
-			$this->db->set("status","verifying");
-			$this->db->where("id_transaksi",$data['id_transaksi']);
-			$this->db->update("tbltransaksi");
-
-			$insert = $this->db->insert("tblpayment",$data);
-
-			if ( $insert > 0  ) {
-				return 0;
-			} else {
-				return 1;
-			}
-		}
+		return $this->Func_model->get_data("tbltransaksi","id_transaksi",$id_transaksi);
 	}
 
 }
