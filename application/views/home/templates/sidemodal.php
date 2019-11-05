@@ -220,6 +220,25 @@
   </div>
 </div>
 
+<div class="modal fade" id="ordermodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">List Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body showListOrder">
+      	<p class="text-center">Sedang Memuat data ...</p>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 	$(document).ready(function(){
 
@@ -252,6 +271,10 @@
 	    	$(".showMyTransaksi").load( base_url + "home/transaksi_show/" + id_user );
 	    }
 
+	    function loadOrder() {
+	    	$(".showListOrder").load( base_url + "home/order_show/" + id_user );
+	    }
+
 		$("#btnBuatLelang").on("click",function(){
 			$("#buatlelangmodal").modal("show");
 		});
@@ -264,6 +287,11 @@
 		$("#btnBid").on("click",function(){
 			loadMyBid();
 			$("#mybidmodal").modal("show");
+		});
+
+		$("#btnOrder").on("click",function(){
+			loadOrder();
+			$("#ordermodal").modal("show");
 		});
 
 		$(".showLelang").on("click",".btnShowBidder",function(){
@@ -366,6 +394,24 @@
 					}
 				} 
 			});	
+		});
+
+		$(".showListOrder").on("click",".btnToDeliver",function(){
+			var id = $(this).attr("data-id");
+			$.ajax({
+				url : base_url + "home/change_status_transaksi/deliver",
+				data : { id_transaksi : id },
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+						swal("Sukses","Sukses mengubah status ke 'Deliver'","success");
+						loadOrder();
+					} else if ( result == 1 ) {
+						swal("Gagal","Kesalahan pada server","error");
+					}
+				}
+			});
 		});
 	});
 </script>

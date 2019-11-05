@@ -155,4 +155,18 @@ class Home extends CI_Controller {
 			echo $this->Payment_model->do_payment($data);
 		}
 	}
+
+	public function order_show($id_user)
+	{
+		$data["page_title"] = "order_show";
+		$data["get_data"] = $this->Lelang_model->get_list_order($id_user);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/order_show");
+	}
+
+	public function change_status_transaksi($status)
+	{
+		$id_transaksi = $this->input->post("id_transaksi",true);
+		echo $this->Lelang_model->change_status_transaksi($id_transaksi,$status);
+	}
 }

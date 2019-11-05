@@ -51,5 +51,23 @@
       });
     });
 
+    $("#load_data_area").on("click",".btnDecline",function(){
+      var id = $(this).attr("data-id");
+      $.ajax({
+        url : base_url + "admin/payment_check/decline",
+        data : { id_payment : id },
+        type : "post",
+        dataType : "text",
+        success : function(result) {
+          if ( result == 0 ) {
+            swal("Sukses","Sukses menolak pembayaran","success");
+            loadData();
+          } else if ( result == 1 ) {
+            swal("Gagal","Kesalahan pada server","error");
+          }
+        }
+      });
+    });
+
   });
 </script>

@@ -206,4 +206,35 @@ class Lelang_model extends CI_Model {
 		return $this->Func_model->get_data("tbltransaksi","id_transaksi",$id_transaksi);
 	}
 
+	public function get_list_order($id_user)
+	{
+		$this->db->order_by("id_transaksi","desc");
+		$this->db->where("id_seller",$id_user);
+		return $this->db->get("tbltransaksi")->result_array();
+	}
+
+	public function change_status_transaksi($id_transaksi,$status)
+	{
+		$get_transaksi = $this->get_transaksi($id_transaksi);
+		$get_bid = $this->bid_info($get_transaksi['id_bid']);
+		$get_posting = $this->get_lelang($get_transaksi['id_posting']);
+
+		$data = [
+			"id_user" => $get_transaksi['id_buyer'],
+			"pesan" => "Produk pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sedang dalam pengiriman",
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$data);
+
+		$this->db->set("status",$status);
+		$this->db->where("id_transaksi",$id_transaksi);
+		$update = $this->db->update("tbltransaksi");
+		if ( $update > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 }

@@ -148,6 +148,9 @@ class Admin extends CI_Controller {
 		if ( $status == "accept" ) {
 			$id_payment = $this->input->post("id_payment",true);
 			echo $this->Payment_model->accept_payment($id_payment);
+		} elseif ( $status == "decline" ) {
+			$id_payment = $this->input->post("id_payment",true);
+			echo $this->Payment_model->decline_payment($id_payment);
 		}
 	}
 }

@@ -23,7 +23,7 @@
 					<td><?= $data['an'] ?></td>
 					<td>Rp.<?= number_format($data['jumlah']) ?>,-</td>
 					<td>
-						<a href="<?= base_url() ?>assets/img/payment/<?= $data['bukti'] ?>">
+						<a target="_blank" href="<?= base_url() ?>assets/img/payment/<?= $data['bukti'] ?>">
 							<img src="<?= base_url() ?>assets/img/payment/<?= $data['bukti'] ?>" class="" height="100" width="auto">
 						</a>
 					</td>

@@ -20,6 +20,12 @@
 					  <a class="list-group-item list-group-item-action" id="btnTransaksi">
 					  	Transaksi
 					  </a>
+					  <a class="list-group-item list-group-item-action" id="btnOrder">
+					  	List Order
+					  </a>
+					  <a class="list-group-item list-group-item-action" id="btnKeranjang">
+					  	Keranjang
+					  </a>
 					  <a class="list-group-item list-group-item-action" id="btnProfil">
 					  	Profil
 					  </a>

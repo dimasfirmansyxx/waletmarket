@@ -34,7 +34,9 @@ class Payment_model extends CI_Model {
 
 	public function get_payment($id_payment)
 	{
-		return $this->Func_model->get_data("tblpayment","id_payment",$id_payment);
+		$this->db->order_by("id_payment","desc");
+		$this->db->where("id_payment",$id_payment);
+		return $this->db->get("tblpayment")->result_array()[0];
 	}
 
 	public function accept_payment($id_payment)
@@ -59,8 +61,52 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$data);
 
+		// give notification to buyer
+		$data = [
+			"id_user" => $get_transaksi['id_buyer'],
+			"pesan" => "Tagihan pada bid <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> telah diterima oleh admin. Produk akan disiapkan oleh seller",
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$data);
+
 		// set status to prepare
 		$this->db->set("status","prepare");
+		$this->db->where("id_transaksi",$get_transaksi['id_transaksi']);
+		$update = $this->db->update("tbltransaksi");
+
+		if ( $update > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	public function decline_payment($id_payment)
+	{
+		$get_payment = $this->get_payment($id_payment);
+		$get_transaksi = $this->Lelang_model->get_transaksi($get_payment['id_transaksi']);
+		$get_bid = $this->Lelang_model->bid_info($get_transaksi['id_bid']);
+		$get_posting = $this->Lelang_model->get_lelang($get_bid['id_posting']);
+
+		// set payment to declined
+		$this->db->set("status","declined");
+		$this->db->where("id_payment",$id_payment);
+		$this->db->update("tblpayment");
+
+		// give notification to seller
+		$data = [
+			"id_user" => $get_transaksi['id_buyer'],
+			"pesan" => "Tagihan pada bid <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> ditolak. Karena tidak memenuhi kriteria",
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$data);
+
+		// set status to prepare
+		$this->db->set("status","waiting");
 		$this->db->where("id_transaksi",$get_transaksi['id_transaksi']);
 		$update = $this->db->update("tbltransaksi");
 
