@@ -28,6 +28,15 @@
     </a>
   </li>  
 
+  <!-- <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/penjualan">
+      <i class="fas fa-fw fa-shopping-cart"></i>
+      <span>Postingan Penjual</span>
+    </a>
+  </li> -->
+
+  <hr class="sidebar-divider">
+
   <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/payment">
       <i class="fas fa-fw fa-money-bill-wave"></i>
@@ -36,13 +45,13 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link" href="<?= base_url() ?>admin/penjualan">
-      <i class="fas fa-fw fa-shopping-cart"></i>
-      <span>Postingan Penjual</span>
+    <a class="nav-link" href="<?= base_url() ?>admin/pencairan">
+      <i class="fas fa-fw fa-money-bill-wave-alt"></i>
+      <span>Pencairan Dana</span>
     </a>
   </li>
 
-  <hr class="sidebar-divider">
+  <!-- <hr class="sidebar-divider">
 
   <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/editsitus">
@@ -56,16 +65,16 @@
       <i class="fas fa-fw fa-user"></i>
       <span>Akun Admin</span>
     </a>
-  </li>    
+  </li>     -->
 
   <hr class="sidebar-divider">
 
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/akun">
       <i class="fas fa-fw fa-cogs"></i>
       <span>Konfigurasi Akun</span>
     </a>
-  </li>
+  </li> -->
 
   <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/logout">

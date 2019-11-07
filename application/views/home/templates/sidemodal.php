@@ -239,6 +239,88 @@
   </div>
 </div>
 
+<div class="modal fade" id="keranjangmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Keranjang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body showKeranjang">
+      	<p class="text-center">Sedang Memuat data ...</p>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="profilmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Profil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<?php  
+      		$user_info = $this->Home_model->user_info($this->session->user_id);
+      		$bank_info = $this->Home_model->user_rekening($this->session->user_id);
+      	?>
+      	<form id="frmProfil">
+	      	<div class="row">
+	      		<div class="col-md-6">
+		      		<div class="form-group">
+		      			<label>Nama</label>
+		      			<input type="text" name="nama" class="form-control" required autocomplete="off" value="<?= $user_info['nama'] ?>">
+		      		</div>
+		      		<div class="form-group">
+		      			<label>Nomor HP</label>
+		      			<input type="number" name="nohp" class="form-control" required autocomplete="off" value="<?= $user_info['nohp'] ?>">
+		      		</div>
+		      		<div class="form-group">
+		      			<label>Alamat</label>
+		      			<input type="text" name="alamat" class="form-control" required autocomplete="off" value="<?= $user_info['alamat'] ?>">
+		      		</div>
+		      		<div class="form-group">
+		      			<label>Kota</label>
+		      			<input type="text" name="kota" class="form-control" required autocomplete="off" value="<?= $user_info['kota'] ?>">
+		      		</div>
+		      		<div class="form-group">
+		      			<label>Provinsi</label>
+		      			<input type="text" name="provinsi" class="form-control" required autocomplete="off" value="<?= $user_info['provinsi'] ?>">
+		      		</div>
+	      		</div>
+	      		<div class="col-md-6">
+	      			<div class="form-group">
+		      			<label>Nama Bank</label>
+		      			<input type="text" name="bankname" class="form-control" required autocomplete="off" value="<?= $bank_info['bankname'] ?>">
+		      		</div>
+		      		<div class="form-group">
+		      			<label>Nomor Rekening</label>
+		      			<input type="number" name="norek" class="form-control" required autocomplete="off" value="<?= $bank_info['norek'] ?>">
+		      		</div>
+		      		<div class="form-group">
+		      			<label>Atas Nama</label>
+		      			<input type="text" name="an" class="form-control" required autocomplete="off" value="<?= $bank_info['an'] ?>">
+		      		</div>
+	      		</div>
+	      	</div>
+      </div>
+      <div class="modal-footer">
+	      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+	      	<button type="submit" class="btn btn-primary mt-2 mb-2 mr-2">Save</button>
+      	</form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 	$(document).ready(function(){
 
@@ -275,6 +357,10 @@
 	    	$(".showListOrder").load( base_url + "home/order_show/" + id_user );
 	    }
 
+	    function loadKeranjang() {
+	    	$(".showKeranjang").load( base_url + "home/keranjang_show/" + id_user );
+	    }
+
 		$("#btnBuatLelang").on("click",function(){
 			$("#buatlelangmodal").modal("show");
 		});
@@ -294,6 +380,11 @@
 			$("#ordermodal").modal("show");
 		});
 
+		$("#btnKeranjang").on("click",function(){
+			loadKeranjang();
+			$("#keranjangmodal").modal("show");
+		});
+
 		$(".showLelang").on("click",".btnShowBidder",function(){
 			var id = $(this).attr("data-id");
 			loadBidData(id);
@@ -303,6 +394,10 @@
 		$("#btnTransaksi").on("click",function(){
 			loadTransaksi();
 			$("#transaksimodal").modal("show");
+		});
+
+		$("#btnProfil").on("click",function(){
+			$("#profilmodal").modal("show");
 		});
 
 		$(".showLelang").on("click",".btnDelete",function(){
@@ -407,6 +502,49 @@
 					if ( result == 0 ) {
 						swal("Sukses","Sukses mengubah status ke 'Deliver'","success");
 						loadOrder();
+					} else if ( result == 1 ) {
+						swal("Gagal","Kesalahan pada server","error");
+					}
+				}
+			});
+		});
+
+		$(".showKeranjang").on("click",".btnToReceived",function(){
+			var id = $(this).attr("data-id");
+			$.ajax({
+				url : base_url + "home/change_status_transaksi/received",
+				data : { id_transaksi : id },
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+						swal("Sukses","Sukses mengubah status ke 'Received'","success");
+						loadKeranjang();
+					} else if ( result == 1 ) {
+						swal("Gagal","Kesalahan pada server","error");
+					}
+				}
+			});
+		});
+
+		$("#frmProfil").on("submit",function(e){
+			e.preventDefault();
+			var formdata = new FormData(this);
+			formdata.append("id_user",id_user);
+			$.ajax({
+				url : base_url + "home/save_user_profil",
+				data : formdata,
+				cache : false,
+				processData	: false,
+				contentType : false,
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+						swal("Sukses","Sukses mengubah profil","success");
+						setTimeout(function(){
+							window.location = base_url + "home";
+						},500);
 					} else if ( result == 1 ) {
 						swal("Gagal","Kesalahan pada server","error");
 					}

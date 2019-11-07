@@ -105,4 +105,9 @@ class Admin_model extends CI_Model {
 			return 1;
 		}
 	}
+
+	public function get_home_statistics()
+	{
+		$requestpencairan = 
+	}
 }

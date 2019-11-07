@@ -201,6 +201,15 @@ class Lelang_model extends CI_Model {
 		return $this->db->get("tbltransaksi")->result_array();
 	}
 
+	public function get_all_transaksi($key = null, $value = null)
+	{
+		if ( !($key == null && $value == null) ) {
+			$this->db->where($key,$value);
+		}
+
+		return $this->db->get("tbltransaksi")->result_array();
+	}
+
 	public function get_transaksi($id_transaksi)
 	{
 		return $this->Func_model->get_data("tbltransaksi","id_transaksi",$id_transaksi);
@@ -219,9 +228,17 @@ class Lelang_model extends CI_Model {
 		$get_bid = $this->bid_info($get_transaksi['id_bid']);
 		$get_posting = $this->get_lelang($get_transaksi['id_posting']);
 
+		if ( $status == "deliver" ) {
+			$pesan = "Produk pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sedang dalam pengiriman";
+			$id_user = $get_transaksi['id_buyer'];
+		} elseif ( $status == "received" ) {
+			$pesan = "Produk pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah sampai ke buyer, harap tunggu pencairan dana dari Admin";
+			$id_user = $get_transaksi['id_seller'];
+		}
+
 		$data = [
-			"id_user" => $get_transaksi['id_buyer'],
-			"pesan" => "Produk pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sedang dalam pengiriman",
+			"id_user" => $id_user,
+			"pesan" => $pesan,
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -236,5 +253,11 @@ class Lelang_model extends CI_Model {
 		} else {
 			return 1;
 		}
+	}
+
+	public function get_list_keranjang($id_user)
+	{
+		$this->db->where("id_buyer",$id_user);
+		return $this->db->get("tbltransaksi")->result_array();
 	}
 }

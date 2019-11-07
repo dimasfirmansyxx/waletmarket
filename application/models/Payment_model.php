@@ -116,4 +116,29 @@ class Payment_model extends CI_Model {
 			return 1;
 		}
 	}
+
+	public function pencairan($id_transaksi)
+	{
+		$get_transaksi = $this->Lelang_model->get_transaksi($id_transaksi);
+		$get_posting = $this->Lelang_model->get_lelang($get_transaksi['id_posting']); 
+
+		$notif = [
+			"id_user" => $get_transaksi['id_seller'],
+			"pesan" => "Dana pada lelang <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dikirimkan oleh admin.",
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$notif);
+
+		$this->db->set("status","success");
+		$this->db->where("id_transaksi",$id_transaksi);
+		$update = $this->db->update("tbltransaksi");
+
+		if ( $update > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 }

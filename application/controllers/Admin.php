@@ -25,6 +25,7 @@ class Admin extends CI_Controller {
 	public function index()
 	{
 		$data['page_title'] = "Beranda";
+		$data['statistic_info'] = $this->Admin_model->get_home_statistics();
 		$this->load->view("admin/templates/head",$data);
 		$this->load->view("admin/templates/header");
 		$this->load->view("admin/home");
@@ -151,6 +152,45 @@ class Admin extends CI_Controller {
 		} elseif ( $status == "decline" ) {
 			$id_payment = $this->input->post("id_payment",true);
 			echo $this->Payment_model->decline_payment($id_payment);
+		}
+	}
+
+	public function pencairan($param = null)
+	{
+		if ( $param == null ) {
+			$data['page_title'] = "Pencairan dana";
+			$this->load->view("admin/templates/head",$data);
+			$this->load->view("admin/templates/header");
+			$this->load->view("admin/pencairan");
+			$this->load->view("admin/templates/footer");
+		} elseif ( $param == "selesai" ) {
+			$id_transaksi = $this->input->post("id_transaksi",true);
+			echo $this->Payment_model->pencairan($id_transaksi);
+		}
+	}
+
+	public function pencairan_data()
+	{
+		$data['page_title'] = "get_pencairan";
+		$data['datas'] = $this->Lelang_model->get_all_transaksi("status","received");
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/pencairan_data");
+	}
+
+	public function pencairan_info($info,$param)
+	{
+		if ( $info == "user" ) {
+			$id_user = $param;
+			$data['page_title'] = "get_user_info";
+			$data['user_info'] = $this->Home_model->user_info($id_user);
+			$this->load->view("admin/templates/head",$data);
+			$this->load->view("admin/pencairan_user_info");
+		} elseif ( $info == "rekening" ) {
+			$id_user = $param;
+			$data['page_title'] = "get_user_rekening";
+			$data['user_info'] = $this->Home_model->user_rekening($id_user);
+			$this->load->view("admin/templates/head",$data);
+			$this->load->view("admin/pencairan_rek_info");
 		}
 	}
 }

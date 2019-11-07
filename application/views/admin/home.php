@@ -7,14 +7,31 @@
 
     <div class="col-md-4">
       <div class="card shadow mb-4">
-        <div class="card-header py-3">
-          <h6 class="m-0 font-weight-bold text-primary">Harga : </h6>
-        </div>
         <div class="card-body">
-          The styling for this basic card example is created by using default Bootstrap utility classes. By using utility classes, the style of the card component can be easily modified with no need for any custom CSS!
+          <h3>2323</h3>
+          <h6>Permintaan Pencairan Dana</h6>
         </div>
       </div>
     </div>
+
+    <div class="col-md-4">
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <h3>2323</h3>
+          <h6>Lelang</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow mb-4">
+        <div class="card-body">
+          <h3>2323</h3>
+          <h6>Pembayaran Menunggu Konfirmasi</h6>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>

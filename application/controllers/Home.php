@@ -169,4 +169,33 @@ class Home extends CI_Controller {
 		$id_transaksi = $this->input->post("id_transaksi",true);
 		echo $this->Lelang_model->change_status_transaksi($id_transaksi,$status);
 	}
+
+	public function keranjang_show($id_user)
+	{
+		$data["page_title"] = "order_show";
+		$data["get_data"] = $this->Lelang_model->get_list_keranjang($id_user);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/keranjang_show");
+	}
+
+	public function save_user_profil()
+	{
+		$general = [
+			"nama" => $this->input->post("nama",true),
+			"nohp" => $this->input->post("nohp",true),
+			"alamat" => $this->input->post("alamat",true),
+			"kota" => $this->input->post("kota",true),
+			"provinsi" => $this->input->post("provinsi",true)
+		];
+
+		$bank = [
+			"bankname" => $this->input->post("bankname",true),
+			"norek" => $this->input->post("norek",true),
+			"an" => $this->input->post("an",true)
+		];
+
+		$id_user = $this->input->post("id_user",true);
+
+		echo $this->Home_model->edit_profil($general,$bank,$id_user);
+	}
 }
