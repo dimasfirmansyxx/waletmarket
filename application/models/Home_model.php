@@ -15,6 +15,7 @@ class Home_model extends CI_Model {
 	{
 		$this->db->order_by("id_notif","desc");
 		$this->db->where("id_user",$id_user);
+		$this->db->where("status","unread");
 		return $this->db->get("tblnotification")->result_array();
 	}
 
@@ -46,5 +47,12 @@ class Home_model extends CI_Model {
 		} else {
 			return 1;
 		}
+	}
+
+	public function clear_notif($id_notif)
+	{
+		$this->db->where("id_notif",$id_notif);
+		$this->db->set("status","read");
+		$this->db->update("tblnotification");
 	}
 }

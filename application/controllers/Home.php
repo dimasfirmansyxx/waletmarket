@@ -198,4 +198,10 @@ class Home extends CI_Controller {
 
 		echo $this->Home_model->edit_profil($general,$bank,$id_user);
 	}
+
+	public function clear_notif()
+	{
+		$id_notif = $this->input->post("id_notif",true);
+		$this->Home_model->clear_notif($id_notif);
+	}
 }
