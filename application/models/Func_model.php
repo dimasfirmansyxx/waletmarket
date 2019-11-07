@@ -38,6 +38,12 @@ class Func_model extends CI_Model {
 		}
 	}
 
+	public function num_rows($table,$key,$value)
+	{
+		$this->db->where($key,$value);
+		return $this->db->get($table)->num_rows();
+	}
+
 	public function upload_files($key,$directory,$allow_extension)
 	{
 		if ( $_FILES[$key]['error'] == 4 ) {

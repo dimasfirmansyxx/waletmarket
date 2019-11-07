@@ -108,6 +108,16 @@ class Admin_model extends CI_Model {
 
 	public function get_home_statistics()
 	{
-		$requestpencairan = 
+		$requestpencairan = $this->Func_model->num_rows("tbltransaksi","status","received");
+		$lelang = $this->Func_model->num_rows("tblposting","status","not");
+		$paymentwaitingconfirm = $this->Func_model->num_rows("tblpayment","status","waiting");
+
+		$arr = [
+			"req_pencairan" => $requestpencairan,
+			"lelang" => $lelang,
+			"payment_waiting_confirm" => $paymentwaitingconfirm
+		];
+
+		return $arr;
 	}
 }

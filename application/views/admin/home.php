@@ -8,7 +8,7 @@
     <div class="col-md-4">
       <div class="card shadow mb-4">
         <div class="card-body">
-          <h3>2323</h3>
+          <h3><?= number_format($statistic_info['req_pencairan']) ?></h3>
           <h6>Permintaan Pencairan Dana</h6>
         </div>
       </div>
@@ -17,7 +17,7 @@
     <div class="col-md-4">
       <div class="card shadow mb-4">
         <div class="card-body">
-          <h3>2323</h3>
+          <h3><?= number_format($statistic_info['lelang']) ?></h3>
           <h6>Lelang</h6>
         </div>
       </div>
@@ -26,7 +26,7 @@
     <div class="col-md-4">
       <div class="card shadow mb-4">
         <div class="card-body">
-          <h3>2323</h3>
+          <h3><?= number_format($statistic_info['payment_waiting_confirm']) ?></h3>
           <h6>Pembayaran Menunggu Konfirmasi</h6>
         </div>
       </div>
