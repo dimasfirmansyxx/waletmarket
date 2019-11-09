@@ -83,7 +83,8 @@ class Home extends CI_Controller {
 						"jenis" => $this->input->post("jenis",true)
 					];
 					foreach ($this->Func_model->get_all_jenis() as $jenis) {
-						$data[$jenis['id_jenis']] = $this->input->post($jenis['id_jenis'],true);
+						$data[$jenis['id_jenis'] . "0001"] = $this->input->post($jenis['id_jenis'] . "0001",true);
+						$data[$jenis['id_jenis'] . "0002"] = $this->input->post($jenis['id_jenis'] . "0002",true);
 					}
 
 					echo $this->Lelang_model->buat($data);

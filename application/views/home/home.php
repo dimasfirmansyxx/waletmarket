@@ -12,37 +12,67 @@
       </div>
       <div class="col-md-10">
         <h5><?= strtoupper($row['jenis']) ?> : <?= ucwords($row['judul']) ?></h5>
-        <h6 class="text-muted">
-          <?= $user_info['nama'] ?>
-        </h6>
-        <p>
-          <?= $user_info['alamat'] . ", " . $user_info['kota'] . ", " . $user_info['provinsi'] ?>.
-          <?= $user_info['nohp'] ?>
-        </p>
-        <?php if ( !($row['video'] == "") ): ?>
-          <video controls class="embed-responsive">
-            <source src="<?= base_url() ?>assets/video/post/<?= $row['video'] ?>" type="video/mp4">
-          </video>
-        <?php endif ?>
+        <h6>Info Postingan : </h6>
         <table class="table table-bordered mt-3">
           <?php foreach ($detailposting as $detail): ?>
             <tr>
               <th><?= ucwords($this->Func_model->get_jenis($detail['id_jenis'])['jenis']) ?></th>
-              <td><?= $detail['jumlah'] ?> <?= $this->Func_model->get_jenis($detail['id_jenis'])['satuan'] ?></td>
+              <td>
+                <?= $detail['jumlah'] ?> <?= $this->Func_model->get_jenis($detail['id_jenis'])['satuan'] ?>
+              </td>
+              <td>
+                Rp.<?= number_format($detail['harga']) ?>
+              </td>
             </tr>
           <?php endforeach ?>
           <tr>
             <th>Kadar</th>
-            <td><?= $row['kadar'] ?> %</td>
+            <td colspan="2"><?= $row['kadar'] ?> %</td>
           </tr>
           <tr>
             <th>Warna</th>
-            <td><?= ucwords($row['warna']) ?></td>
+            <td colspan="2"><?= ucwords($row['warna']) ?></td>
           </tr>
         </table>
-        <p>
-          <?= $row['remarks'] ?>
-        </p>
+        <?php if ( !($row['video'] == "") ): ?>
+          <h6>Video : </h6>
+          <video controls class="embed-responsive">
+            <source src="<?= base_url() ?>assets/video/post/<?= $row['video'] ?>" type="video/mp4">
+          </video>
+        <?php endif ?>
+
+        <?php if ( $row['jenis'] == "jual" ): ?>
+          <h6>Info Penjual :</h6>
+        <?php else: ?>
+          <h6>Info Pembeli :</h6>
+        <?php endif ?>
+        <table class="table table-bordered">
+          <tr>
+            <th width="150">Nama</th>
+            <td><?= $user_info['nama'] ?></td>
+          </tr>
+          <tr>
+            <th>Alamat</th>
+            <td><?= $user_info['alamat'] ?></td>
+          </tr>
+          <tr>
+            <th>Kota</th>
+            <td><?= $user_info['kota'] ?></td>
+          </tr>
+          <tr>
+            <th>Provinsi</th>
+            <td><?= $user_info['provinsi'] ?></td>
+          </tr>
+          <tr>
+            <th>Nomor HP</th>
+            <td><?= $user_info['nohp'] ?></td>
+          </tr>
+          <tr>
+            <th>Keterangan</th>
+            <td><?= $row['remarks'] ?></td>
+          </tr>
+        </table>
+        
         <?php if ( $this->session->user_logged ): ?>
           <?php if ( !($row['id_user'] == $this->session->user_id) ): ?>
             <button class="btn btn-primary btn-sm float-right btnPlaceBid" data-id="<?= $row['id_posting'] ?>">Place Bid</button>
