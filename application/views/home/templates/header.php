@@ -14,8 +14,8 @@
     </nav>
     <div class="container aa-header-content text-center text-white">
       <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
           <?php if ( !isset($jumbo_title) ): ?>
             <div class="card">
               <h5 class="card-header"><?= date("d F Y", strtotime($infoharga['tanggal'])) ?></h5>
@@ -25,7 +25,7 @@
                   <?php if ( !($key == "tanggal") ): ?>
                     <tr>
                       <td><?= ucwords($key) ?></td>
-                      <td>Rp.<?= number_format($value) ?>,-</td>
+                      <td><?= $value ?></td>
                     </tr>     
                   <?php endif ?>
                 <?php endforeach ?>
