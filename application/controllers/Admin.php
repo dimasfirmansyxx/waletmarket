@@ -65,7 +65,10 @@ class Admin extends CI_Controller {
 				"tanggal" => $this->input->post("tanggal",true),
 			];
 			foreach ($this->Func_model->get_all_jenis() as $jenis) {
-				$data[$jenis['id_jenis']] = $this->input->post($jenis['id_jenis'],true);
+				$rangeawal =  $this->input->post($jenis['id_jenis'] . "awal",true);
+				$rangeakhir =  $this->input->post($jenis['id_jenis'] . "akhir",true);
+				$finalrange = "Rp." . number_format($rangeawal) . " - " . "Rp." . number_format($rangeakhir);
+				$data[$jenis['id_jenis']] = $finalrange;
 			}
 
 			echo $this->Admin_model->tambah_info_harga($data);

@@ -2,7 +2,7 @@
 	<table class="table table-bordered" id="data_table">
 		<thead>
 		  <tr>
-		    <th width="50">#</th>
+		    <th width="20">#</th>
 		    <th>Tanggal</th>
 		    <?php foreach ($jenis as $row): ?>
 		    	<th><?= ucwords($row['jenis']) ?> (<?= $row['satuan'] ?>)</th>
@@ -19,7 +19,7 @@
 					<td><?= $i++ ?></td>
 					<td><?= $data['tanggal'] ?></td>
 					<?php foreach ($getprice as $price): ?>
-						<td>Rp.<?= number_format($price['harga']) ?></td>
+						<td><?= $price['harga'] ?></td>
 					<?php endforeach ?>
 				</tr>
 			<?php endforeach ?>

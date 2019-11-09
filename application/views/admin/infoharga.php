@@ -41,7 +41,14 @@
           <?php foreach ($jenis as $row): ?>
             <div class="form-group">
               <label><?= ucwords($row['jenis']) ?></label>
-              <input type="number" name="<?= $row['id_jenis'] ?>" class="form-control" required autocomplete="off">
+              <div class="row">
+                <div class="col-md-6">
+                  <input type="number" name="<?= $row['id_jenis'] ?>awal" class="form-control" required autocomplete="off" placeholder="Range Awal">
+                </div>
+                <div class="col-md-6">
+                  <input type="number" name="<?= $row['id_jenis'] ?>akhir" class="form-control" required autocomplete="off" placeholder="Range Akhir">
+                </div>
+              </div>
             </div>
           <?php endforeach ?>
       </div>
