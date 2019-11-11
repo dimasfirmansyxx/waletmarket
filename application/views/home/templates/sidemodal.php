@@ -38,16 +38,25 @@
 	        		</div>
 	        	</div>
 	        	<div class="col-md-6">
-	        		<?php $get = $this->Func_model->get_all_jenis(); ?>
-	        		<?php foreach ($get as $row): ?>
+	        		<?php $get_jenis = $this->Func_model->get_all_jenis(); ?>
+	        		<?php foreach ($get_jenis as $row): ?>
 	        			<div class="form-group">
-		        			<label><?= ucwords($row['jenis']) ?> (<?= $row['satuan'] ?>)</label>
+		        			<label><?= ucwords($row['jenis']) ?></label>
 		        			<div class="row">
+		        				<?php if ( $row['jenis'] == 'cong' ): ?>
+			        				<div class="col-md-6">
+			        					<label>Berat (<?= $row['satuan'] ?>)</label>
+					        			<input type="text" name="<?= $row['id_jenis'] ?>0001" class="form-control" required autocomplete="off" id="txtcong" placeholder="Jumlah" readonly value="0">
+			        				</div>
+	        					<?php else: ?>
+	        						<div class="col-md-6">
+			        					<label>Berat (<?= $row['satuan'] ?>)</label>
+					        			<input type="text" name="<?= $row['id_jenis'] ?>0001" class="form-control beratjenis" id="txt<?= $row['jenis'] ?>" required autocomplete="off" placeholder="Jumlah" value="0">
+			        				</div>
+		        				<?php endif ?>
 		        				<div class="col-md-6">
-				        			<input type="number" name="<?= $row['id_jenis'] ?>0001" class="form-control" required autocomplete="off" placeholder="Jumlah">
-		        				</div>
-		        				<div class="col-md-6">
-		        					<input type="number" name="<?= $row['id_jenis'] ?>0002" class="form-control" required autocomplete="off" placeholder="Harga">
+		        					<label>Harga</label>
+		        					<input type="text" name="<?= $row['id_jenis'] ?>0002" class="form-control hargaformat" required autocomplete="off" placeholder="Harga">
 		        				</div>
 		        			</div>
 		        		</div>
@@ -58,7 +67,13 @@
 	        		</div>
 	        		<div class="form-group">
 	        			<label>Warna</label>
-	        			<input type="text" name="warna" class="form-control" required autocomplete="off">
+	        			<select class="form-control" name="warna" required>
+	        				<option value="Putih Kapas">Putih Kapas</option>
+	        				<option value="Putih Beras">Putih Beras</option>
+	        				<option value="Cream">Cream</option>
+	        				<option value="Abu-abu">Abu-abu</option>
+	        				<option value="Kuning">Kuning</option>
+	        			</select>
 	        		</div>
 	        	</div>
 	        </div>
@@ -368,6 +383,28 @@
 	    	$(".showKeranjang").load( base_url + "home/keranjang_show/" + id_user );
 	    }
 
+	    function formatRupiah(angka, prefix){
+			var number_string = angka.replace(/[^,\d]/g, '').toString(),
+			split   		= number_string.split(','),
+			sisa     		= split[0].length % 3,
+			rupiah     		= split[0].substr(0, sisa),
+			ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+		 
+			// tambahkan titik jika yang di input sudah menjadi angka ribuan
+			if(ribuan){
+				separator = sisa ? '.' : '';
+				rupiah += separator + ribuan.join('.');
+			}
+		 
+			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+			return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
+		}
+
+		$(".hargaformat").on("keyup",function(e){
+			var get = formatRupiah($(this).val(),"");
+			$(this).val(get);
+		});	
+
 		$("#btnBuatLelang").on("click",function(){
 			$("#buatlelangmodal").modal("show");
 		});
@@ -405,6 +442,12 @@
 
 		$("#btnProfil").on("click",function(){
 			$("#profilmodal").modal("show");
+		});
+
+		$(".beratjenis").on("keyup",function(e){
+			var total;
+			total = parseFloat($("#txtmangkok").val()) + parseFloat($("#txtsudut").val()) + parseFloat($("#txtpatahan").val());
+			$("#txtcong").val(total);
 		});
 
 		$(".showLelang").on("click",".btnDelete",function(){

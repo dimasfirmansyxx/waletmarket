@@ -62,6 +62,8 @@ class Home extends CI_Controller {
 	public function lelang()
 	{
 		$url = $this->uri->segment(3);
+		// echo $this->input->post("30001",true);
+		// return;
 		if ( $url == "buat" ) {
 			$photo = $this->Func_model->upload_files("photo","img/post/",["jpg","jpeg","png","bmp"]);
 			if ( $photo == 4 ) {
