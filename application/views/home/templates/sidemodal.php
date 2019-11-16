@@ -446,7 +446,17 @@
 
 		$(".beratjenis").on("keyup",function(e){
 			var total;
-			total = parseFloat($("#txtmangkok").val()) + parseFloat($("#txtsudut").val()) + parseFloat($("#txtpatahan").val()) + parseFloat($("#txtkakian").val());
+			var mangkok = $("#txtmangkok").val();
+			var sudut = $("#txtsudut").val();
+			var patahan = $("#txtpatahan").val();
+			var kakian = $("#txtkakian").val();
+
+			mangkok = mangkok.replace(",",".");
+			sudut = sudut.replace(",",".");
+			patahan = patahan.replace(",",".");
+			kakian = kakian.replace(",",".");
+
+			total = parseFloat(mangkok) + parseFloat(sudut) + parseFloat(patahan) + parseFloat(kakian);
 			$("#txtcong").val(total);
 		});
 
