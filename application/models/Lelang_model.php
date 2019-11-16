@@ -63,7 +63,7 @@ class Lelang_model extends CI_Model {
 				$postingdetaildata = [
 					"id_posting" => $id_info,
 					"id_jenis" => $row["id_jenis"],
-					"jumlah" => $data[$row["id_jenis"] . "0001"],
+					"jumlah" => str_replace(",", ".", $data[$row["id_jenis"] . "0001"]),
 					"harga" => preg_replace("/[^A-Za-z0-9]/", "", $data[$row["id_jenis"] . "0002"]),
 				];
 				$insert = $this->db->insert("tblpostingdetail",$postingdetaildata);

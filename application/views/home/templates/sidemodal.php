@@ -446,7 +446,7 @@
 
 		$(".beratjenis").on("keyup",function(e){
 			var total;
-			total = parseFloat($("#txtmangkok").val()) + parseFloat($("#txtsudut").val()) + parseFloat($("#txtpatahan").val());
+			total = parseFloat($("#txtmangkok").val()) + parseFloat($("#txtsudut").val()) + parseFloat($("#txtpatahan").val()) + parseFloat($("#txtkakian").val());
 			$("#txtcong").val(total);
 		});
 
@@ -494,6 +494,7 @@
 					if ( result == 0 ) {
 			            swal("Sukses","Sukses membuat postingan","success");
 			            $(".btnClose").click();
+			            window.location = base_url + "home";
 			        } else if ( result == 401 ) {
 			            swal("Gagal","Gambar yang diupload harus berformat jpg, jpeg, png atau bmp","warning");
 			        } else if ( result == 402 ) {
