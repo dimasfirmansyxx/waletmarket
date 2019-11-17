@@ -8,6 +8,12 @@
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>home">Home</a></li>
+            <?php if ( $this->session->user_logged ): ?>
+              <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>home/logout">Logout</a></li>
+            <?php else : ?>    
+              <li class="nav-item"><a class="nav-link" href="#" id="btnLogin">Login</a></li>
+              <li class="nav-item"><a class="nav-link" href="#" id="btnRegister">Register</a></li>
+            <?php endif ?>
           </ul>
         </div>
       </div>

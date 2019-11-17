@@ -29,24 +29,12 @@
 					  <a class="list-group-item list-group-item-action" id="btnProfil">
 					  	Profil
 					  </a>
-					  <a href="<?= base_url() ?>home/logout" class="list-group-item list-group-item-action">
-					  	Logout
-					  </a>
 					</div>
 					<br>
 					<h3>Notification</h3>
 					<small>* klik untuk menghapus notifikasi</small>
 					<?php $this->load->view("home/templates/notif.php") ?>
 					<?php $this->load->view("home/templates/sidemodal.php") ?>
-				<?php else: ?>
-					<div class="list-group">
-					  <button class="list-group-item list-group-item-action" id="btnLogin">
-					    Login
-					  </button>
-					  <button class="list-group-item list-group-item-action" id="btnRegister">
-					  	Register
-					  </button>
-					</div>
 		    	<?php endif ?>
 		    </div>
 		  </div>
@@ -167,11 +155,13 @@
 
 	    alertClear();
 
-		$("#btnLogin").on("click",function(){
+		$("#btnLogin").on("click",function(e){
+			e.preventDefault();
 			$("#loginmodal").modal("show");
 		});
 
-		$("#btnRegister").on("click",function(){
+		$("#btnRegister").on("click",function(e){
+			e.preventDefault();
 			$("#registermodal").modal("show");
 		});
 
