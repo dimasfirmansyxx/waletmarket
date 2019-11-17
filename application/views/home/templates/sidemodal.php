@@ -383,7 +383,7 @@
 	    	$(".showKeranjang").load( base_url + "home/keranjang_show/" + id_user );
 	    }
 
-	    function formatRupiah(angka, prefix){
+	  function formatRupiah(angka, prefix){
 			var number_string = angka.replace(/[^,\d]/g, '').toString(),
 			split   		= number_string.split(','),
 			sisa     		= split[0].length % 3,

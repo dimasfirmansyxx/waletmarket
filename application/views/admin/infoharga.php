@@ -27,7 +27,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Tambah Jenis</h5>
+        <h5 class="modal-title">Tambah Harga</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -43,10 +43,10 @@
               <label><?= ucwords($row['jenis']) ?></label>
               <div class="row">
                 <div class="col-md-6">
-                  <input type="number" name="<?= $row['id_jenis'] ?>awal" class="form-control" required autocomplete="off" placeholder="Range Awal">
+                  <input type="text" name="<?= $row['id_jenis'] ?>awal" class="form-control" required autocomplete="off" placeholder="Range Awal">
                 </div>
                 <div class="col-md-6">
-                  <input type="number" name="<?= $row['id_jenis'] ?>akhir" class="form-control" required autocomplete="off" placeholder="Range Akhir">
+                  <input type="text" name="<?= $row['id_jenis'] ?>akhir" class="form-control" required autocomplete="off" placeholder="Range Akhir">
                 </div>
               </div>
             </div>
