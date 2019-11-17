@@ -24,7 +24,13 @@
                 <?php foreach ($infoharga as $key => $value): ?>
                   <?php if ( !($key == "tanggal") ): ?>
                     <tr>
-                      <td><?= ucwords($key) ?></td>
+                      <td>
+                        <?= ucwords($key) ?>
+                        <?php if ( $key == "cong 60:40" ): ?>
+                          <br>
+                          Kadar 2% - 5%  
+                        <?php endif ?>  
+                      </td>
                       <td><?= $value ?></td>
                     </tr>     
                   <?php endif ?>

@@ -5,73 +5,85 @@
       $detailposting = $this->Lelang_model->get_all_lelang_detail($row['id_posting']);
     ?>
     <div class="row mt-5">
-      <div class="col-md-2">
-        <a href="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" target="_blank">
-          <img src="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" class="img-fluid">
-        </a>
-      </div>
-      <div class="col-md-10">
+      <div class="col-md-12">
         <h5><?= strtoupper($row['jenis']) ?> : <?= ucwords($row['judul']) ?></h5>
-        <h6>Info Postingan : </h6>
-        <table class="table table-bordered mt-3">
-          <?php foreach ($detailposting as $detail): ?>
-            <tr>
-              <th><?= ucwords($this->Func_model->get_jenis($detail['id_jenis'])['jenis']) ?></th>
-              <td>
-                <?= $detail['jumlah'] ?> <?= $this->Func_model->get_jenis($detail['id_jenis'])['satuan'] ?>
-              </td>
-              <td>
-                Rp.<?= number_format($detail['harga']) ?>
-              </td>
-            </tr>
-          <?php endforeach ?>
-          <tr>
-            <th>Kadar</th>
-            <td colspan="2"><?= $row['kadar'] ?> %</td>
-          </tr>
-          <tr>
-            <th>Warna</th>
-            <td colspan="2"><?= ucwords($row['warna']) ?></td>
-          </tr>
-        </table>
-        <?php if ( !($row['video'] == "") ): ?>
-          <h6>Video : </h6>
-          <video controls class="embed-responsive">
-            <source src="<?= base_url() ?>assets/video/post/<?= $row['video'] ?>" type="video/mp4">
-          </video>
-        <?php endif ?>
 
-        <?php if ( $row['jenis'] == "jual" ): ?>
-          <h6>Info Penjual :</h6>
-        <?php else: ?>
-          <h6>Info Pembeli :</h6>
-        <?php endif ?>
-        <table class="table table-bordered">
-          <tr>
-            <th width="150">Nama</th>
-            <td><?= $user_info['nama'] ?></td>
-          </tr>
-          <tr>
-            <th>Alamat</th>
-            <td><?= $user_info['alamat'] ?></td>
-          </tr>
-          <tr>
-            <th>Kota</th>
-            <td><?= $user_info['kota'] ?></td>
-          </tr>
-          <tr>
-            <th>Provinsi</th>
-            <td><?= $user_info['provinsi'] ?></td>
-          </tr>
-          <tr>
-            <th>Nomor HP</th>
-            <td><?= $user_info['nohp'] ?></td>
-          </tr>
-          <tr>
-            <th>Keterangan</th>
-            <td><?= $row['remarks'] ?></td>
-          </tr>
-        </table>
+        <div class="row">
+          <div class="col-md-6">
+            <h6>Info Postingan : </h6>
+            <table class="table table-bordered mt-3">
+              <?php foreach ($detailposting as $detail): ?>
+                <tr>
+                  <th style="padding: 5px"><?= ucwords($this->Func_model->get_jenis($detail['id_jenis'])['jenis']) ?></th>
+                  <td style="padding: 5px">
+                    <?= $detail['jumlah'] ?> <?= $this->Func_model->get_jenis($detail['id_jenis'])['satuan'] ?>
+                  </td>
+                  <td style="padding: 5px">
+                    Rp.<?= number_format($detail['harga']) ?>
+                  </td>
+                </tr>
+              <?php endforeach ?>
+              <tr>
+                <th style="padding: 5px">Kadar</th>
+                <td colspan="2" style="padding: 5px"><?= $row['kadar'] ?> %</td>
+              </tr>
+              <tr>
+                <th style="padding: 5px">Warna</th>
+                <td colspan="2" style="padding: 5px"><?= ucwords($row['warna']) ?></td>
+              </tr>
+            </table>            
+          </div>
+          <div class="col-md-6">
+            <?php if ( $row['jenis'] == "jual" ): ?>
+              <h6>Info Penjual :</h6>
+            <?php else: ?>
+              <h6>Info Pembeli :</h6>
+            <?php endif ?>
+            <table class="table table-bordered">
+              <tr>
+                <th width="150" style="padding: 5px">Nama</th>
+                <td style="padding: 5px"><?= $user_info['nama'] ?></td>
+              </tr>
+              <tr>
+                <th style="padding: 5px">Alamat</th>
+                <td style="padding: 5px"><?= $user_info['alamat'] ?></td>
+              </tr>
+              <tr>
+                <th style="padding: 5px">Kota</th>
+                <td style="padding: 5px"><?= $user_info['kota'] ?></td>
+              </tr>
+              <tr>
+                <th style="padding: 5px">Provinsi</th>
+                <td style="padding: 5px"><?= $user_info['provinsi'] ?></td>
+              </tr>
+              <tr>
+                <th style="padding: 5px">Nomor HP</th>
+                <td style="padding: 5px"><?= $user_info['nohp'] ?></td>
+              </tr>
+              <tr>
+                <th style="padding: 5px">Keterangan</th>
+                <td style="padding: 5px"><?= $row['remarks'] ?></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <a href="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" target="_blank">
+              <img src="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" class="img-fluid">
+            </a>
+          </div>
+          <div class="col-md-6">
+            <?php if ( !($row['video'] == "") ): ?>
+              <h6>Video : </h6>
+              <video controls class="embed-responsive">
+                <source src="<?= base_url() ?>assets/video/post/<?= $row['video'] ?>" type="video/mp4">
+              </video>
+            <?php endif ?>
+          </div>
+        </div>
         
         <?php if ( $this->session->user_logged ): ?>
           <?php if ( !($row['id_user'] == $this->session->user_id) ): ?>
