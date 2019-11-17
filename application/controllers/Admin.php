@@ -67,7 +67,7 @@ class Admin extends CI_Controller {
 			foreach ($this->Func_model->get_all_jenis() as $jenis) {
 				$rangeawal =  $this->input->post($jenis['id_jenis'] . "awal",true);
 				$rangeakhir =  $this->input->post($jenis['id_jenis'] . "akhir",true);
-				$finalrange = "Rp." . number_format($rangeawal) . " - " . "Rp." . number_format($rangeakhir);
+				$finalrange = "Rp." . $rangeawal . " - " . "Rp." . $rangeakhir;
 				$data[$jenis['id_jenis']] = $finalrange;
 			}
 
