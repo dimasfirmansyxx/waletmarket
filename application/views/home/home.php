@@ -71,14 +71,15 @@
 
         <div class="row mb-2">
           <div class="col-md-6">
+            <h6>Photo : </h6>
             <a href="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" target="_blank">
-              <img src="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" class="img-fluid">
+              <img src="<?= base_url() ?>assets/img/post/<?= $row['photo'] ?>" class="img-fluid" height="250">
             </a>
           </div>
           <div class="col-md-6">
             <?php if ( !($row['video'] == "") ): ?>
               <h6>Video : </h6>
-              <video controls class="embed-responsive">
+              <video controls class="embed-responsive" height="250">
                 <source src="<?= base_url() ?>assets/video/post/<?= $row['video'] ?>" type="video/mp4">
               </video>
             <?php endif ?>
@@ -110,8 +111,8 @@
       <div class="modal-body">
         <form id="frmPlaceBid">
           <div class="form-group">
-            <label>Jumlah</label>
-            <input type="number" name="jumlah" class="form-control" required>
+            <label>Jumlah Bid</label>
+            <input type="text" name="jumlah" class="form-control hargaformat" required>
           </div>
           <div class="form-group">
             <label>Keterangan</label>
@@ -142,6 +143,28 @@
       $(".btnSave").removeAttr("disabled");
       $(".btnSave").html(word);
     }
+
+    function formatRupiah(angka, prefix){
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+      split       = number_string.split(','),
+      sisa        = split[0].length % 3,
+      rupiah        = split[0].substr(0, sisa),
+      ribuan        = split[0].substr(sisa).match(/\d{3}/gi);
+     
+      // tambahkan titik jika yang di input sudah menjadi angka ribuan
+      if(ribuan){
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+     
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
+    }
+
+    $(".hargaformat").on("keyup",function(e){
+      var get = formatRupiah($(this).val(),"");
+      $(this).val(get);
+    }); 
 
     $(".btnPlaceBid").on("click",function(){
       posting_selected = $(this).attr("data-id");

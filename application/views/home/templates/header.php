@@ -32,15 +32,15 @@
                     <tr>
                       <td>
                         <?= ucwords($key) ?>
-                        <?php if ( $key == "cong 60:40" ): ?>
-                          <br>
-                          Kadar 2% - 5%  
-                        <?php endif ?>  
                       </td>
                       <td><?= $value ?></td>
                     </tr>     
                   <?php endif ?>
                 <?php endforeach ?>
+                  <tr>
+                    <td>Kadar</td>
+                    <td>2% - 5%</td>
+                  </tr>
                 </table>
               </div>
             </div>

@@ -96,7 +96,7 @@ class Home extends CI_Controller {
 			$data = [
 				"id_user" => $this->input->post("id_user",true),
 				"id_posting" => $this->input->post("id_posting",true),
-				"jumlah" => $this->input->post("jumlah",true),
+				"jumlah" => str_replace(".", "", $this->input->post("jumlah",true)),
 				"remarks" => $this->input->post("remarks",true)
 			];
 

@@ -43,7 +43,7 @@
 	        			<div class="form-group">
 		        			<label><?= ucwords($row['jenis']) ?></label>
 		        			<div class="row">
-		        				<?php if ( $row['jenis'] == 'cong' ): ?>
+		        				<?php if ( $row['jenis'] == 'cong 60:40' ): ?>
 			        				<div class="col-md-6">
 			        					<label>Berat (<?= $row['satuan'] ?>)</label>
 					        			<input type="text" name="<?= $row['id_jenis'] ?>0001" class="form-control" required autocomplete="off" id="txtcong" placeholder="Jumlah" readonly value="0">
@@ -446,6 +446,7 @@
 
 		$(".beratjenis").on("keyup",function(e){
 			var total;
+      var plontos = $("#txtplontos").val();
 			var mangkok = $("#txtmangkok").val();
 			var sudut = $("#txtsudut").val();
 			var patahan = $("#txtpatahan").val();
@@ -454,9 +455,10 @@
 			mangkok = mangkok.replace(",",".");
 			sudut = sudut.replace(",",".");
 			patahan = patahan.replace(",",".");
-			kakian = kakian.replace(",",".");
+      kakian = kakian.replace(",",".");
+			plontos = plontos.replace(",",".");
 
-			total = parseFloat(mangkok) + parseFloat(sudut) + parseFloat(patahan) + parseFloat(kakian);
+			total = parseFloat(mangkok) + parseFloat(sudut) + parseFloat(patahan) + parseFloat(kakian) + parseFloat(plontos);
 			$("#txtcong").val(total);
 		});
 
