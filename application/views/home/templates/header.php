@@ -2,7 +2,7 @@
   <div class="aa-header">
     <nav class="navbar navbar-expand-md navbar-transparent">
       <div class="container">
-        <a class="navbar-brand px-0 py-0" href="#">
+        <a class="navbar-brand px-0 py-0" href="<?= base_url() ?>home">
           <img class="img-fluid pr-3 aa-logo-img" src="<?= base_url() ?>assets/img/core/logo.png" alt="logo">
         </a>
         <div class="collapse navbar-collapse">

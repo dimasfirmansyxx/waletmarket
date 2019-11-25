@@ -9,7 +9,7 @@
 			</p>
 		</div>
 		<div class="col-md-4">
-			<?php if ($post_data['status'] == "not"): ?>
+			<?php if ($post_data['status'] == "not" && $post_data['id_user'] == $this->session->user_id): ?>
 				<button class="btn btn-success float-right btn-sm" id="btnAcceptBid">Accept Bid</button><br>
 			<?php endif ?>
 			<h4 style="margin-top: 0;" class="text-right">
