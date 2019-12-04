@@ -110,10 +110,51 @@ class Lelang_model extends CI_Model {
 		];
 		$check = $this->Func_model->check_availability_multicondition("tblbid",$conditioncheck);
 		if ( $check == 3 ) {
-			$insert = $this->db->insert("tblbid",$data);
-			if ( $insert > 0 ) {
-				$get_seller_id = $this->Func_model->get_posting($data['id_posting']);
+			$postingdetail = $this->get_all_lelang_detail($data['id_posting']);
 
+			$jumlah = 0;
+			$berat = 0;
+			$fee = 0;
+			$ongkir = 0;
+
+			foreach ($postingdetail as $get) {
+				if ( $get['id_jenis'] == 6 ) {
+					$jumlah = $get['jumlah'] * $get['harga'];
+					$berat = $get['jumlah'];
+				}
+			}
+
+			if ( $jumlah >= 100000000 ) {
+				$fee = 3;
+			} else {
+				if ( $berat >= 10 ) {
+					$fee = 3;
+				} else {
+					$fee = 5;
+				}
+			}
+
+			$ongkir = ($berat * 1.3) * 34000;
+
+			$fee = $jumlah * $fee / 100;
+
+			$total = $jumlah + $fee + $ongkir;
+
+			$input = [
+				"id_user" => $data['id_user'],
+				"id_posting" => $data['id_posting'],
+				"jumlah" => $total,
+				"remarks" => ""
+			];
+
+			$insert = $this->db->insert("tblbid",$input);
+
+			$this->db->order_by("id_bid","desc");
+			$get_id_bid = $this->db->get("tblbid")->result_array()[0]['id_bid'];
+
+			$this->Lelang_model->accept_bid($get_id_bid);
+
+			if ( $insert > 0 ) {
 				return 0;
 			} else {
 				return 1;
@@ -169,14 +210,14 @@ class Lelang_model extends CI_Model {
 		$this->db->update("tblposting");
 
 		// give notification for buyer to do payment
-		$data = [
-			"id_user" => $id_buyer,
-			"pesan" => $pesan,
-			"link" => "",
-			"section" => "",
-			"status" => "unread"
-		];
-		$this->db->insert("tblnotification",$data);
+		// $data = [
+		// 	"id_user" => $id_buyer,
+		// 	"pesan" => $pesan,
+		// 	"link" => "",
+		// 	"section" => "",
+		// 	"status" => "unread"
+		// ];
+		// $this->db->insert("tblnotification",$data);
 
 		// insert data to 'tbltransaksi'
 		$data = [
@@ -254,6 +295,18 @@ class Lelang_model extends CI_Model {
 		} else {
 			return 1;
 		}
+	}
+
+	public function change_todeliver($data)
+	{
+		$this->db->insert("tblpengiriman",$data);
+
+		return $this->change_status_transaksi($data['id_transaksi'],"deliver");
+	}
+
+	public function get_info_pengiriman($id_transaksi)
+	{
+		return $this->Func_model->get_data("tblpengiriman","id_transaksi",$id_transaksi);
 	}
 
 	public function get_list_keranjang($id_user)

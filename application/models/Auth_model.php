@@ -32,6 +32,7 @@ class Auth_model extends CI_Model {
 			if ( password_verify($data['password'], $get['password']) ) {
 				$this->session->set_userdata("user_logged",true);
 				$this->session->set_userdata("user_id",$get['id_user']);
+				$this->session->set_userdata("user_jenis",$data['jenis']);
 				return 0;
 			} else {
 				return 5;

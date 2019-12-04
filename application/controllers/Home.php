@@ -46,7 +46,8 @@ class Home extends CI_Controller {
 	{
 		$data = [
 			"username" => $this->input->post("username",true),
-			"password" => $this->input->post("password",true)
+			"password" => $this->input->post("password",true),
+			"jenis" => $this->input->post("jenis",true)
 		];
 
 		echo $this->Auth_model->user_login($data);
@@ -56,14 +57,13 @@ class Home extends CI_Controller {
 	{
 		$this->session->unset_userdata("user_logged");
 		$this->session->unset_userdata("user_id");
+		$this->session->unset_userdata("user_jenis");
 		redirect( base_url() . "home" );
 	}
 
 	public function lelang()
 	{
 		$url = $this->uri->segment(3);
-		// echo $this->input->post("30001",true);
-		// return;
 		if ( $url == "buat" ) {
 			$photo = $this->Func_model->upload_files("photo","img/post/",["jpg","jpeg","png","bmp"]);
 			if ( $photo == 4 ) {
@@ -82,7 +82,7 @@ class Home extends CI_Controller {
 						"photo" => $photo,
 						"video" => $video,
 						"status" => "nonverif",
-						"jenis" => $this->input->post("jenis",true)
+						"jenis" => "jual"
 					];
 					foreach ($this->Func_model->get_all_jenis() as $jenis) {
 						$data[$jenis['id_jenis'] . "0001"] = $this->input->post($jenis['id_jenis'] . "0001",true);
@@ -104,6 +104,20 @@ class Home extends CI_Controller {
 		} elseif ( $url == "hapus" ) {
 			$id_posting = $this->input->post("id_posting",true);
 			echo $this->Lelang_model->hapus($id_posting);
+		}
+	}
+
+	public function transaksi($param)
+	{
+		if ( $param == "pesan" ) {
+			$data = [
+				"id_user" => $this->input->post("id_user",true),
+				"id_posting" => $this->input->post("id_posting",true),
+				"jumlah" => "",
+				"remarks" => ""
+			];
+
+			echo $this->Lelang_model->bid($data);
 		}
 	}
 
@@ -151,7 +165,7 @@ class Home extends CI_Controller {
 				"bankname" => $this->input->post("bankname",true),
 				"norek" => $this->input->post("norek",true),
 				"an" => $this->input->post("an",true),
-				"jumlah" => $this->input->post("jumlah",true),
+				"jumlah" => str_replace(".", "", $this->input->post("jumlah",true)),
 				"bukti" => $bukti,
 				"status" => "waiting"
 			];
@@ -173,12 +187,47 @@ class Home extends CI_Controller {
 		echo $this->Lelang_model->change_status_transaksi($id_transaksi,$status);
 	}
 
+	public function change_todeliver()
+	{
+		$noresi_photo = $this->Func_model->upload_files("noresi_photo","img/resi/",["jpg","jpeg","png","bmp"]);
+		if ( $noresi_photo == 4 ) {
+			echo 401;
+		} else {
+			$timbangan = $this->Func_model->upload_files("timbangan","img/timbangan/",["jpg","jpeg","png","bmp"]);
+			if ( $timbangan == 4 ) {
+				echo 401;
+			} else {
+				$video = $this->Func_model->upload_files("video","video/bahan/",["mp4","3gp","mkv","mov"]);
+				if ( $video == 4 ) {
+					echo 402;
+				} else {
+					$data = [
+						"id_transaksi" => $this->input->post("id_transaksi",true),
+						"noresi" => $this->input->post("noresi",true),
+						"noresi_photo" => $noresi_photo,
+						"timbangan" => $timbangan,
+						"video" => $video
+					];	
+					echo $this->Lelang_model->change_todeliver($data);
+				}
+			}
+		}
+	}
+
 	public function keranjang_show($id_user)
 	{
 		$data["page_title"] = "order_show";
 		$data["get_data"] = $this->Lelang_model->get_list_keranjang($id_user);
 		$this->load->view("home/templates/head",$data);
 		$this->load->view("home/keranjang_show");
+	}
+
+	public function infopengiriman_show($id_transaksi)
+	{
+		$data["page_title"] = "infopengiriman_show";
+		$data["get_data"] = $this->Lelang_model->get_info_pengiriman($id_transaksi);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/infopengiriman_show");
 	}
 
 	public function save_user_profil()

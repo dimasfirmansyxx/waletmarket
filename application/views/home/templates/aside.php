@@ -7,29 +7,28 @@
 		    	<?php if ( $this->session->user_logged ): ?>
 		    		<h3><?= $this->Home_model->user_info($this->session->user_id,"nama") ?></h3>
 		    		<h5>@<?= $this->Home_model->user_info($this->session->user_id,"username") ?></h5>
-					<div class="list-group mt-2" style="cursor: pointer;">
-					  <a class="list-group-item list-group-item-action" id="btnBuatLelang">
-					    Buat Lelang
-					  </a>
-					  <a class="list-group-item list-group-item-action" id="btnBid">
-					  	Bid Saya
-					  </a>
-					  <a class="list-group-item list-group-item-action" id="btnLelang">
-					  	Lelang
-					  </a>
-					  <a class="list-group-item list-group-item-action" id="btnTransaksi">
-					  	Transaksi
-					  </a>
-					  <a class="list-group-item list-group-item-action" id="btnOrder">
-					  	List Order
-					  </a>
-					  <a class="list-group-item list-group-item-action" id="btnKeranjang">
-					  	Keranjang
-					  </a>
-					  <a class="list-group-item list-group-item-action" id="btnProfil">
-					  	Profil
-					  </a>
-					</div>
+		    		<?php if ( $this->session->user_jenis == "pembeli" ): ?>
+						<div class="list-group mt-2" style="cursor: pointer;">
+						  <a class="list-group-item list-group-item-action" id="btnKeranjang">
+						  	Keranjang
+						  </a>
+						  <a class="list-group-item list-group-item-action" id="btnProfil">
+						  	Profil
+						  </a>
+						</div>
+					<?php else: ?>
+						<div class="list-group mt-2" style="cursor: pointer;">
+							<a class="list-group-item list-group-item-action" id="btnLelang">
+							  	Postingan
+							</a>
+							<a class="list-group-item list-group-item-action" id="btnOrder">
+								List Order
+							</a>
+							<a class="list-group-item list-group-item-action" id="btnProfil">
+								Profil
+							</a>
+						</div>
+		    		<?php endif ?>
 					<br>
 					<h3>Notification</h3>
 					<small>* klik untuk menghapus notifikasi</small>
@@ -67,6 +66,13 @@
 		        	<div class="form-group">
 		        		<label>Password</label>
 		        		<input type="password" name="password" class="form-control" required autocomplete="off">
+		        	</div>
+		        	<div class="form-group">
+		        		<label>Jenis</label>
+		        		<select class="form-control" name="jenis" required>
+		        			<option value="pembeli">Pembeli</option>
+		        			<option value="penjual">Penjual</option>
+		        		</select>
 		        	</div>
 		        	<button type="submit" class="btn btn-primary btn-block btnSave">Login</button>
 		        </form>
