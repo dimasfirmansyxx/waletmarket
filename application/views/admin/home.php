@@ -18,7 +18,7 @@
       <div class="card shadow mb-4">
         <div class="card-body">
           <h3><?= number_format($statistic_info['lelang']) ?></h3>
-          <h6>Lelang</h6>
+          <h6>Postingan</h6>
         </div>
       </div>
     </div>

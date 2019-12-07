@@ -120,4 +120,21 @@ class Admin_model extends CI_Model {
 
 		return $arr;
 	}
+
+	public function get_all_user()
+	{
+		return $this->db->get("tbluser")->result_array();
+	}
+
+	public function reset_password($data)
+	{
+		$this->db->set("password",$data['password']);
+		$this->db->where("id_user",$data['id_user']);
+		$update = $this->db->update("tbluser");
+		if ( $update > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 }

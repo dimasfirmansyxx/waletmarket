@@ -125,6 +125,7 @@
           if ( result == 0 ) {
             swal("Sukses","Sukses memasukkan ke keranjang belanja","success");
             $(".btnClose").click();
+            $("#btnKeranjang").click();
           } else if ( result == 2 ) {
             swal("Gagal","Anda telah menambahkan ke keranjang belanja","warning");
           } else if ( result == 1 ) {

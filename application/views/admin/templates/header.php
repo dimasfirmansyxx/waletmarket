@@ -21,6 +21,13 @@
     </a>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/pengguna">
+      <i class="fas fa-fw fa-user"></i>
+      <span>Konfigurasi Pengguna</span>
+    </a>
+  </li>
+
   <!-- <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/jenis">
       <i class="fas fa-fw fa-tag"></i>

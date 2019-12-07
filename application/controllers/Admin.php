@@ -196,4 +196,25 @@ class Admin extends CI_Controller {
 			$this->load->view("admin/pencairan_rek_info");
 		}
 	}
+
+	public function pengguna($param = null)
+	{
+		if ( $param == "resetpassword" ) {
+			$data = [
+				"id_user" => $this->input->post("id_user",true),
+				"password" => password_hash($this->input->post("password",true), PASSWORD_DEFAULT)
+			];
+
+			echo $this->Admin_model->reset_password($data);
+		} elseif ( $param == "bankinfo" ) {
+			echo json_encode($this->Home_model->user_rekening($this->input->post("id_user",true)));
+		} else {
+			$data['page_title'] = "Pengguna";
+			$data['get_data'] = $this->Admin_model->get_all_user();
+			$this->load->view("admin/templates/head",$data);
+			$this->load->view("admin/templates/header");
+			$this->load->view("admin/pengguna");
+			$this->load->view("admin/templates/footer");
+		}
+	}
 }
