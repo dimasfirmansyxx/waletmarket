@@ -4,9 +4,6 @@
 			<th>#</th>
 			<th>Seller</th>
 			<th>Postingan</th>
-			<th>Harga</th>
-			<th>Fee Transaksi</th>
-			<th>Ongkos Kirim</th>
 			<th>Total Bayar</th>
 			<th>Status</th>
 			<th>Aksi</th>
@@ -53,15 +50,15 @@
 						<?= ucwords($posting_info['judul']) ?>
 					</a>
 				</td>
-				<td>Rp.<?= number_format($harga) ?>,-</td>
-				<td>Rp.<?= number_format($fee) ?>,-</td>
-				<td>Rp.<?= number_format($ongkir) ?>,-</td>
 				<td>Rp.<?= number_format($bid_info['jumlah']) ?>,-</td>
 				<td><?= ucwords($row['status']) ?></td>
 				<td>
 					<?php if ( $row['status'] == "waiting" ): ?>
 						<button class="btn btn-info btn-sm btnDoPayment" data-id="<?= $row['id_transaksi'] ?>">
 							Lakukan Pembayaran
+						</button>
+						<button class="btn btn-warning btn-sm btnDetail" data-id="<?= $row['id_transaksi'] ?>">
+							Detail Jumlah Pembayaran
 						</button>
 					<?php elseif ( $row['status'] == "deliver" ): ?>
 						<button class="btn btn-primary btn-sm btnShowResi mt-1 mb-1" data-id="<?= $row['id_transaksi'] ?>">

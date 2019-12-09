@@ -82,6 +82,46 @@
   </div>
 </div>
 
+<div class="modal fade" id="detailmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tr>
+            <th>Subtotal</th>
+            <td id="lblSubtotal"></td>
+          </tr>
+          <tr>
+            <th>Fee Transaksi</th>
+            <td id="lblFee"></td>
+          </tr>
+          <tr>
+            <th>Ongkos Kirim</th>
+            <td id="lblOngkir"></td>
+          </tr>
+          <tr>
+            <th>Berat</th>
+            <td id="lblBerat"></td>
+          </tr>
+          <tr>
+            <th>TOTAL</th>
+            <th id="lblTotal"></th>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="profilmodal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -427,7 +467,7 @@
 					} else if ( result == 4 ) {
 						swal("Gagal","Pastikan format gambar adalah 'jpg,jpeg,png,bmp'");
 					} else if ( result == 5 ) {
-			            swal("Gagal","Pastikan transfer harus sama dengan harga total");
+            swal("Gagal","Pastikan transfer harus sama dengan harga total");
 					}
 				} 
 			});	
@@ -438,6 +478,34 @@
 			$(".showInfoPengiriman").load( base_url + "home/infopengiriman_show/" + id_transaksi);
 			$("#infopengirimanmodal").modal("show");
 		});
+
+    $(".showKeranjang").on("click",".btnDetail",function(){
+      id_transaksi = $(this).attr("data-id");
+      $.ajax({
+        url : base_url + "home/get_detail_price",
+        data : { id_transaksi : id_transaksi },
+        type : "post",
+        dataType : "json",
+        success : function(result) {
+          $("#lblSubtotal").html(result.subtotal);
+          $("#lblFee").html(result.fee);
+          $("#lblOngkir").html(result.ongkir);
+          $("#lblBerat").html(result.berat);
+          $("#lblTotal").html(result.total);
+          $("#detailmodal").modal("show");
+          $("#lblSubtotal").click();
+        }
+      });
+
+
+    });
+
+    $("#lblSubtotal").on("click",function(){
+      $("#lblSubtotal").html("Rp." + formatRupiah($("#lblSubtotal").html(),"") );
+      $("#lblFee").html("Rp." + formatRupiah($("#lblFee").html(),"") );
+      $("#lblOngkir").html("Rp." + formatRupiah($("#lblOngkir").html(),"") );
+      $("#lblTotal").html("Rp." + formatRupiah($("#lblTotal").html(),"") );
+    });
 
 		var selected_transaction;
 		$(".showListOrder").on("click",".btnToDeliver",function(){
