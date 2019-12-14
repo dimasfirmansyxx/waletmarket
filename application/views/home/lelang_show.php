@@ -17,6 +17,7 @@
 					</td>
 					<td>
 						<?php if ( $row['status'] == "not" ): ?>
+							<button class="btn btn-warning btn-sm btnEdit" data-id="<?= $row['id_posting'] ?>">Edit</button>
 							<button class="btn btn-danger btn-sm btnDelete" data-id="<?= $row['id_posting'] ?>">Hapus</button>
 						<?php endif ?>
 					</td>

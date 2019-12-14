@@ -23,11 +23,14 @@
 						<button class="btn btn-info btn-sm btnTransaksiSelesai" data-id="<?= $row['id_transaksi'] ?>">
 							Transaksi Selesai
 						</button>
+						<button class="btn btn-danger btn-sm btnPembayaran" data-id="<?= $row['id_transaksi'] ?>">
+							Info Pembayaran
+						</button>
 						<button class="btn btn-warning btn-sm btnShowRek" data-id="<?= $row['id_seller'] ?>">
-							Lihat info rekening
+							Info Rekening
 						</button>
 						<button class="btn btn-primary btn-sm btnShowInfo" data-id="<?= $row['id_seller'] ?>">
-							Lihat info seller
+							Info Seller
 						</button>
 					</td>
 				</tr>

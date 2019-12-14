@@ -8,6 +8,7 @@
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>home/page/cara-kerja-wallet-market">Cara Kerja</a></li>
             <?php if ( $this->session->user_logged ): ?>
               <li class="nav-item"><a class="nav-link" href="<?= base_url() ?>home/logout">Logout</a></li>
             <?php else : ?>    

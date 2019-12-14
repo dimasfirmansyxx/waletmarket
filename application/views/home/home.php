@@ -10,7 +10,6 @@
       include 'home_postingan.php';
     }
   ?>
-  
 </div>
 
 <script>

@@ -102,6 +102,30 @@ class Lelang_model extends CI_Model {
 		}
 	}
 
+	public function hapus_keranjang($id_transaksi)
+	{
+		$this->db->where("id_transaksi",$id_transaksi);
+		$this->db->delete("tblpayment");
+
+		$transaksi_info = $this->get_transaksi($id_transaksi);
+
+		$this->db->where("id_transaksi",$id_transaksi);
+		$this->db->delete("tbltransaksi");
+
+		$this->db->set("status","not");
+		$this->db->where("id_posting",$transaksi_info['id_posting']);
+		$this->db->update("tblposting");
+
+		$this->db->where("id_bid",$transaksi_info['id_bid']);
+		$delete = $this->db->delete("tblbid");
+
+		if ( $delete > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
 	public function bid($data)
 	{
 		$conditioncheck = [
@@ -114,7 +138,6 @@ class Lelang_model extends CI_Model {
 
 			$jumlah = 0;
 			$berat = 0;
-			$fee = 0;
 			$ongkir = 0;
 
 			foreach ($postingdetail as $get) {
@@ -124,21 +147,9 @@ class Lelang_model extends CI_Model {
 				}
 			}
 
-			if ( $jumlah >= 100000000 ) {
-				$fee = 3;
-			} else {
-				if ( $berat >= 10 ) {
-					$fee = 3;
-				} else {
-					$fee = 5;
-				}
-			}
-
 			$ongkir = ($berat * 1.3) * 34000;
 
-			$fee = $jumlah * $fee / 100;
-
-			$total = $jumlah + $fee + $ongkir;
+			$total = $jumlah + $ongkir;
 
 			$input = [
 				"id_user" => $data['id_user'],

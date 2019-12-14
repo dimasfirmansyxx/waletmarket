@@ -128,11 +128,42 @@ class Payment_model extends CI_Model {
 	public function pencairan($id_transaksi)
 	{
 		$get_transaksi = $this->Lelang_model->get_transaksi($id_transaksi);
+		$bid_info = $this->Lelang_model->bid_info($get_transaksi['id_bid']);
 		$get_posting = $this->Lelang_model->get_lelang($get_transaksi['id_posting']); 
+		$posting_detail = $this->Lelang_model->get_all_lelang_detail($get_transaksi['id_posting']);
+
+		$harga = 0;
+		$berat = 0;
+		$fee = 0;
+		$ongkir = 0;
+
+		foreach ($posting_detail as $get) {
+			if ( $get['id_jenis'] == 6 ) {
+				$harga = $get['jumlah'] * $get['harga'];
+				$berat = $get['jumlah'];
+			}
+		}
+
+		if ( $harga >= 100000000 ) {
+			$fee = 3;
+		} else {
+			if ( $berat >= 10 ) {
+				$fee = 3;
+			} else {
+				$fee = 5;
+			}
+		}
+		$fee = $harga * $fee / 100;
+
+		$ongkir = ($berat * 1.3) * 34000;
+
+		$total = $bid_info['jumlah'];
+
+		$totalpencairan = $total - $fee;
 
 		$notif = [
 			"id_user" => $get_transaksi['id_seller'],
-			"pesan" => "Dana pada postingan <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dikirimkan oleh admin.",
+			"pesan" => "Dana pada postingan <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dikirimkan oleh admin sebesar Rp." . number_format($totalpencairan) . ",- dan telah di potong fee sebesar Rp." . number_format($fee) . ",-.",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"

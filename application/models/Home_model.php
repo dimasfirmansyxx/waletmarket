@@ -55,4 +55,9 @@ class Home_model extends CI_Model {
 		$this->db->set("status","read");
 		$this->db->update("tblnotification");
 	}
+
+	public function get_page($link)
+	{
+		return $this->Func_model->get_data("tblpage","link",$link);
+	}
 }

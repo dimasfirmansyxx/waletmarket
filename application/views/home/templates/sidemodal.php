@@ -83,7 +83,7 @@
 </div>
 
 <div class="modal fade" id="detailmodal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Detail</h5>
@@ -96,10 +96,6 @@
           <tr>
             <th>Subtotal</th>
             <td id="lblSubtotal"></td>
-          </tr>
-          <tr>
-            <th>Fee Transaksi</th>
-            <td id="lblFee"></td>
           </tr>
           <tr>
             <th>Ongkos Kirim</th>
@@ -229,13 +225,13 @@
               </div>
               <div class="form-group">
                 <label>Jumlah Transfer</label>
-                <input type="text" name="jumlah" class="form-control hargaformat" required autocomplete="off">
+                <input type="text" name="jumlah" class="form-control hargaformat" id="txtjmltransfer" readonly>
               </div>
               <div class="form-group">
                 <label>Bukti</label>
                 <input type="file" name="bukti" class="form-control" required autocomplete="off">
               </div>
-              <button type="submit" class="btn btn-primary btn-sm btn-block">Submit</button>
+              <button type="submit" class="btn btn-primary btn-sm btn-block btnsubmitpayment">Submit</button>
             </form>
           </div>
         </div>
@@ -277,7 +273,7 @@
       </div>
       <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
-	        <button type="submit" class="btn btn-primary mr-2">Submit</button>
+	        <button type="submit" class="btn btn-primary mr-2 btnsubmitpengiriman">Submit</button>
         </form>
       </div>
     </div>
@@ -319,6 +315,16 @@
 	      $(".btnSave").removeAttr("disabled");
 	      $(".btnSave").html(word);
 	    }
+
+      function setButton(attribute,word) {
+        $(attribute).attr("disabled","disabled");
+        $(attribute).html(word);
+      }
+
+      function unsetButton(attribute,word) {
+        $(attribute).removeAttr("disabled");
+        $(attribute).html(word);
+      }
 
 	    function loadLelangData() {
 	    	$(".showLelang").load( base_url + "home/get_my_lelang/" + id_user );
@@ -373,6 +379,11 @@
 			loadBidData(id);
 			$("#biddermodel").modal("show");
 		});
+
+    $(".showLelang").on("click",".btnEdit",function(){
+      var id = $(this).attr("data-id");
+      window.location = base_url + "home/edit/" + id;
+    });
 
 		$("#btnTransaksi").on("click",function(){
 			loadTransaksi();
@@ -434,20 +445,58 @@
       $(this).val(get);
     }); 
 
+    $(".showKeranjang").on("click",".btnHapus",function(){
+      var id = $(this).attr("data-id");
+      setButton(".btnHapus","Menghapus...");
+      $.ajax({
+        url : base_url + "home/delete_keranjang",
+        data : { id_transaksi : id },
+        type : "post",
+        dataType : "text",
+        success : function(result) {
+          if ( result == 0 ) {
+            swal("Sukses","Pembayaran akan di verifikasi oleh Admin","success");
+            loadKeranjang();
+            setTimeout(function(){
+              window.location = base_url + "home";
+            },1000);
+          } else if ( result == 1 ) {
+            swal("Gagal","Kesalahan pada server","error");
+          }
+          unsetButton(".btnHapus","Hapus");
+        }
+      });
+    });
+
 		var id_transaksi;
 		$(".showKeranjang").on("click",".btnDoPayment",function(){
 			id_transaksi = $(this).attr("data-id");
 			$(".btnClose").click();
 			setTimeout(function(){
+        showtotalprice();
 				$("#dopaymentmodal").modal("show");
 			},500);
 		});
+
+    function showtotalprice() {
+      $.ajax({
+        url : base_url + "home/get_detail_price",
+        data : { id_transaksi : id_transaksi },
+        type : "post",
+        dataType : "json",
+        success : function(result) {
+          $("#txtjmltransfer").val(result.total);
+          $("#txtjmltransfer").val( formatRupiah($("#txtjmltransfer").val()) );
+        }
+      });
+    }
 
 		$("#frmBayar").on("submit",function(e){
 			e.preventDefault();
 			var formdata = new FormData(this);
 			formdata.append("id_transaksi",id_transaksi);
 			formdata.append("id_user",id_user);
+      setButton(".btnsubmitpayment","Menyimpan...");
 			$.ajax({
 				url : base_url + "home/do_payment",
 				data : formdata,
@@ -459,7 +508,7 @@
 				success : function(result) {
 					if ( result == 0 ) {
 						swal("Sukses","Pembayaran akan di verifikasi oleh Admin","success");
-			            $("#dopaymentmodal").modal("hide");
+            $("#dopaymentmodal").modal("hide");
 					} else if ( result == 2 ) {
 						swal("Gagal","Anda sudah melakukan pembayaran","warning");
 					} else if ( result == 1 ) {
@@ -469,6 +518,7 @@
 					} else if ( result == 5 ) {
             swal("Gagal","Pastikan transfer harus sama dengan harga total");
 					}
+          unsetButton(".btnsubmitpayment","Submit");
 				} 
 			});	
 		});
@@ -488,24 +538,21 @@
         dataType : "json",
         success : function(result) {
           $("#lblSubtotal").html(result.subtotal);
-          $("#lblFee").html(result.fee);
           $("#lblOngkir").html(result.ongkir);
-          $("#lblBerat").html(result.berat);
+          $("#lblBerat").html(result.berat + " kg");
           $("#lblTotal").html(result.total);
           $("#detailmodal").modal("show");
-          $("#lblSubtotal").click();
+          numberformat();
         }
       });
-
-
     });
 
-    $("#lblSubtotal").on("click",function(){
+    function numberformat() {
+      var detailongkir = " ( "+ $("#lblBerat").html() +" x (34000 x 1.3) | <b>Biaya Rp.34.000,-/kg</b> )";
       $("#lblSubtotal").html("Rp." + formatRupiah($("#lblSubtotal").html(),"") );
-      $("#lblFee").html("Rp." + formatRupiah($("#lblFee").html(),"") );
-      $("#lblOngkir").html("Rp." + formatRupiah($("#lblOngkir").html(),"") );
+      $("#lblOngkir").html("Rp." + formatRupiah($("#lblOngkir").html(),"") + detailongkir);
       $("#lblTotal").html("Rp." + formatRupiah($("#lblTotal").html(),"") );
-    });
+    }
 
 		var selected_transaction;
 		$(".showListOrder").on("click",".btnToDeliver",function(){
@@ -520,6 +567,7 @@
 			e.preventDefault();
 			var formdata = new FormData(this);
 			formdata.append("id_transaksi",selected_transaction);
+      setButton(".btnsubmitpengiriman","Menyimpan...");
 			$.ajax({
 				url : base_url + "home/change_todeliver",
 				data : formdata,
@@ -539,6 +587,7 @@
 					} else if ( result == 402 ) {
 						swal("Gagal","Pastikan format video adalah 'mp4,3gp,mkv,mov'");
 					}
+          setButton(".btnsubmitpengiriman","Submit");
 				} 
 			});	
 		});

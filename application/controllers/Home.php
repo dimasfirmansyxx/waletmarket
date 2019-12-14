@@ -26,6 +26,18 @@ class Home extends CI_Controller {
 		$this->load->view("home/templates/footer");
 	}
 
+	public function page($link)
+	{
+		$data['artikel'] = $this->Home_model->get_page($link);
+		$data['page_title'] = $data['artikel']['judul'];
+		$data['infoharga'] = $this->Func_model->get_last_infoharga();
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/templates/header");
+		$this->load->view("home/templates/aside");
+		$this->load->view("home/page");
+		$this->load->view("home/templates/footer");
+	}
+
 	public function register()
 	{
 		$data = [
@@ -222,6 +234,12 @@ class Home extends CI_Controller {
 		$this->load->view("home/keranjang_show");
 	}
 
+	public function delete_keranjang()
+	{
+		$id_transaksi = $this->input->post("id_transaksi",true);
+		echo $this->Lelang_model->hapus_keranjang($id_transaksi);
+	}
+
 	public function infopengiriman_show($id_transaksi)
 	{
 		$data["page_title"] = "infopengiriman_show";
@@ -295,5 +313,18 @@ class Home extends CI_Controller {
 
 		$return = ["subtotal" => $harga, "fee" => $fee, "ongkir" => $ongkir, "berat" => $berat, "total" => $total];
 		echo json_encode($return);
+	}
+
+	public function edit($id_posting)
+	{
+		$data['page_title'] = "Beranda";
+		$data['infoharga'] = $this->Func_model->get_last_infoharga();
+		$data['posting'] = $this->Lelang_model->get_lelang($id_posting);
+		$data['posting_detail'] = $this->Lelang_model->get_all_lelang_detail($id_posting);
+		$this->load->view("home/templates/head",$data);
+		$this->load->view("home/templates/header");
+		$this->load->view("home/templates/aside");
+		$this->load->view("home/home_penjual_edit");
+		$this->load->view("home/templates/footer");
 	}
 }
