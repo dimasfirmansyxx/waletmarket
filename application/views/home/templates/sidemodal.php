@@ -76,7 +76,7 @@
       	<p class="text-center">Sedang Memuat data ...</p>
       </div>
       <div class="modal-footer">
-      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      	<button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose keranjangClose" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -299,6 +299,54 @@
   </div>
 </div>
 
+<div class="modal fade" id="claimarbitrasemodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Arbitrase</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="frmArbitrase">
+          <div class="form-group">
+            <label>Keterangan</label>
+            <textarea class="form-control" required name="remarks" rows="5"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Bukti-bukti</label>
+            <input type="file" name="bukti[]" multiple="multiple" class="form-control" required>
+            <small>Tipe file yang diizinkan .jpg|.jpeg|.bmp|.png</small>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary mt-2 mb-2 mr-2 btnSave">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="arbitrasemodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Arbitrase</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body showArbitrase">
+        
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 	$(document).ready(function(){
@@ -610,6 +658,41 @@
 			});
 		});
 
+    $(".showKeranjang").on("click",".btnToArbitrase",function(){
+      id_transaksi = $(this).attr("data-id");
+      $(".keranjangClose").click();
+      $("#claimarbitrasemodal").modal("show");
+    });
+
+    $("#frmArbitrase").on("submit",function(e){
+      e.preventDefault();
+      var data = new FormData(this);
+      data.append("id_transaksi",id_transaksi);
+      setButtonSaving("Mengirim...");
+      $.ajax({
+        url : base_url + "home/arbitrase/claim",
+        data : data,
+        cache : false,
+        processData : false,
+        contentType : false,
+        type : "post",
+        dataType : "text",
+        success: function(result) {
+          if ( result == 0 ) {
+            swal("Sukses","Sukses melakukan arbitrase","success");
+            $("#claimarbitrasemodal").modal("hide");
+          } else if ( result == 2 ) {
+            swal("Gagal","Anda sudah melakukan arbitrase","warning");
+          } else if ( result == 1 ) {
+            swal("Gagal","Kesalahan pada server","error");
+          } else if ( result == 4 ) {
+            swal("Gagal","Pastikan format gambar adalah 'jpg,jpeg,png,bmp'");
+          } 
+          unsetButtonSaving("Submit");
+        }
+      });
+    });
+
 		$("#frmProfil").on("submit",function(e){
 			e.preventDefault();
 			var formdata = new FormData(this);
@@ -634,5 +717,12 @@
 				}
 			});
 		});
+
+    $("#btnArbitrase").on("click",function(){
+      $("#arbitrasemodal").modal("show");
+      $(".showArbitrase").html("Sedang Memuat ...");
+      $(".showArbitrase").load(base_url + "home/arbitrase/view");
+    });
+
 	});
 </script>

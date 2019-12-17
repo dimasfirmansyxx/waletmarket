@@ -30,6 +30,7 @@ class Home extends CI_Controller {
 	{
 		$data['artikel'] = $this->Home_model->get_page($link);
 		$data['page_title'] = $data['artikel']['judul'];
+		$data['jumbo_title'] = $data['artikel']['judul'];
 		$data['infoharga'] = $this->Func_model->get_last_infoharga();
 		$this->load->view("home/templates/head",$data);
 		$this->load->view("home/templates/header");
@@ -326,5 +327,35 @@ class Home extends CI_Controller {
 		$this->load->view("home/templates/aside");
 		$this->load->view("home/home_penjual_edit");
 		$this->load->view("home/templates/footer");
+	}
+
+	public function arbitrase($param)
+	{
+		if ( $param == "claim" ) {
+			$photo = $this->Func_model->multipleupload_files("bukti","img/arbitrase/",["jpg","jpeg","png","bmp"]);
+			$id_transaksi = $this->input->post("id_transaksi",true);
+
+			if ( $photo == 4 ) {
+				echo 4;
+			} else {
+				if ( $this->Func_model->check_availability("tblarbitrase","id_transaksi",$id_transaksi) == 2 ) {
+					echo 2;
+				} else {
+					$data = [
+						"id_transaksi" => $this->input->post("id_transaksi",true),
+						"remarks" => $this->input->post("remarks",true)
+					];
+
+					echo $this->Home_model->claim_arbitrase($data);
+
+					$this->Home_model->upload_arbitrase_media($photo);
+				}
+			}
+		} elseif ( $param == "view" ) {
+			$data["page_title"] = "arbitrase_show";
+			$data["get_data"] = $this->Home_model->get_arbitrase($this->session->user_id,$this->session->user_jenis);
+			$this->load->view("home/templates/head",$data);
+			$this->load->view("home/arbitrase_show");
+		}
 	}
 }

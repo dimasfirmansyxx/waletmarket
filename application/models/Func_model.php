@@ -67,6 +67,36 @@ class Func_model extends CI_Model {
 
 	}
 
+	public function multipleupload_files($key,$directory,$allow_extension)
+	{
+		if ( $_FILES[$key]['error'] == 4 ) {
+			return "";
+		} else {
+			$total = count($_FILES[$key]['name']);
+			$returnName = array();
+
+			for ($i=0; $i < $total; $i++) { 
+				$name = $_FILES[$key]['name'][$i];
+				$tmp = $_FILES[$key]['tmp_name'][$i];
+				$explodename = explode(".", $name);
+				$extension = strtolower(end($explodename));
+
+				if ( in_array($extension, $allow_extension) ) {
+					$newName = uniqid() . "." . $extension;
+					$dir = "./assets/" . $directory;
+					move_uploaded_file($tmp, $dir . $newName);
+
+					array_push($returnName, $newName);
+				} else {
+					return 4;
+				}
+			}
+
+			return $returnName;
+		}
+
+	}
+
 	public function get_data($table,$key,$value)
 	{
 		if ( $this->check_availability($table,$key,$value) == 2 ) {
@@ -135,6 +165,13 @@ class Func_model extends CI_Model {
 	public function get_posting($id_posting)
 	{
 		return $this->get_data("tblposting","id_posting",$id_posting);
+	}
+
+	public function get_last_id($table,$key)
+	{
+		$this->db->order_by($key,"desc");
+		$get = $this->db->get($table)->result_array();
+		return $get[0][$key];
 	}
 
 }

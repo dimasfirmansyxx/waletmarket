@@ -66,10 +66,13 @@
 							</button>
 						<?php elseif ( $row['status'] == "deliver" ): ?>
 							<button class="btn btn-primary btn-sm btnShowResi mt-1 mb-1" data-id="<?= $row['id_transaksi'] ?>">
-								Lihat Informasi Pengiriman
+								Info Pengiriman
 							</button>
-							<button class="btn btn-info btn-sm btnToReceived mt-1 mb-1" data-id="<?= $row['id_transaksi'] ?>">
-								Ganti Status Ke 'Received'
+							<button class="btn btn-success btn-sm btnToReceived mt-1 mb-1" data-id="<?= $row['id_transaksi'] ?>">
+								Konfirmasi
+							</button>
+							<button class="btn btn-danger btn-sm btnToArbitrase mt-1 mb-1" data-id="<?= $row['id_transaksi'] ?>">
+								Arbitrase
 							</button>
 						<?php endif ?>
 					</td>

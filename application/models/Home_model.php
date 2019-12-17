@@ -60,4 +60,95 @@ class Home_model extends CI_Model {
 	{
 		return $this->Func_model->get_data("tblpage","link",$link);
 	}
+
+	public function claim_arbitrase($data)
+	{
+		$transaksi = $this->Lelang_model->get_transaksi($data['id_transaksi']);
+		$postingan = $this->Lelang_model->get_lelang($transaksi['id_posting']);
+		$buyerinfo = $this->user_info($transaksi['id_buyer']);
+
+		$notif = [
+			"id_user" => $transaksi['id_seller'],
+			"pesan" => "Buyer ". $buyerinfo['nama'] ." telah melakukan arbitrase pada postingan " . $postingan['judul'] . ". Silahkan lakukan negosiasi pada menu arbitrase di atas",
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$notif);
+
+
+		$this->db->set("status","arbitrase");
+		$this->db->where("id_transaksi",$transaksi['id_transaksi']);
+		$this->db->update("tbltransaksi");
+
+		$insert = $this->db->insert("tblarbitrase",$data);
+		if ( $insert > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	public function upload_arbitrase_media($photo)
+	{
+		$id_arbitrase = $this->Func_model->get_last_id("tblarbitrase","id_arbitrase");
+
+		foreach ($photo as $item) {
+			$data = [
+				"id_arbitrase" => $id_arbitrase,
+				"image" => $item
+			];
+
+			$this->db->insert("tblarbitrasemedia",$data);
+		}
+	}
+
+	public function get_arbitrase($id_user,$jenis)
+	{
+		$returnresult = [];
+
+		$get = $this->db->get("tblarbitrase")->result_array();
+
+		foreach ($get as $row) {
+			$get_transaksi = $this->Lelang_model->get_transaksi($row['id_transaksi']);
+
+			if ( $jenis == "penjual" ) {
+				if ( $get_transaksi['id_seller'] == $id_user ) {
+					array_push($returnresult, $row);
+				}
+			} elseif ( $jenis == "pembeli" ) {
+				if ( $get_transaksi['id_buyer'] == $id_user ) {
+					array_push($returnresult, $row);
+				}
+			}
+		}
+
+		return $returnresult;
+	}
+
+	public function get_arbitrase_content($id_arbitrase)
+	{
+		return $this->Func_model->get_data("tblarbitrase","id_arbitrase",$id_arbitrase);
+	}
+
+	public function get_conversation($id_arbitrase)
+	{
+		return $this->Func_model->get_query("tblconversation","id_arbitrase",$id_arbitrase);
+	}
+
+	public function send_chat($data)
+	{
+		$insert = $this->db->insert("tblconversation",$data);
+		if ( $insert > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	public function get_arbitrase_media($id_arbitrase)
+	{
+		$this->db->where("id_arbitrase",$id_arbitrase);
+		return $this->db->get("tblarbitrasemedia")->result_array();
+	}
 }

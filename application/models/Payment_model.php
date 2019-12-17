@@ -62,7 +62,7 @@ class Payment_model extends CI_Model {
 		// give notification to seller
 		$data = [
 			"id_user" => $get_transaksi['id_seller'],
-			"pesan" => "Tagihan pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dibayar oleh Buyer. Silahkan siapkan produk, setelah mengirim barang, ubah status menjadi 'deliver'",
+			"pesan" => "Tagihan pada " . $get_posting['judul'] . " sudah dibayar oleh Buyer. Silahkan siapkan produk, setelah mengirim barang, ubah status menjadi 'deliver'",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -72,7 +72,7 @@ class Payment_model extends CI_Model {
 		// give notification to buyer
 		$data = [
 			"id_user" => $get_transaksi['id_buyer'],
-			"pesan" => "Tagihan pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> telah diterima oleh admin. Produk akan disiapkan oleh seller",
+			"pesan" => "Tagihan pada " . $get_posting['judul'] . " telah diterima oleh admin. Produk akan disiapkan oleh seller",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -106,7 +106,7 @@ class Payment_model extends CI_Model {
 		// give notification to seller
 		$data = [
 			"id_user" => $get_transaksi['id_buyer'],
-			"pesan" => "Tagihan pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> ditolak. Karena tidak memenuhi kriteria",
+			"pesan" => "Tagihan pada " . $get_posting['judul'] . " ditolak. Karena tidak memenuhi kriteria",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -163,7 +163,7 @@ class Payment_model extends CI_Model {
 
 		$notif = [
 			"id_user" => $get_transaksi['id_seller'],
-			"pesan" => "Dana pada postingan <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dikirimkan oleh admin sebesar Rp." . number_format($totalpencairan) . ",- dan telah di potong fee sebesar Rp." . number_format($fee) . ",-.",
+			"pesan" => "Dana pada postingan " . $get_posting['judul'] . " sudah dikirimkan oleh admin sebesar Rp." . number_format($totalpencairan) . ",- dan telah di potong fee sebesar Rp." . number_format($fee) . ",-.",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"

@@ -45,6 +45,13 @@
   <hr class="sidebar-divider">
 
   <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/arbitrase">
+      <i class="fas fa-fw fa-money-bill-wave"></i>
+      <span>Arbitrase</span>
+    </a>
+  </li>
+
+  <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/payment">
       <i class="fas fa-fw fa-money-bill-wave"></i>
       <span>Konfirmasi Pembayaran</span>

@@ -7,17 +7,15 @@
 		    	<?php if ( $this->session->user_logged ): ?>
 		    		<h3><?= $this->Home_model->user_info($this->session->user_id,"nama") ?></h3>
 		    		<h5>@<?= $this->Home_model->user_info($this->session->user_id,"username") ?></h5>
-		    		<?php if ( $this->session->user_jenis == "pembeli" ): ?>
-						<div class="list-group mt-2" style="cursor: pointer;">
+					<div class="list-group mt-2" style="cursor: pointer;">
+			    		<?php if ( $this->session->user_jenis == "pembeli" ): ?>
 						  <a class="list-group-item list-group-item-action" id="btnKeranjang">
 						  	Keranjang
 						  </a>
 						  <a class="list-group-item list-group-item-action" id="btnProfil">
 						  	Profil
 						  </a>
-						</div>
-					<?php else: ?>
-						<div class="list-group mt-2" style="cursor: pointer;">
+						<?php else: ?>
 							<a class="list-group-item list-group-item-action" id="btnLelang">
 							  	Postingan
 							</a>
@@ -27,8 +25,11 @@
 							<a class="list-group-item list-group-item-action" id="btnProfil">
 								Profil
 							</a>
-						</div>
-		    		<?php endif ?>
+			    		<?php endif ?>
+			    		<a class="list-group-item list-group-item-action" id="btnArbitrase">
+							Arbitrase
+						</a>
+					</div>
 					<br>
 					<h3>Notification</h3>
 					<small>* klik untuk menghapus notifikasi</small>

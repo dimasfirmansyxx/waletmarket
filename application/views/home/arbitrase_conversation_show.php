@@ -12,6 +12,22 @@
 					</div>
 				</div>
 			</div>
+		<?php elseif( $convers['id_user'] == "0" ): ?>
+			<div class="row mt-2">
+				<div class="col-2">
+					<img src="<?= base_url() ?>assets/img/core/verfied.png" class="img-fluid rounded-circle">
+				</div>
+				<div class="col-8">
+					<small class="text-muted">
+						<b><?= $this->Home_model->user_info($convers['id_user'],$show = "nama") ?></b>
+					</small>
+					<div class="card bg-secondary text-white">
+					  <div class="card-body">
+					    <?= $convers['remarks'] ?>
+					  </div>
+					</div>
+				</div>
+			</div>
 		<?php else: ?>
 			<div class="row mt-2">
 				<div class="col-2">

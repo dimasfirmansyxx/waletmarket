@@ -217,4 +217,60 @@ class Admin extends CI_Controller {
 			$this->load->view("admin/templates/footer");
 		}
 	}
+
+	public function arbitrase($param = null, $id_arbitrase = null)
+	{
+		if ( $param == null ) {
+			$data['page_title'] = "Arbitrase";
+			$this->load->view("admin/templates/head",$data);
+			$this->load->view("admin/templates/header");
+			$this->load->view("admin/arbitrase");
+			$this->load->view("admin/templates/footer");
+		} elseif ( $param == "chat" ) {
+			if ( $id_arbitrase == null ) {
+				redirect( base_url() . "admin/arbitrase" );
+			} else {
+				$data['page_title'] = "Arbitrase";
+				$data['convers_data'] = $this->Home_model->get_conversation($id_arbitrase);
+				$data['arbitrase_data'] = $this->Home_model->get_arbitrase_content($id_arbitrase);
+				$data['transaksi_info'] = $this->Lelang_model->get_transaksi($data['arbitrase_data']['id_transaksi']);
+				$data['buyer_info'] = $this->Home_model->user_info($data['transaksi_info']['id_buyer']);
+				$data['seller_info'] = $this->Home_model->user_info($data['transaksi_info']['id_seller']);
+				$data['media'] = $this->Home_model->get_arbitrase_media($id_arbitrase);
+				$this->load->view("admin/templates/head",$data);
+				$this->load->view("admin/templates/header");
+				$this->load->view("admin/arbitrase_chat");
+				$this->load->view("admin/templates/footer");
+			}
+		} elseif ( $param == "chat_conversation" ) {
+			if ( $id_arbitrase == null ) {
+				redirect( base_url() . "admin/arbitrase" );
+			} else {
+				$data['page_title'] = "chat_conversation";
+				$data['arbitrase_data'] = $this->Home_model->get_arbitrase_content($id_arbitrase);
+				$data['transaksi_info'] = $this->Lelang_model->get_transaksi($data['arbitrase_data']['id_transaksi']);
+				$data['convers_data'] = $this->Home_model->get_conversation($id_arbitrase);
+				$data['buyer_info'] = $this->Home_model->user_info($data['transaksi_info']['id_buyer']);
+				$data['seller_info'] = $this->Home_model->user_info($data['transaksi_info']['id_seller']);
+				$this->load->view("admin/templates/head",$data);
+				$this->load->view("admin/chat_conversation");
+			}
+		} elseif ( $param == "finish" ) {
+			$data = [
+				"id_arbitrase" => $this->input->post("id_arbitrase",true),
+				"danabuyer" => str_replace(".", "", $this->input->post("buyer",true)),
+				"danaseller" => str_replace(".", "", $this->input->post("seller",true))
+			];
+
+			echo $this->Admin_model->arbitrase_final($data);
+		}
+	}
+
+	public function arbitrase_data()
+	{
+		$data['page_title'] = "arbitrase_data";
+		$data['datas'] = $this->Admin_model->get_all_arbitrase();
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/arbitrase_data");
+	}
 }

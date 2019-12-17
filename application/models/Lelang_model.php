@@ -39,10 +39,6 @@ class Lelang_model extends CI_Model {
 		return $this->db->get("tblpostingdetail")->result_array();
 	}
 
-	public function get_conversation($id_bid)
-	{
-		return $this->Func_model->get_query("tblconversation","id_bid",$id_bid);
-	}
 
 	public function buat($data)
 	{
@@ -76,13 +72,6 @@ class Lelang_model extends CI_Model {
 
 	public function hapus($id_posting)
 	{
-		// hapus chat
-		$bidder = $this->get_bidder_lelang($id_posting);
-		foreach ($bidder as $row) {
-			$this->db->where("id_bid",$row['id_bid']);
-			$this->db->delete("tblconversation");
-		}
-
 		// hapus bid
 		$this->db->where("id_posting",$id_posting);
 		$this->db->delete("tblbid");
@@ -180,15 +169,6 @@ class Lelang_model extends CI_Model {
 		return $this->Func_model->get_data("tblbid","id_bid",$id_bid);
 	}
 
-	public function send_chat($data)
-	{
-		$insert = $this->db->insert("tblconversation",$data);
-		if ( $insert > 0 ) {
-			return 0;
-		} else {
-			return 1;
-		}
-	}
 
 	public function get_user_bid($id_user)
 	{
@@ -206,29 +186,17 @@ class Lelang_model extends CI_Model {
 			$id_buyer = $get_bid['id_user'];
 			$id_posting = $get_posting['id_posting'];
 			$id_bid = $id_bid;
-			$pesan = "Bid anda pada postingan <a href='". base_url() ."bid/conversation/". $id_bid ."' target='_blank'>". $get_posting['judul'] ."</a> dipilih sebagai pemenang. Silahkan lakukan pembayaran melalui menu 'Transaksi' diatas";
 		} elseif ( $get_posting['jenis'] == "beli" ) {
 			$id_seller = $get_bid['id_user'];
 			$id_buyer = $get_posting['id_user'];
 			$id_posting = $get_posting['id_posting'];
 			$id_bid = $id_bid;
-			$pesan = "Lelang anda <a href='". base_url() ."bid/conversation/". $id_bid ."' target='_blank'>". $get_posting['judul'] ."</a> sudah dipilih pemenangnya. Silahkan lakukan pembayaran melalui menu 'Transaksi' diatas";
 		}
 
 		// change posting status to 'sold'
 		$this->db->set("status","sold");
 		$this->db->where("id_posting",$id_posting);
 		$this->db->update("tblposting");
-
-		// give notification for buyer to do payment
-		// $data = [
-		// 	"id_user" => $id_buyer,
-		// 	"pesan" => $pesan,
-		// 	"link" => "",
-		// 	"section" => "",
-		// 	"status" => "unread"
-		// ];
-		// $this->db->insert("tblnotification",$data);
 
 		// insert data to 'tbltransaksi'
 		$data = [
@@ -282,10 +250,10 @@ class Lelang_model extends CI_Model {
 		$get_posting = $this->get_lelang($get_transaksi['id_posting']);
 
 		if ( $status == "deliver" ) {
-			$pesan = "Produk pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sedang dalam pengiriman";
+			$pesan = "Produk " . $get_posting['judul'] . " sedang dalam pengiriman";
 			$id_user = $get_transaksi['id_buyer'];
 		} elseif ( $status == "received" ) {
-			$pesan = "Produk pada <a href='". base_url() ."bid/conversation/". $get_transaksi['id_bid'] ."' target='_blank'>". $get_posting['judul'] ."</a> sudah sampai ke buyer, harap tunggu pencairan dana dari Admin";
+			$pesan = "Produk " . $get_posting['judul'] . " sudah sampai ke buyer, harap tunggu pencairan dana dari Admin";
 			$id_user = $get_transaksi['id_seller'];
 		}
 

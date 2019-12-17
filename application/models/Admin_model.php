@@ -111,11 +111,13 @@ class Admin_model extends CI_Model {
 		$requestpencairan = $this->Func_model->num_rows("tbltransaksi","status","received");
 		$lelang = $this->Func_model->num_rows("tblposting","status","not");
 		$paymentwaitingconfirm = $this->Func_model->num_rows("tblpayment","status","waiting");
+		$arbitrase = $this->Func_model->num_rows("tbltransaksi","status","arbitrase");
 
 		$arr = [
 			"req_pencairan" => $requestpencairan,
 			"lelang" => $lelang,
-			"payment_waiting_confirm" => $paymentwaitingconfirm
+			"payment_waiting_confirm" => $paymentwaitingconfirm,
+			"arbitrase" => $arbitrase
 		];
 
 		return $arr;
@@ -132,6 +134,58 @@ class Admin_model extends CI_Model {
 		$this->db->where("id_user",$data['id_user']);
 		$update = $this->db->update("tbluser");
 		if ( $update > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
+
+	public function get_all_arbitrase()
+	{
+		$get = $this->db->get("tblarbitrase")->result_array();
+		return $get;
+	}
+
+	public function arbitrase_final($data)
+	{
+		$arbitrase = $this->Home_model->get_arbitrase_content($data['id_arbitrase']);
+		$transaksi = $this->Lelang_model->get_transaksi($arbitrase['id_transaksi']);
+		$postingan = $this->Lelang_model->get_lelang($transaksi['id_posting']);
+		$buyer = $this->Home_model->user_info($transaksi['id_buyer']);
+		$seller = $this->Home_model->user_info($transaksi['id_seller']);
+
+		$notif = [
+			"id_user" => $buyer['id_user'],
+			"pesan" => "Arbitrase pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang dikembalikan sebesar Rp." . number_format($data['danabuyer']),
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$notif);
+
+		$notif = [
+			"id_user" => $seller['id_user'],
+			"pesan" => "Arbitrase pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang diberikan sebesar Rp." . number_format($data['danaseller']),
+			"link" => "",
+			"section" => "",
+			"status" => "unread"
+		];
+		$this->db->insert("tblnotification",$notif);
+
+		$this->db->set("status","success");
+		$this->db->where("id_transaksi",$transaksi['id_transaksi']);
+		$this->db->update("tbltransaksi");
+
+		$this->db->where("id_arbitrase",$data['id_arbitrase']);
+		$this->db->delete("tblarbitrasemedia");
+
+		$this->db->where("id_arbitrase",$data['id_arbitrase']);
+		$this->db->delete("tblconversation");
+
+		$this->db->where("id_arbitrase",$data['id_arbitrase']);
+		$delete = $this->db->delete("tblarbitrase");
+
+		if ( $delete > 0 ) {
 			return 0;
 		} else {
 			return 1;
