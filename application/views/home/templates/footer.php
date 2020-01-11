@@ -7,6 +7,7 @@
         <div class="row text-center">
           <div class="col-md-12">
             <p class="mt-3">Copyright &copy; <?= $this->Func_model->site_info("name") ?>. All rights reserved.</p>
+            Contact : <a href="mailto:contact@waletmarket.com">contact@waletmarket.com</a>
           </div>
         </div>
       </div>

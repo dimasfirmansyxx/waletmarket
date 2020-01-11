@@ -131,8 +131,8 @@ class Lelang_model extends CI_Model {
 
 			foreach ($postingdetail as $get) {
 				if ( $get['id_jenis'] == 6 ) {
-					$jumlah = $get['jumlah'] * $get['harga'];
-					$berat = $get['jumlah'];
+					$jumlah = round($get['jumlah']) * $get['harga'];
+					$berat = round($get['jumlah']);
 				}
 			}
 

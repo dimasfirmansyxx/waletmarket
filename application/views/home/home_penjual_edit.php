@@ -114,7 +114,6 @@
 
 	$(".beratjenis").on("keyup",function(e){
 		var total;
-		var plontos = $("#txtplontos").val();
 		var mangkok = $("#txtmangkok").val();
 		var sudut = $("#txtsudut").val();
 		var patahan = $("#txtpatahan").val();
@@ -124,9 +123,8 @@
 		sudut = sudut.replace(",",".");
 		patahan = patahan.replace(",",".");
 		kakian = kakian.replace(",",".");
-		plontos = plontos.replace(",",".");
 
-		total = parseFloat(mangkok) + parseFloat(sudut) + parseFloat(patahan) + parseFloat(kakian) + parseFloat(plontos);
+		total = parseFloat(mangkok) + parseFloat(sudut) + parseFloat(patahan) + parseFloat(kakian);
 		$("#txtcong").val(total);
 	});
 

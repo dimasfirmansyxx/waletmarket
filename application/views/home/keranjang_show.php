@@ -72,7 +72,7 @@
 								Konfirmasi
 							</button>
 							<button class="btn btn-danger btn-sm btnToArbitrase mt-1 mb-1" data-id="<?= $row['id_transaksi'] ?>">
-								Arbitrase
+								Komplain
 							</button>
 						<?php endif ?>
 					</td>

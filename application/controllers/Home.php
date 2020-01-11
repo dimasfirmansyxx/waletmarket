@@ -292,8 +292,8 @@ class Home extends CI_Controller {
 
 		foreach ($posting_detail as $get) {
 			if ( $get['id_jenis'] == 6 ) {
-				$harga = $get['jumlah'] * $get['harga'];
-				$berat = $get['jumlah'];
+				$harga = round($get['jumlah']) * $get['harga'];
+				$berat = round($get['jumlah']);
 			}
 		}
 

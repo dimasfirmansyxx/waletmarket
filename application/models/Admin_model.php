@@ -156,7 +156,7 @@ class Admin_model extends CI_Model {
 
 		$notif = [
 			"id_user" => $buyer['id_user'],
-			"pesan" => "Arbitrase pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang dikembalikan sebesar Rp." . number_format($data['danabuyer']),
+			"pesan" => "Komplain pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang dikembalikan sebesar Rp." . number_format($data['danabuyer']),
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -165,7 +165,7 @@ class Admin_model extends CI_Model {
 
 		$notif = [
 			"id_user" => $seller['id_user'],
-			"pesan" => "Arbitrase pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang diberikan sebesar Rp." . number_format($data['danaseller']),
+			"pesan" => "Komplain pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang diberikan sebesar Rp." . number_format($data['danaseller']),
 			"link" => "",
 			"section" => "",
 			"status" => "unread"

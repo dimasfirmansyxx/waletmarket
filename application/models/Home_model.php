@@ -69,7 +69,7 @@ class Home_model extends CI_Model {
 
 		$notif = [
 			"id_user" => $transaksi['id_seller'],
-			"pesan" => "Buyer ". $buyerinfo['nama'] ." telah melakukan arbitrase pada postingan " . $postingan['judul'] . ". Silahkan lakukan negosiasi pada menu arbitrase di atas",
+			"pesan" => "Buyer ". $buyerinfo['nama'] ." telah melakukan komplain pada postingan " . $postingan['judul'] . ". Silahkan lakukan negosiasi pada menu komplain di atas",
 			"link" => "",
 			"section" => "",
 			"status" => "unread"
@@ -94,6 +94,18 @@ class Home_model extends CI_Model {
 		$id_arbitrase = $this->Func_model->get_last_id("tblarbitrase","id_arbitrase");
 
 		foreach ($photo as $item) {
+			$data = [
+				"id_arbitrase" => $id_arbitrase,
+				"image" => $item
+			];
+
+			$this->db->insert("tblarbitrasemedia",$data);
+		}
+	}
+
+	public function attach_file_arbitrase($id_arbitrase,$files)
+	{
+		foreach ($files as $item) {
 			$data = [
 				"id_arbitrase" => $id_arbitrase,
 				"image" => $item
@@ -150,5 +162,49 @@ class Home_model extends CI_Model {
 	{
 		$this->db->where("id_arbitrase",$id_arbitrase);
 		return $this->db->get("tblarbitrasemedia")->result_array();
+	}
+
+	public function get_arbitrase_dana($id_arbitrase)
+	{
+		$this->db->where("id_arbitrase",$id_arbitrase);
+		$this->db->order_by("id_confirm","desc");
+		return $this->db->get("tblconfirmarbitrase")->result_array();
+	}
+
+	public function get_detail_price($id_transaksi)
+	{
+		$transaksi_info = $this->Lelang_model->get_transaksi($id_transaksi);
+		$bid_info = $this->Lelang_model->bid_info($transaksi_info['id_bid']);
+		$posting_info = $this->Lelang_model->get_lelang($transaksi_info['id_posting']);
+		$posting_detail = $this->Lelang_model->get_all_lelang_detail($transaksi_info['id_posting']);
+
+		$harga = 0;
+		$berat = 0;
+		$fee = 0;
+		$ongkir = 0;
+
+		foreach ($posting_detail as $get) {
+			if ( $get['id_jenis'] == 6 ) {
+				$harga = round($get['jumlah']) * $get['harga'];
+				$berat = round($get['jumlah']);
+			}
+		}
+
+		if ( $harga >= 100000000 ) {
+			$fee = 3;
+		} else {
+			if ( $berat >= 10 ) {
+				$fee = 3;
+			} else {
+				$fee = 5;
+			}
+		}
+		$fee = $harga * $fee / 100;
+
+		$ongkir = ($berat * 1.3) * 34000;
+
+		$total = $bid_info['jumlah'];
+
+		return ["subtotal" => $harga, "fee" => $fee, "ongkir" => $ongkir, "berat" => $berat, "total" => $total];
 	}
 }

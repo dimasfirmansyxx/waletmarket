@@ -2,7 +2,7 @@
 	<?php if ( $convers_data != 3 ): ?>
 		<?php foreach ($convers_data as $convers): ?>
 			<?php if ( $convers['id_user'] == "0" ): ?>
-				<div class="row mt-2">
+				<div class="row mt-1">
 					<div class="col-md-4"></div>
 					<div class="col-md-8">
 						<small class="text-muted">You</small>
@@ -14,7 +14,7 @@
 					</div>
 				</div>
 			<?php else: ?>
-				<div class="row mt-3">
+				<div class="row mt-1">
 					<div class="col-2">
 						<img src="<?= base_url() ?>assets/img/core/ava-square.png" class="img-fluid rounded-circle">
 					</div>

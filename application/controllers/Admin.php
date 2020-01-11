@@ -221,7 +221,7 @@ class Admin extends CI_Controller {
 	public function arbitrase($param = null, $id_arbitrase = null)
 	{
 		if ( $param == null ) {
-			$data['page_title'] = "Arbitrase";
+			$data['page_title'] = "Komplain";
 			$this->load->view("admin/templates/head",$data);
 			$this->load->view("admin/templates/header");
 			$this->load->view("admin/arbitrase");
@@ -230,7 +230,7 @@ class Admin extends CI_Controller {
 			if ( $id_arbitrase == null ) {
 				redirect( base_url() . "admin/arbitrase" );
 			} else {
-				$data['page_title'] = "Arbitrase";
+				$data['page_title'] = "Komplain";
 				$data['convers_data'] = $this->Home_model->get_conversation($id_arbitrase);
 				$data['arbitrase_data'] = $this->Home_model->get_arbitrase_content($id_arbitrase);
 				$data['transaksi_info'] = $this->Lelang_model->get_transaksi($data['arbitrase_data']['id_transaksi']);

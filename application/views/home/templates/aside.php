@@ -27,7 +27,7 @@
 							</a>
 			    		<?php endif ?>
 			    		<a class="list-group-item list-group-item-action" id="btnArbitrase">
-							Arbitrase
+							Komplain
 						</a>
 					</div>
 					<br>
@@ -163,6 +163,11 @@
 	    alertClear();
 
 		$("#btnLogin").on("click",function(e){
+			e.preventDefault();
+			$("#loginmodal").modal("show");
+		});
+
+		$("#btnTransaksiAman").on("click",function(e){
 			e.preventDefault();
 			$("#loginmodal").modal("show");
 		});
