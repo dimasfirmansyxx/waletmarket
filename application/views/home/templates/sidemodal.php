@@ -21,6 +21,40 @@
   </div>
 </div>
 
+<div class="modal fade" id="subsmodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Newsletter</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Update harga walet harian langsung ke HP Anda</p>
+        <form id="frmSubs">
+          <div class="form-group">
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>No HP</label>
+            <input type="number" name="nohp" class="form-control" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required autocomplete="off">
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary mt-2 mb-2 mr-2 btnClose" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary mt-2 mb-2 mr-2 btnSave">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="transaksimodal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -402,6 +436,11 @@
 			$("#buatlelangmodal").modal("show");
 		});
 
+    $("#btnNewsletter").on("click",function(e){
+      e.preventDefault();
+      $("#subsmodal").modal("show");
+    })
+
 		$("#btnLelang").on("click",function(){
 			loadLelangData();
 			$("#mylelangmodel").modal("show");
@@ -722,6 +761,30 @@
       $("#arbitrasemodal").modal("show");
       $(".showArbitrase").html("Sedang Memuat ...");
       $(".showArbitrase").load(base_url + "home/arbitrase/view");
+    });
+
+    $("#frmSubs").on("submit",function(e){
+      e.preventDefault();
+      var formdata = new FormData(this);
+      $.ajax({
+        url : base_url + "home/subscribe",
+        data : formdata,
+        cache : false,
+        processData : false,
+        contentType : false,
+        type : "post",
+        dataType : "text",
+        success : function(result) {
+          if ( result == 0 ) {
+            swal("Sukses","Sukses bergabung newsletter","success");
+            setTimeout(function(){
+              window.location = base_url + "home";
+            },500);
+          } else if ( result == 1 ) {
+            swal("Gagal","Kesalahan pada server","error");
+          }
+        }
+      });
     });
 
 	});

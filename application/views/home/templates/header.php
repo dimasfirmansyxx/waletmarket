@@ -28,6 +28,11 @@
                 Cara Kerja
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="#" id="btnNewsletter">
+                Subscribe Newsletter
+              </a>
+            </li>
             <?php if ( $this->session->user_logged ): ?>
               <li class="nav-item">
                 <a class="nav-link text-white" href="<?= base_url() ?>home/logout">Logout</a>

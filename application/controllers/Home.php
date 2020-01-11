@@ -358,4 +358,15 @@ class Home extends CI_Controller {
 			$this->load->view("home/arbitrase_show");
 		}
 	}
+
+	public function subscribe()
+	{
+		$data = [
+			"nama" => $this->input->post("nama",true),
+			"nohp" => $this->input->post("nohp",true),
+			"email" => $this->input->post("email",true)
+		];
+
+		echo $this->Home_model->subscribe($data);
+	}
 }

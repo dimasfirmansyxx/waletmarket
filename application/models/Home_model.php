@@ -223,4 +223,14 @@ class Home_model extends CI_Model {
 		$this->db->order_by("id_confirm","desc");
 		return $this->db->get("tblconfirmarbitrase")->result_array()[0];
 	}
+
+	public function subscribe($data)
+	{
+		$insert = $this->db->insert("tblnewsletter",$data);
+		if ( $insert > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 }
