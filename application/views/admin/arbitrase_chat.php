@@ -54,11 +54,37 @@
             <div class="col-12">
               <div class="row">
                 <?php foreach ($media as $row): ?>
-                  <div class="col-md-4">
-                    <a href="<?= base_url() ?>assets/img/arbitrase/<?= $row['image'] ?>" target="_blank">
-                      <img src="<?= base_url() ?>assets/img/arbitrase/<?= $row['image'] ?>" class="img-fluid">
-                    </a>
-                  </div>
+                  <?php 
+                    $filename = $row['image'];
+                    $explode = explode(".", $filename);
+                    $extension = strtolower(end($explode));
+                    $image = ["jpg","jpeg","png","bmp"];
+                  ?>
+                  <?php if ( in_array($extension, $image) ): ?>
+                    <div class="col-md-4 mt-2">
+                      <a href="<?= base_url() ?>assets/img/arbitrase/<?= $row['image'] ?>" target="_blank">
+                        <img src="<?= base_url() ?>assets/img/arbitrase/<?= $row['image'] ?>" class="img-fluid">
+                      </a>
+                    </div>
+                  <?php endif ?>
+                <?php endforeach ?>
+              </div>
+
+              <div class="row">
+                <?php foreach ($media as $row): ?>
+                  <?php 
+                    $filename = $row['image'];
+                    $explode = explode(".", $filename);
+                    $extension = strtolower(end($explode));
+                    $video = ["mp4","mkv","avi","3gp"];
+                  ?>
+                  <?php if ( in_array($extension, $video) ): ?>
+                    <div class="col-md-4 mt-2">
+                      <video controls class="embed-responsive" height="200">
+                        <source src="<?= base_url() ?>assets/img/arbitrase/<?= $row['image'] ?>" type="video/mp4">
+                            </video>
+                    </div>
+                  <?php endif ?>
                 <?php endforeach ?>
               </div>
             </div>

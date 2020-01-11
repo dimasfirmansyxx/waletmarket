@@ -98,7 +98,34 @@
 
 </div>
 
-
+<div class="modal fade" id="danamodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pengembalian Dana</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="frmPengembalian">
+        	<div class="form-group">
+        		<label>Dana ke seller</label>
+        		<input type="text" name="dana_seller" class="form-control hrrgggformat" required>
+        	</div>
+        	<div class="form-group">
+        		<label>Dana ke buyer</label>
+        		<input type="text" name="dana_buyer" class="form-control hrrgggformat" required>
+        	</div>
+      </div>
+      <div class="modal-footer">
+	        <button type="button" class="btn btn-sm btn-secondary mt-2 mb-2 mr-2 ml-2" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-sm btn-primary mt-2 mb-2 mr-2 ml-2 btnPengembalian">Save changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 	$(document).ready(function(){
@@ -130,7 +157,34 @@
 
 		setInterval(function(){
 			loadChat();
+			loadDana();
 		},1000);
+
+		function formatRupiah(angka, prefix){
+			var number_string = angka.replace(/[^,\d]/g, '').toString(),
+			split   		= number_string.split(','),
+			sisa     		= split[0].length % 3,
+			rupiah     		= split[0].substr(0, sisa),
+			ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+		 
+			// tambahkan titik jika yang di input sudah menjadi angka ribuan
+			if(ribuan){
+				separator = sisa ? '.' : '';
+				rupiah += separator + ribuan.join('.');
+			}
+		 
+			rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+			return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
+		}
+
+		$(".hrrgggformat").on("keyup",function(e){
+			var get = formatRupiah($(this).val(),"");
+			$(this).val(get);
+		});	
+
+		$(".btnTambahPengembalian").on("click",function(){
+			$("#danamodal").modal("show");
+		});
 
 		$("#frmChat").on("submit",function(e){
 			e.preventDefault();
@@ -147,6 +201,31 @@
 					} else {
 						swal("Gagal!","Kesalahan pada server","error");
 					}
+				}
+			});
+		});
+
+		$("#frmPengembalian").on("submit",function(e){
+			e.preventDefault();
+			setButton(".btnPengembalian","Saving...");
+			var data = new FormData(this);
+			data.append("id_arbitrase",id_arbitrase);
+			$.ajax({
+				url : base_url + "arbitrase/set_pengembalian",
+				data : data,
+				cache : false,
+				processData : false,
+				contentType : false,
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+						loadDana();
+						$("#danamodal").modal("hide");
+					} else {
+						swal("Gagal!","Kesalahan pada server","error");
+					}
+					unsetButton(".btnPengembalian","Save changes");
 				}
 			});
 		});

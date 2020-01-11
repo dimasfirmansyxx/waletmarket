@@ -38,11 +38,11 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label>Dana ke Seller</label>
-                <input type="text" name="seller" class="form-control hargaformat" required autocomplete="off">
+                <input type="text" name="seller" class="form-control hargaformat txtdanaseller" required autocomplete="off">
               </div>
               <div class="form-group">
                 <label>Dana ke Buyer</label>
-                <input type="text" name="buyer" class="form-control hargaformat" required autocomplete="off">
+                <input type="text" name="buyer" class="form-control hargaformat txtdanabuyer" required autocomplete="off">
               </div>
             </div>
             <div class="col-md-6">
@@ -189,6 +189,16 @@
       id_arbitrase = get.id_arbitrase;
       id_buyer = get.id_buyer;
       id_seller = get.id_seller;
+      $.ajax({
+        url : base_url + "arbitrase/get_pengembalian/" + id_arbitrase,
+        data : {},
+        type : "post",
+        dataType : "json",
+        success : function(result) {
+          $(".txtdanabuyer").val(formatRupiah(result.dana_buyer,""));
+          $(".txtdanaseller").val(formatRupiah(result.dana_seller,""));
+        }
+      });
       $(".btnrekbuyer").click();
       $("#arbitrasemodal").modal("show");
     });

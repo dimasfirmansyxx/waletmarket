@@ -9,8 +9,10 @@ class Admin extends CI_Controller {
 		$this->load->model("Home_model");
 		$this->load->model("Lelang_model");
 
-		if ( !$this->session->admin_logged ) {
-			if ( !$this->uri->segment(2) == "login" ) {
+		// var_dump($this->session->admin_logged);
+
+		if ( $this->session->admin_logged === false ) {
+			if ( !($this->uri->segment(2) === "login") ) {
 				redirect( base_url() . "admin/login" );
 			}
 		}

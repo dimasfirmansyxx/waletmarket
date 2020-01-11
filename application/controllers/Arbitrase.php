@@ -84,4 +84,20 @@ class Arbitrase extends CI_Controller {
 		$this->load->view("home/templates/head",$data);
 		$this->load->view("home/arbitrase_dana");
 	}
+
+	public function set_pengembalian()
+	{
+		$data = [
+			"id_arbitrase" => $this->input->post("id_arbitrase"),
+			"dana_buyer" => str_replace(".", "", $this->input->post("dana_buyer",true)),
+			"dana_seller" => str_replace(".", "", $this->input->post("dana_seller",true))
+		];
+
+		echo $this->Home_model->insert_pengembalian($data);
+	}
+
+	public function get_pengembalian($id_arbitrase)
+	{
+		echo json_encode($this->Home_model->get_pengembalian($id_arbitrase));
+	}
 }

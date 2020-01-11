@@ -177,6 +177,9 @@ class Admin_model extends CI_Model {
 		$this->db->update("tbltransaksi");
 
 		$this->db->where("id_arbitrase",$data['id_arbitrase']);
+		$this->db->delete("tblconfirmarbitrase");
+
+		$this->db->where("id_arbitrase",$data['id_arbitrase']);
 		$this->db->delete("tblarbitrasemedia");
 
 		$this->db->where("id_arbitrase",$data['id_arbitrase']);
