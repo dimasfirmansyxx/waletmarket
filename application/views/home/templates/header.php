@@ -2,19 +2,7 @@
   <div class="aa-header">
     <nav class="navbar navbar-expand-lg" style="background:transparent; box-shadow: none;">
       <div class="container">
-        <a class="navbar-brand" href="<?= base_url() ?>home">
-            <span style="color : #4E83E3">W</span>
-            <span style="color : #CD4641">A</span>
-            <span style="color : #EDC433">L</span>
-            <span style="color : #4E83E3">E</span>
-            <span style="color : #2E9752">T </span>
-            <span style="color : #CD4641">M</span>
-            <span style="color : #EDC433">A</span>
-            <span style="color : #4E83E3">R</span>
-            <span style="color : #2E9752">K</span>
-            <span style="color : #EDC433">E</span>
-            <span style="color : #4E83E3">T</span>
-        </a>
+        <img src="<?= base_url() ?>assets/img/core/logo.png" height=20>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="fa fa-bars" style="color: #fff;"></span>
         </button>
@@ -26,11 +14,6 @@
             <li class="nav-item">
               <a class="nav-link text-white" href="<?= base_url() ?>home/page/cara-kerja-wallet-market">
                 Cara Kerja
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text-white" href="#" id="btnNewsletter">
-                Subscribe Newsletter
               </a>
             </li>
             <?php if ( $this->session->user_logged ): ?>
@@ -45,7 +28,7 @@
                 <a class="nav-link text-white" href="#" id="btnRegister">Register</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-success text-white" href="#" id="btnTransaksiAman">Transaksi Aman</a>
+                
               </li>
             <?php endif ?>
             <li class="nav-item">
@@ -60,6 +43,12 @@
 
     <div class="container aa-header-content text-center text-white">
       <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 col-sm-12">
+          <a class="nav-link btn btn-success text-white" href="#" id="btnTransaksiAman">Transaksi Aman</a>
+        </div>
+      </div>
+      <div class="row mt-3">
         <div class="col-md-3"></div>
         <div class="col-md-6">
           <?php if ( !isset($jumbo_title) ): ?>
@@ -77,6 +66,10 @@
                     </tr>     
                   <?php endif ?>
                 <?php endforeach ?>
+                  <tr>
+                    <td>Warna</td>
+                    <td>Putih Kapas</td>
+                  </tr>
                   <tr>
                     <td>Kadar</td>
                     <td>2% - 5%</td>
