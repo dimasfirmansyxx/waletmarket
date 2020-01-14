@@ -275,4 +275,12 @@ class Admin extends CI_Controller {
 		$this->load->view("admin/templates/head",$data);
 		$this->load->view("admin/arbitrase_data");
 	}
+
+	public function arbitrase_dana($id_arbitrase)
+	{
+		$data['page_title'] = "arbitrase_dana";
+		$data['arbitrase_data'] = $this->Home_model->get_arbitrase_dana($id_arbitrase);
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/arbitrase_dana");
+	}
 }

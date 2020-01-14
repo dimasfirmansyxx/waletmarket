@@ -36,6 +36,7 @@
 						<a href="<?= base_url() ?>admin/arbitrase/chat/<?= $data['id_arbitrase'] ?>" class="btn btn-primary btn-sm">Chat</a>
 						<button class="btn btn-success btn-sm btnselesai" data-id='<?= json_encode($arr) ?>'>Selesai</button>
 						<button class="btn btn-warning btn-sm btndetail" data-id="<?= $data['id_transaksi'] ?>">Detail Biaya</button>
+						<button class="btn btn-danger btn-sm btndana" data-id="<?= $data['id_arbitrase'] ?>">Info Pengembalian Dana</button>
 					</td>
 				</tr>
 			<?php endforeach ?>

@@ -118,6 +118,25 @@
   </div>
 </div>
 
+<div class="modal fade" id="danamodal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Info Pengembalian dana</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body danaArea">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   $(document).ready(function() {
   
@@ -179,6 +198,12 @@
           numberformat();
         }
       });
+    });
+
+    $("#load_data_area").on("click",".btndana",function(){
+      $("#danamodal").modal("show");
+      var id_arbitrase = $(this).attr("data-id");
+      $(".danaArea").load(base_url + "admin/arbitrase_dana/" + id_arbitrase);
     });
 
     var id_arbitrase;
