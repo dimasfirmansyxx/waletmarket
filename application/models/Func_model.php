@@ -174,4 +174,33 @@ class Func_model extends CI_Model {
 		return $get[0][$key];
 	}
 
+	public function send_mail($destination,$subject,$message)
+	{
+		$config = [
+            'mailtype'  => 'html',
+            'charset'   => 'utf-8',
+            'protocol'  => 'smtp',
+            'smtp_host' => 'srv87.niagahoster.com',
+            'smtp_user' => 'no-reply@waletmarket.com',  // Email gmail
+            'smtp_pass'   => 'walet123',  // Password gmail
+            'smtp_crypto' => 'ssl',
+            'smtp_port'   => 465,
+            'crlf'    => "\r\n",
+            'newline' => "\r\n"
+        ];
+        $this->load->library('email', $config);
+
+        $this->email->from('no-reply@waletmarket.com', 'Walet Market (no-reply)');
+
+        $this->email->to($destination);
+        $this->email->subject($subject);
+
+        $this->email->message($message);
+
+        if ($this->email->send()) {
+            return 0;
+        } else {
+            return 1;
+        }
+	}
 }
