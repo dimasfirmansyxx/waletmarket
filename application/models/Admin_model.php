@@ -194,4 +194,21 @@ class Admin_model extends CI_Model {
 			return 1;
 		}
 	}
+
+	public function get_all_newsletter()
+	{
+		return $this->db->get("tblnewsletter")->result_array();
+	}
+
+	public function delete_newsletter($id_newsletter)
+	{
+		$this->db->where("id_newsletter",$id_newsletter);
+		$delete = $this->db->delete("tblnewsletter");
+
+		if ( $delete > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	}
 }

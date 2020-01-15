@@ -283,4 +283,29 @@ class Admin extends CI_Controller {
 		$this->load->view("admin/templates/head",$data);
 		$this->load->view("admin/arbitrase_dana");
 	}
+
+	public function newsletter()
+	{
+		$data['page_title'] = "Newsletter";
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/templates/header");
+		$this->load->view("admin/newsletter");
+		$this->load->view("admin/templates/footer");
+	}
+
+	public function newsletter_data()
+	{
+		$data['page_title'] = "newsletter_data";
+		$data['datas'] = $this->Admin_model->get_all_newsletter();
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/newsletter_data");
+	}
+
+	public function newsletter_action($action)
+	{
+		$id_newsletter = $this->input->post("id",true);
+		if ( $action == "delete" ) {
+			echo $this->Admin_model->delete_newsletter($id_newsletter);
+		}
+	}
 }

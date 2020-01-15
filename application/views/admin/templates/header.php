@@ -28,6 +28,13 @@
     </a>
   </li>
 
+  <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/newsletter">
+      <i class="fas fa-fw fa-envelope"></i>
+      <span>Newsletter</span>
+    </a>
+  </li>
+
   <!-- <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/jenis">
       <i class="fas fa-fw fa-tag"></i>
