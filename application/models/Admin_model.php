@@ -163,6 +163,8 @@ class Admin_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$notif);
 
+		$this->Func_model->send_mail($buyer['email'],"Komplain Selesai",$notif['pesan']);
+
 		$notif = [
 			"id_user" => $seller['id_user'],
 			"pesan" => "Komplain pada postingan " . $postingan['judul'] . " telah dinyatakan selesai oleh admin. Dana yang diberikan sebesar Rp." . number_format($data['danaseller']),
@@ -171,6 +173,8 @@ class Admin_model extends CI_Model {
 			"status" => "unread"
 		];
 		$this->db->insert("tblnotification",$notif);
+
+		$this->Func_model->send_mail($seller['email'],"Komplain Selesai",$notif['pesan']);
 
 		$this->db->set("status","success");
 		$this->db->where("id_transaksi",$transaksi['id_transaksi']);

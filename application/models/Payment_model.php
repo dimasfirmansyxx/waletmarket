@@ -53,6 +53,8 @@ class Payment_model extends CI_Model {
 		$get_transaksi = $this->Lelang_model->get_transaksi($get_payment['id_transaksi']);
 		$get_bid = $this->Lelang_model->bid_info($get_transaksi['id_bid']);
 		$get_posting = $this->Lelang_model->get_lelang($get_bid['id_posting']);
+		$sellerinfo = $this->Home_model->get_user($get_transaksi['id_seller']);
+		$buyerinfo = $this->Home_model->get_user($get_transaksi['id_buyer']);
 
 		// set payment to accepted
 		$this->db->set("status","accepted");
@@ -69,6 +71,8 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$data);
 
+		$this->Func_model->send_mail($sellerinfo['email'],"Tagihan sudah dibayarkan",$data['pesan']);
+
 		// give notification to buyer
 		$data = [
 			"id_user" => $get_transaksi['id_buyer'],
@@ -78,6 +82,8 @@ class Payment_model extends CI_Model {
 			"status" => "unread"
 		];
 		$this->db->insert("tblnotification",$data);
+
+		$this->Func_model->send_mail($buyerinfo['email'],"Tagihan telah diterima",$data['pesan']);
 
 		// set status to prepare
 		$this->db->set("status","prepare");
@@ -97,6 +103,7 @@ class Payment_model extends CI_Model {
 		$get_transaksi = $this->Lelang_model->get_transaksi($get_payment['id_transaksi']);
 		$get_bid = $this->Lelang_model->bid_info($get_transaksi['id_bid']);
 		$get_posting = $this->Lelang_model->get_lelang($get_bid['id_posting']);
+		$buyerinfo = $this->Home_model->get_user($get_transaksi['id_buyer']);
 
 		// set payment to declined
 		$this->db->set("status","declined");
@@ -113,6 +120,8 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$data);
 
+		$this->Func_model->send_mail($buyerinfo['email'],"Tagihan ditolak",$data['pesan']);
+		
 		// set status to prepare
 		$this->db->set("status","waiting");
 		$this->db->where("id_transaksi",$get_transaksi['id_transaksi']);
@@ -131,6 +140,7 @@ class Payment_model extends CI_Model {
 		$bid_info = $this->Lelang_model->bid_info($get_transaksi['id_bid']);
 		$get_posting = $this->Lelang_model->get_lelang($get_transaksi['id_posting']); 
 		$posting_detail = $this->Lelang_model->get_all_lelang_detail($get_transaksi['id_posting']);
+		$sellerinfo = $this->Home_model->get_user($get_transaksi['id_seller']);
 
 		$harga = 0;
 		$berat = 0;
@@ -170,6 +180,8 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$notif);
 
+		$this->Func_model->send_mail($sellerinfo['email'],"Dana sudah dikirimkan",$notif['pesan']);
+		
 		$this->db->set("status","success");
 		$this->db->where("id_transaksi",$id_transaksi);
 		$update = $this->db->update("tbltransaksi");

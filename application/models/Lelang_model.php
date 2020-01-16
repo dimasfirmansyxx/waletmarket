@@ -252,9 +252,15 @@ class Lelang_model extends CI_Model {
 		if ( $status == "deliver" ) {
 			$pesan = "Produk " . $get_posting['judul'] . " sedang dalam pengiriman";
 			$id_user = $get_transaksi['id_buyer'];
+			$getuser = $this->Home_model->user_info($id_user);
+
+			$this->Func_model->send_mail($getuser['email'],"Produk dalam pengiriman",$pesan);
 		} elseif ( $status == "received" ) {
 			$pesan = "Produk " . $get_posting['judul'] . " sudah sampai ke buyer, harap tunggu pencairan dana dari Admin";
 			$id_user = $get_transaksi['id_seller'];
+			$getuser = $this->Home_model->user_info($id_user);
+
+			$this->Func_model->send_mail($getuser['email'],"Produk sudah sampai ke buyer",$pesan);
 		}
 
 		$data = [
