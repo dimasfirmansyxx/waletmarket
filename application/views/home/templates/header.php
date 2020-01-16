@@ -2,7 +2,7 @@
   <div class="aa-header">
     <nav class="navbar navbar-expand-lg" style="background:transparent; box-shadow: none;">
       <div class="container">
-        <img src="<?= base_url() ?>assets/img/core/logo.png" height=20>
+        <img src="<?= base_url() ?>assets/img/core/logo.png" height=30>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="fa fa-bars" style="color: #fff;"></span>
         </button>
@@ -45,7 +45,7 @@
       <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4 col-sm-12">
-          <a class="nav-link btn btn-success text-white" href="#" id="btnTransaksiAman">Transaksi Aman</a>
+          <a class="nav-link btn btn-success text-white" style="font-size: 20pt; background-color: #74ED30; border-color: #74ED30" href="#" id="btnTransaksiAman">Transaksi Aman</a>
         </div>
       </div>
       <div class="row mt-3">

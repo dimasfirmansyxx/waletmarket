@@ -144,13 +144,12 @@
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <h5 class="modal-title">Newsletter</h5>
+		        <h3 style="margin-top: 0" class="modal-title">Update harga walet harian langsung ke HP Anda</h3>
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		          <span aria-hidden="true">&times;</span>
 		        </button>
 		      </div>
 		      <div class="modal-body">
-		        <p>Update harga walet harian langsung ke HP Anda</p>
 		        <form id="frmSubs">
 		          <div class="form-group">
 		            <label>Nama</label>
