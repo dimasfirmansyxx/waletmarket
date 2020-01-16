@@ -243,24 +243,28 @@ class Lelang_model extends CI_Model {
 		return $this->db->get("tbltransaksi")->result_array();
 	}
 
-	public function change_status_transaksi($id_transaksi,$status)
+	public function change_status_transaksi($id_transaksi,$status,$noresi = null,$attach = null)
 	{
 		$get_transaksi = $this->get_transaksi($id_transaksi);
 		$get_bid = $this->bid_info($get_transaksi['id_bid']);
 		$get_posting = $this->get_lelang($get_transaksi['id_posting']);
 
 		if ( $status == "deliver" ) {
-			$pesan = "Produk " . $get_posting['judul'] . " sedang dalam pengiriman";
+			$pesan = "Produk " . $get_posting['judul'] . " sedang dalam pengiriman dengan nomor resi $noresi. Berikut dilampirkan Resi, Foto Bahan, serta Video Bahan";
 			$id_user = $get_transaksi['id_buyer'];
 			$getuser = $this->Home_model->user_info($id_user);
-
-			$this->Func_model->send_mail($getuser['email'],"Produk dalam pengiriman",$pesan);
+			$media = [
+				base_url() . "assets/img/resi/" . $attach[0],
+				base_url() . "assets/img/timbangan/" . $attach[1],
+				base_url() . "assets/video/bahan/" . $attach[2],
+			];
+			$this->Func_model->send_mail($getuser['email'],$getuser['nama'],"Produk dalam pengiriman",$pesan,$media);
 		} elseif ( $status == "received" ) {
 			$pesan = "Produk " . $get_posting['judul'] . " sudah sampai ke buyer, harap tunggu pencairan dana dari Admin";
 			$id_user = $get_transaksi['id_seller'];
 			$getuser = $this->Home_model->user_info($id_user);
 
-			$this->Func_model->send_mail($getuser['email'],"Produk sudah sampai ke buyer",$pesan);
+			$this->Func_model->send_mail($getuser['email'],$getuser['nama'],"Produk sudah sampai ke buyer",$pesan);
 		}
 
 		$data = [
@@ -285,8 +289,8 @@ class Lelang_model extends CI_Model {
 	public function change_todeliver($data)
 	{
 		$this->db->insert("tblpengiriman",$data);
-
-		return $this->change_status_transaksi($data['id_transaksi'],"deliver");
+		$attach = [ $data['noresi_photo'], $data['timbangan'], $data['video'] ];
+		return $this->change_status_transaksi($data['id_transaksi'],"deliver",$data['noresi'],$attach);
 	}
 
 	public function get_info_pengiriman($id_transaksi)

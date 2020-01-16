@@ -314,9 +314,9 @@ class Admin extends CI_Controller {
 		if ( $param == "personal" ) {
 			$id_newsletter = $this->input->post("id_newsletter");
 			$subject = $this->input->post("subject",true);
-			$message = $this->input->post("message",true);
+			$message = $this->input->post("message");
 			$get_newsletter = $this->Func_model->get_data("tblnewsletter","id_newsletter",$id_newsletter);
-			$send = $this->Func_model->send_mail($get_newsletter['email'],$subject,$message);
+			$send = $this->Func_model->send_mail($get_newsletter['email'],$get_newsletter['nama'],$subject,$message);
 
 			if ( $send == 0 ) {
 				return 0;
@@ -325,11 +325,11 @@ class Admin extends CI_Controller {
 			}
 		} elseif ( $param == "broadcast" ) {
 			$subject = $this->input->post("subject",true);
-			$message = $this->input->post("message",true);
+			$message = $this->input->post("message");
 			$get = $this->Admin_model->get_all_newsletter();
 
 			foreach ($get as $row) {
-				$send = $this->Func_model->send_mail($row['email'],$subject,$message);
+				$send = $this->Func_model->send_mail($row['email'],$row['nama'],$subject,$message);
 				if ( !($send == 0) ) {
 					return 1;
 				}

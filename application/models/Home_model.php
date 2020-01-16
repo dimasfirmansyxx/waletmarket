@@ -77,7 +77,7 @@ class Home_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$notif);
 
-		$this->Func_model->send_mail($sellerinfo['email'],$buyerinfo['nama'] . "Melakukan komplain",$notif['pesan']);
+		$this->Func_model->send_mail($sellerinfo['email'],$buyerinfo['nama'],$buyerinfo['nama'] . " Melakukan komplain",$notif['pesan']);
 
 		$this->db->set("status","arbitrase");
 		$this->db->where("id_transaksi",$transaksi['id_transaksi']);

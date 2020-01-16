@@ -163,7 +163,7 @@ class Admin_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$notif);
 
-		$this->Func_model->send_mail($buyer['email'],"Komplain Selesai",$notif['pesan']);
+		$this->Func_model->send_mail($buyer['email'],$buyer['nama'],"Komplain Selesai",$notif['pesan']);
 
 		$notif = [
 			"id_user" => $seller['id_user'],
@@ -174,7 +174,7 @@ class Admin_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$notif);
 
-		$this->Func_model->send_mail($seller['email'],"Komplain Selesai",$notif['pesan']);
+		$this->Func_model->send_mail($seller['email'],$seller['nama'],"Komplain Selesai",$notif['pesan']);
 
 		$this->db->set("status","success");
 		$this->db->where("id_transaksi",$transaksi['id_transaksi']);

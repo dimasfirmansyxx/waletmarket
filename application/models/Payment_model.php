@@ -71,7 +71,7 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$data);
 
-		$this->Func_model->send_mail($sellerinfo['email'],"Tagihan sudah dibayarkan",$data['pesan']);
+		$this->Func_model->send_mail($sellerinfo['email'],$sellerinfo['nama'],"Tagihan sudah dibayarkan",$data['pesan']);
 
 		// give notification to buyer
 		$data = [
@@ -83,7 +83,7 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$data);
 
-		$this->Func_model->send_mail($buyerinfo['email'],"Tagihan telah diterima",$data['pesan']);
+		$this->Func_model->send_mail($buyerinfo['email'],$buyerinfo['nama'],"Tagihan telah diterima",$data['pesan']);
 
 		// set status to prepare
 		$this->db->set("status","prepare");
@@ -120,7 +120,7 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$data);
 
-		$this->Func_model->send_mail($buyerinfo['email'],"Tagihan ditolak",$data['pesan']);
+		$this->Func_model->send_mail($buyerinfo['email'],$buyerinfo['nama'],"Tagihan ditolak",$data['pesan']);
 		
 		// set status to prepare
 		$this->db->set("status","waiting");
@@ -180,7 +180,7 @@ class Payment_model extends CI_Model {
 		];
 		$this->db->insert("tblnotification",$notif);
 
-		$this->Func_model->send_mail($sellerinfo['email'],"Dana sudah dikirimkan",$notif['pesan']);
+		$this->Func_model->send_mail($sellerinfo['email'],$sellerinfo['nama'],"Dana sudah dikirimkan",$notif['pesan']);
 		
 		$this->db->set("status","success");
 		$this->db->where("id_transaksi",$id_transaksi);
