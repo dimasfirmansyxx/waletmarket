@@ -4,6 +4,7 @@
 			<th>#</th>
 			<th>Dana ke Buyer</th>
 			<th>Dana ke Seller</th>
+			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -13,6 +14,7 @@
 				<td><?= $i++ ?></td>
 				<td><?= number_format($row['dana_buyer']) ?></td>
 				<td><?= number_format($row['dana_seller']) ?></td>
+				<td><?= ucwords($row['status']) ?></td>
 			</tr>
 		<?php endforeach ?>
 	</tbody>
