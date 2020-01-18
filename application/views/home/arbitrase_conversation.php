@@ -155,10 +155,10 @@
 		loadChat();
 		loadDana();
 
-		setInterval(function(){
-			loadChat();
-			loadDana();
-		},1000);
+		// setInterval(function(){
+		// 	loadChat();
+		// 	loadDana();
+		// },1000);
 
 		function formatRupiah(angka, prefix){
 			var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -210,6 +210,7 @@
 			setButton(".btnPengembalian","Saving...");
 			var data = new FormData(this);
 			data.append("id_arbitrase",id_arbitrase);
+			data.append("id_user",id_user);
 			$.ajax({
 				url : base_url + "arbitrase/set_pengembalian",
 				data : data,
@@ -220,8 +221,8 @@
 				dataType : "text",
 				success : function(result) {
 					if ( result == 0 ) {
-						loadDana();
 						$("#danamodal").modal("hide");
+						loadDana();
 					} else {
 						swal("Gagal!","Kesalahan pada server","error");
 					}
@@ -252,6 +253,46 @@
 						swal("Gagal","Kesalahan pada server","error");
 					}
 					unsetButton(".btnSave","Upload");
+				}
+			});
+		});
+
+		$(".danaArea").on("click",".btnkonfirmasi",function(){
+			setButton(this,"Proses...");
+			var id = $(this).attr("data-id");
+			$.ajax({
+				url : base_url + "arbitrase/confirm_pengembalian",
+				data : { id_confirm : id },
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+				        swal("Sukses","Sukses konfirmasi pengembalian dana","success");
+				        loadDana();
+					} else {
+						swal("Gagal","Kesalahan pada server","error");
+					}
+					unsetButton(".btnkonfirmasi","Konfirmasi");
+				}
+			});
+		});
+
+		$(".danaArea").on("click",".btntolak",function(){
+			setButton(this,"Proses...");
+			var id = $(this).attr("data-id");
+			$.ajax({
+				url : base_url + "arbitrase/decline_pengembalian",
+				data : { id_confirm : id },
+				type : "post",
+				dataType : "text",
+				success : function(result) {
+					if ( result == 0 ) {
+				        swal("Sukses","Sukses tolak pengembalian dana","success");
+				        loadDana();
+					} else {
+						swal("Gagal","Kesalahan pada server","error");
+					}
+					unsetButton(".btntolak","Tolak");
 				}
 			});
 		});

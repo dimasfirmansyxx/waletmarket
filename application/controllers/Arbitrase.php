@@ -89,8 +89,10 @@ class Arbitrase extends CI_Controller {
 	{
 		$data = [
 			"id_arbitrase" => $this->input->post("id_arbitrase"),
+			"id_user" => $this->input->post("id_user",true),
 			"dana_buyer" => str_replace(".", "", $this->input->post("dana_buyer",true)),
-			"dana_seller" => str_replace(".", "", $this->input->post("dana_seller",true))
+			"dana_seller" => str_replace(".", "", $this->input->post("dana_seller",true)),
+			"status" => "pending"
 		];
 
 		echo $this->Home_model->insert_pengembalian($data);
@@ -99,5 +101,17 @@ class Arbitrase extends CI_Controller {
 	public function get_pengembalian($id_arbitrase)
 	{
 		echo json_encode($this->Home_model->get_pengembalian($id_arbitrase));
+	}
+
+	public function confirm_pengembalian()
+	{
+		$id_confirm = $this->input->post("id_confirm",true);
+		echo $this->Home_model->confirm_pengembalian($id_confirm);
+	}
+
+	public function decline_pengembalian()
+	{
+		$id_confirm = $this->input->post("id_confirm",true);
+		echo $this->Home_model->decline_pengembalian($id_confirm);
 	}
 }

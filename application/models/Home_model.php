@@ -226,6 +226,30 @@ class Home_model extends CI_Model {
 		return $this->db->get("tblconfirmarbitrase")->result_array()[0];
 	}
 
+	public function confirm_pengembalian($id_confirm)
+	{
+		$this->db->set("status","accepted");
+		$this->db->where("id_confirm",$id_confirm);
+		$confirm = $this->db->update("tblconfirmarbitrase");
+		if ( $confirm > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	} 
+
+	public function decline_pengembalian($id_confirm)
+	{
+		$this->db->set("status","declined");
+		$this->db->where("id_confirm",$id_confirm);
+		$confirm = $this->db->update("tblconfirmarbitrase");
+		if ( $confirm > 0 ) {
+			return 0;
+		} else {
+			return 1;
+		}
+	} 
+
 	public function subscribe($data)
 	{
 		$insert = $this->db->insert("tblnewsletter",$data);
