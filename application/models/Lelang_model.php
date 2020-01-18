@@ -303,4 +303,9 @@ class Lelang_model extends CI_Model {
 		$this->db->where("id_buyer",$id_user);
 		return $this->db->get("tbltransaksi")->result_array();
 	}
+
+	public function get_all_keranjang()
+	{
+		return $this->db->get("tbltransaksi")->result_array();
+	}
 }

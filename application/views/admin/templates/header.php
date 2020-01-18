@@ -42,14 +42,14 @@
     </a>
   </li>   -->
 
-  <!-- <li class="nav-item">
-    <a class="nav-link" href="<?= base_url() ?>admin/penjualan">
-      <i class="fas fa-fw fa-shopping-cart"></i>
-      <span>Postingan Penjual</span>
-    </a>
-  </li> -->
 
   <hr class="sidebar-divider">
+  <li class="nav-item">
+    <a class="nav-link" href="<?= base_url() ?>admin/penjualan">
+      <i class="fas fa-fw fa-shopping-cart"></i>
+      <span>Transaksi</span>
+    </a>
+  </li>
 
   <li class="nav-item">
     <a class="nav-link" href="<?= base_url() ?>admin/arbitrase">

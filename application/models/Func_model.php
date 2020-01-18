@@ -596,7 +596,7 @@ class Func_model extends CI_Model {
         if ($this->email->send()) {
             return 0;
         } else {
-            return 1;
+            return $this->email->print_debugger();
         }
 	}
 }

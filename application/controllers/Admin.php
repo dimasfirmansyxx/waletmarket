@@ -319,9 +319,9 @@ class Admin extends CI_Controller {
 			$send = $this->Func_model->send_mail($get_newsletter['email'],$get_newsletter['nama'],$subject,$message);
 
 			if ( $send == 0 ) {
-				return 0;
+				echo 0;
 			} else {
-				return 1;
+				echo $send;
 			}
 		} elseif ( $param == "broadcast" ) {
 			$subject = $this->input->post("subject",true);
@@ -331,11 +331,36 @@ class Admin extends CI_Controller {
 			foreach ($get as $row) {
 				$send = $this->Func_model->send_mail($row['email'],$row['nama'],$subject,$message);
 				if ( !($send == 0) ) {
-					return 1;
+					echo 1;
 				}
 			}
 
-			return 0;
+			echo $send;
 		}
+	}
+
+	public function penjualan()
+	{
+		$data['page_title'] = "Transaksi";
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/templates/header");
+		$this->load->view("admin/penjualan");
+		$this->load->view("admin/templates/footer");
+	}
+
+	public function penjualan_data()
+	{
+		$data["page_title"] = "penjualan_show";
+		$data["get_data"] = $this->Lelang_model->get_all_keranjang();
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/penjualan_data");
+	}
+
+	public function infopengiriman_show($id_transaksi)
+	{
+		$data["page_title"] = "infopengiriman_show";
+		$data["get_data"] = $this->Lelang_model->get_info_pengiriman($id_transaksi);
+		$this->load->view("admin/templates/head",$data);
+		$this->load->view("admin/infopengiriman_show");
 	}
 }
