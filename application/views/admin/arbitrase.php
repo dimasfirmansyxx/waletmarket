@@ -215,7 +215,7 @@
       id_buyer = get.id_buyer;
       id_seller = get.id_seller;
       $.ajax({
-        url : base_url + "arbitrase/get_pengembalian/" + id_arbitrase,
+        url : base_url + "arbitrase/get_fix_pengembalian/" + id_arbitrase,
         data : {},
         type : "post",
         dataType : "json",

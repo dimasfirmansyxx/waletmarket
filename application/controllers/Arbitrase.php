@@ -114,4 +114,9 @@ class Arbitrase extends CI_Controller {
 		$id_confirm = $this->input->post("id_confirm",true);
 		echo $this->Home_model->decline_pengembalian($id_confirm);
 	}
+
+	public function get_fix_pengembalian($id_arbitrase)
+	{
+		echo json_encode($this->Home_model->get_fix_pengembalian($id_arbitrase));
+	}
 }

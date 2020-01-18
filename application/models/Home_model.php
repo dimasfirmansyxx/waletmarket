@@ -226,6 +226,14 @@ class Home_model extends CI_Model {
 		return $this->db->get("tblconfirmarbitrase")->result_array()[0];
 	}
 
+	public function get_fix_pengembalian($id_arbitrase)
+	{
+		$this->db->where("id_arbitrase",$id_arbitrase);
+		$this->db->where("status","accepted");
+		$this->db->order_by("id_confirm","desc");
+		return $this->db->get("tblconfirmarbitrase")->result_array()[0];
+	}
+
 	public function confirm_pengembalian($id_confirm)
 	{
 		$this->db->set("status","accepted");
